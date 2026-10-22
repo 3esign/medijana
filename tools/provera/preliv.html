@@ -1,0 +1,32 @@
+<!doctype html><meta charset="utf-8"><title>overflow</title>
+<style>body{font:12px monospace;background:#fff;color:#000;margin:0;padding:8px}iframe{width:390px;height:700px;border:0;position:absolute;left:-9999px}pre{white-space:pre-wrap}</style>
+<pre id="out">radi…</pre>
+<script>
+const pages=['index','blizanac','mapa','istrazivanje','pokrivenost','izvori','registri','index-en','404'];
+const lines=[];
+(async()=>{
+ for(const p of pages){
+  const f=document.createElement('iframe');f.src='../../'+p+'.html';document.body.appendChild(f);
+  await new Promise(r=>{f.onload=r;setTimeout(r,3500)});
+  await new Promise(r=>setTimeout(r,600));
+  try{
+   const d=f.contentDocument,w=f.contentWindow,vw=390;
+   const scroll=d.documentElement.scrollWidth;
+   const bad=[];
+   for(const el of d.querySelectorAll('body *')){
+     const r=el.getBoundingClientRect();
+     if(r.width===0&&r.height===0)continue;
+     if(r.right>vw+1||r.left<-1){
+       const sel=el.tagName.toLowerCase()+(el.id?'#'+el.id:'')+(el.className&&typeof el.className==='string'?'.'+el.className.trim().split(/\s+/).join('.'):'');
+       bad.push(sel+' ['+Math.round(r.left)+'→'+Math.round(r.right)+']');
+     }
+   }
+   // zadrzi samo najplici nivo krivaca
+   lines.push(p+': scrollWidth='+scroll+(scroll>vw?'  PRELIVA':'  ok')+(bad.length?'\n   '+bad.slice(0,6).join('\n   '):''));
+  }catch(e){lines.push(p+': GRESKA '+e.message)}
+  f.remove();
+  document.getElementById('out').textContent=lines.join('\n');
+ }
+ document.getElementById('out').textContent=lines.join('\n')+'\n--KRAJ--';
+})();
+</script>

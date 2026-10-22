@@ -1,0 +1,37 @@
+name: Novi izvor literature
+description: Predlog izvora za registar (IZVORI.jsonl). Pravilo — jedno pitanje → jedna pretraga → jedan upis, sa supports/limits/read_scope.
+title: "[IZVOR] "
+labels: [izvor]
+body:
+  - type: input
+    id: referenca
+    attributes:
+      label: Puna referenca
+      description: Autor, godina, naslov, publikacija.
+    validations:
+      required: true
+  - type: input
+    id: nivo
+    attributes:
+      label: Nivo pouzdanosti
+      description: "T1 monografija · T2 sinteza/korpus · T3 rani izveštaj · T4 preliminarno/mediji"
+    validations:
+      required: true
+  - type: textarea
+    id: supports
+    attributes:
+      label: Šta izvor podržava (supports)
+    validations:
+      required: true
+  - type: textarea
+    id: limits
+    attributes:
+      label: Granice izvora (limits + read_scope)
+      description: Šta izvor NE pokriva i koliko je stvarno pročitano — tvrdi se samo ono što je otvoreno.
+    validations:
+      required: true
+  - type: input
+    id: pitanje
+    attributes:
+      label: Koje pitanje razrešava
+      description: "M-Qxx iz registra pitanja"

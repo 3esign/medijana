@@ -1,0 +1,14 @@
+{"id":"M-Q01","pitanje":"Može li se od postojećih numizmatičkih i stratigrafskih podataka izgraditi Bayesov model faza?","nivo":"N6","disciplina":"statistika, numizmatika","veza":"Q12"}
+{"id":"M-Q02","pitanje":"Da li su vezovi četiri faze publikovani i reproducirivi?","nivo":"N1","disciplina":"Bauforschung","veza":""}
+{"id":"M-Q03","pitanje":"Šta numizmatička struktura (gubici vs. ostave) kaže o monetizaciji i krizi 4.–5. veka?","nivo":"N3/N6","disciplina":"numizmatika, ekonomija","veza":"Q06"}
+{"id":"M-Q04","pitanje":"Koji rudni potpis nose fistule i menja li se između faza?","nivo":"N5","disciplina":"izotopi olova","veza":"Q07"}
+{"id":"M-Q05","pitanje":"Koliki deo mermera/tesera je uvoz, koliko lokalno?","nivo":"N3/N4","disciplina":"petrografija","veza":"Q07"}
+{"id":"M-Q06","pitanje":"Šta sediment termi i kanala nosi (paraziti, sedDNA, geohemija)?","nivo":"N2/N4/N5","disciplina":"parazitologija, mikrobiologija","veza":"Q02"}
+{"id":"M-Q07","pitanje":"Šta je od bioarheološkog materijala starih iskopavanja sačuvano, a šta izgubljeno bez flotacije?","nivo":"N4","disciplina":"arheobotanika","veza":"Q11"}
+{"id":"M-Q08","pitanje":"Kakav protokol uzorkovanja nekropole je primeren pre objave monografije?","nivo":"N4/N5","disciplina":"etika, izotopi","veza":"Q07"}
+{"id":"M-Q09","pitanje":"Može li se sistem snabdevanja vodom rekonstruisati GIS modelom i gde tražiti trase?","nivo":"N0","disciplina":"hidrologija, GIS","veza":"Q02"}
+{"id":"M-Q10","pitanje":"Koliko crkvene faze odstupaju od carskih — datum spolia prenamene?","nivo":"N1/N6","disciplina":"stratigrafija, 14C","veza":""}
+{"id":"M-Q11","pitanje":"Da li geohemija prostorija (fosfati, metali) razdvaja funkcije (boravak / štala / radionica)?","nivo":"N2","disciplina":"geohemija","veza":"Q01"}
+{"id":"M-Q12","pitanje":"Kako sve nivoe vezati u jedan proverljiv lanac (CRMarchaeo + izotopi + numizmatika u istom grafu)?","nivo":"R03","disciplina":"informatika podataka","veza":"Q12"}
+{"id":"M-Q13","pitanje":"Koji balkanski/srpski izvori nedostaju u registru (Starinar, Glasnik, IMS, nemačka i francuska literatura)?","nivo":"R02","disciplina":"bibliografija","veza":"Q11"}
+{"id":"M-Q14","pitanje":"Kakva je mikro-klima i biofilm na mozaicima pod natkrivanjem (2022) i da li struktura šteti materijalu?","nivo":"N1/M05","disciplina":"mikrobiologija nasleđa","veza":"Q08"}

@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "Ako koristite ovaj materijal, citirajte ga ovako / If you use this material, please cite it as below."
+title: "Medijana (Naissus) — digitalni arheološki blizanac: forenzička konsolidacija znanja"
+type: dataset
+authors:
+  - family-names: Poturak
+    given-names: Semir
+    email: scumutator@gmail.com
+abstract: >-
+  Konsolidacija 90 godina objavljenih istraživanja kasnoantičkog carskog
+  kompleksa Medijana kod Niša (Vasić 1936 — kampanje 2026) u proverljivu
+  bazu znanja: nivoi analize N0–N6, hipoteze M-H01–M-H10, registri
+  kontradikcija, istraživačka pitanja — osnova za digitalni blizanac po
+  London Charter (2009) i Seville Principles (2011).
+keywords:
+  - Mediana
+  - Naissus
+  - Constantine
+  - late antiquity
+  - digital twin
+  - HBIM
+  - London Charter
+  - archaeology
+repository-code: "https://github.com/3esign/medijana"
+version: 0.1-p1
+date-released: 2026-10-22

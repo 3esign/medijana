@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Medijana — Vila Konstantina kod Niša · Digitalni arheološki blizanac</title>
+<!--launch-meta-->
+<meta name="description" content="Digitalni arheološki blizanac kasnoantičkog carskog kompleksa Medijana (Naissus). Naučna forenzika, London Charter, HBIM/WebGPU.">
+<link rel="canonical" href="https://3esign.github.io/medijana/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Medijana · digitalni arheološki blizanac">
+<meta property="og:title" content="Medijana — Vila Konstantina kod Niša · Digitalni arheološki blizanac">
+<meta property="og:description" content="Digitalni arheološki blizanac kasnoantičkog carskog kompleksa Medijana (Naissus). Naučna forenzika, London Charter, HBIM/WebGPU.">
+<meta property="og:url" content="https://3esign.github.io/medijana/">
+<meta property="og:image" content="https://3esign.github.io/medijana/assets/blizanac-render.png">
+<meta property="og:image:alt" content="Render 3D radne makete kompleksa Medijana iz registra geometrije">
+<meta property="og:locale" content="sr_RS">
+<link rel="alternate" hreflang="sr" href="https://3esign.github.io/medijana/">
+<link rel="alternate" hreflang="en" href="https://3esign.github.io/medijana/index-en.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#16130e">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<!--/launch-meta-->
+<style>
+  :root{
+    --bg:#16130e; --panel:#201b13; --panel2:#282217;
+    --ink:#ece4d4; --ink-dim:#b3a78e; --line:#3a3225;
+    --gold:#c9a24b; --terra:#b3542f; --ok:#7d9a6a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:0 24px}
+  header{padding:72px 0 48px;border-bottom:1px solid var(--line);text-align:center}
+  .kicker{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+  h1{font-size:clamp(28px,5vw,44px);font-weight:400;margin:14px 0 10px;letter-spacing:.01em}
+  .sub{color:var(--ink-dim);font-style:italic;max-width:620px;margin:0 auto}
+  .status{display:inline-block;margin-top:22px;padding:5px 14px;border:1px solid var(--line);border-radius:999px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;color:var(--ink-dim)}
+  .status b{color:var(--ok);font-weight:600}
+  section{padding:44px 0;border-bottom:1px solid var(--line)}
+  h2{font-size:13px;font-family:ui-sans-serif,system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:22px}
+  p.lead{font-size:18px;max-width:700px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:8px}
+  a.card{display:block;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;text-decoration:none;color:var(--ink);transition:border-color .15s}
+  a.card:hover{border-color:var(--gold)}
+  .card .num{font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;color:var(--terra);letter-spacing:.15em}
+  .card h3{font-size:16px;font-weight:600;margin:6px 0 6px}
+  .card p{font-size:13.5px;color:var(--ink-dim);font-family:ui-sans-serif,system-ui,sans-serif;line-height:1.5}
+  .pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .pillar{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;text-align:center}
+  .pillar b{display:block;font-size:15px;margin-bottom:4px}
+  .pillar span{font-size:12.5px;color:var(--ink-dim);font-family:ui-sans-serif,system-ui,sans-serif}
+  ul.honest{list-style:none;font-family:ui-sans-serif,system-ui,sans-serif;font-size:14.5px;color:var(--ink-dim)}
+  ul.honest li{padding:9px 0 9px 26px;position:relative;border-bottom:1px dotted var(--line)}
+  ul.honest li:last-child{border-bottom:none}
+  ul.honest li::before{content:"—";position:absolute;left:2px;color:var(--terra)}
+  blockquote{border-left:3px solid var(--gold);padding:6px 0 6px 20px;color:var(--ink-dim);font-style:italic;max-width:660px;margin-top:14px}
+  footer{padding:40px 0 64px;text-align:center;font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px;color:var(--ink-dim)}
+  footer a{color:var(--gold);text-decoration:none}
+  nav.suite{font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px;border-bottom:1px solid var(--line);background:var(--panel)}
+  nav.suite .wrap{padding:10px 24px;display:flex;gap:18px;flex-wrap:wrap}
+  nav.suite a{color:var(--ink-dim);text-decoration:none}
+  nav.suite a:hover{color:var(--gold)}
+  nav.suite a[aria-current]{color:var(--gold)}
+  .duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:20px}
+  .okvir{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .okvir iframe{display:block;width:100%;height:380px;border:0;background:#100e0a}
+  .okvir .pod{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:10px 16px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:12.5px;color:var(--ink-dim)}
+  .okvir .pod a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+<nav class="suite" aria-label="Glavna navigacija"><div class="wrap">
+  <a href="index.html" aria-current="page">Medijana</a>
+  <a href="blizanac.html">Blizanac 3D</a>
+  <a href="mapa.html">Mapa</a>
+  <a href="istrazivanje.html">Istraživanje</a>
+  <a href="pokrivenost.html">Pokrivenost</a>
+  <a href="registri.html">Registri</a>
+  <a href="izvori.html">Izvori</a>
+  <a href="index-en.html">English [EN]</a>
+  <a href="https://github.com/3esign/medijana">GitHub</a>
+</div></nav>
+<header>
+  <div class="wrap">
+    <div class="kicker">Medijana · Naissus · IV vek</div>
+    <h1>Vila Konstantina kod Niša</h1>
+    <p class="sub">Digitalni arheološki blizanac i forenzička prostorno-materijalna baza kasnoantičkog carskog kompleksa — 90 godina istraživanja (1936–2026) prevedeno u proverljiv, otvoren, četvorodimenzionalni model.</p>
+    <div class="status">Faza <b>P1 · konsolidacija znanja</b> — u toku od 21.10.2026</div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Glavni prikaz — 3D i 2D iz istih registara</h2>
+    <p class="lead">Jedan izvor istine (<code>data/*.jsonl</code>), dva pogleda: prostorna maketa znanja i mapa — od carske geografije Via Diagonalis do šematskog rasporeda lokaliteta.</p>
+    <div class="duo">
+      <div class="okvir">
+        <iframe src="blizanac.html?embed=1" title="3D radna maketa" loading="lazy"></iframe>
+        <div class="pod"><span>3D maketa · boja = poreklo mere · klik = dokaz</span><a href="blizanac.html">otvori ceo prikaz →</a></div>
+      </div>
+      <div class="okvir">
+        <iframe src="mapa.html?embed=1#region" title="Mapa povezanih lokacija" loading="lazy"></iframe>
+        <div class="pod"><span>Mapa · region i šematski overlay lokaliteta</span><a href="mapa.html">otvori celu mapu →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Metod — četiri stuba dokaza</h2>
+    <p class="lead">Umesto zatvorenih animacija bez dokaza: svaki element modela nosi svoj arheološki izvor i nivo pouzdanosti po Londonskoj povelji (2009) i Principima iz Sevilje (2011) — A činjenica · B analogija · C hipoteza.</p>
+    <div class="pillars" style="margin-top:24px">
+      <div class="pillar"><b>Arhitektura</b><span>Bauforschung, graditeljske faze</span></div>
+      <div class="pillar"><b>Tlo</b><span>geoarheologija, stratigrafija</span></div>
+      <div class="pillar"><b>Novčići</b><span>numizmatički sat</span></div>
+      <div class="pillar"><b>Artefakti</b><span>mozaici i pokretni nalazi</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Čime raspolažemo</h2>
+    <div class="grid">
+      <a class="card" href="docs/01_NAUCNA_FORENZICKA_STRUKTURA.md"><span class="num">01</span><h3>Naučna forenzička struktura</h3><p>4 graditeljske faze; vila sa peristilom, stibadijum, oktogon, terme, horreum, crkve, nekropola.</p></a>
+      <a class="card" href="docs/02_DIGITALNI_BLIZANAC_I_STANDARDI.md"><span class="num">02</span><h3>Digitalni blizanac i standardi</h3><p>London Charter, paradata matrica A/B/C, WebGPU/OpenUSD stek, vremenska osa.</p></a>
+      <a class="card" href="docs/03_INSTITUCIONALNI_OKVIR_I_AKCIONI_PLAN.md"><span class="num">03</span><h3>Institucionalni okvir</h3><p>Nadležnosti institucija, pozicija tehnološkog partnera, finansijski kanali, faze P1–P4.</p></a>
+      <a class="card" href="docs/04_BIBLIOGRAFIJA_I_IZVORI.md"><span class="num">04</span><h3>Bibliografija i izvori</h3><p>Anotirana literatura 1936–2026: Vasić, Petrović, Milošević, Jeremić, Drča i tekuće kampanje.</p></a>
+      <a class="card" href="docs/05_NIVOI_ANALIZE.md"><span class="num">05</span><h3>Nivoi analize N0–N6</h3><p>Od pejzaža do molekula: koja nauka radi na kom nivou i gde prelazi nivoa postaju mesta greške.</p></a>
+      <a class="card" href="docs/06_HIPOTEZE_I_PITANJA.md"><span class="num">06</span><h3>Hipoteze i pitanja</h3><p>Ground truth T1–T4, matrica tvrdnji × izvora, kontradikcije KR-01–05, hipoteze M-H01–10, pitanja M-Q01–14.</p></a>
+      <a class="card" href="docs/00_KONCEPT_GITHUB_I_PAGES.md"><span class="num">00</span><h3>Koncept repozitorijuma i sajta</h3><p>GitHub kao laboratorijska sveska sa pečatom vremena: registri, recenzija kroz PR, DOI, put rasta P1–P4.</p></a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Živi registri</h2>
+    <p class="lead">Hipoteze, kontradikcije, pitanja, rečnik i nivoi analize renderuju se uživo iz strojnih registara (<code>data/*.jsonl</code>) — jedan izvor istine za dokumente, sajt i budući blizanac.</p>
+    <div class="grid" style="margin-top:20px">
+      <a class="card" href="registri.html#hipoteze"><span class="num">M-H</span><h3>10 hipoteza</h3><p>Svaka sa testom, potvrdom i opovrgnućem; sve NEPROVERENO dok se ne testiraju.</p></a>
+      <a class="card" href="registri.html#kontradikcije"><span class="num">KR</span><h3>5 kontradikcija</h3><p>Gde se izvori sudaraju — horreum, oktogon, „nekropola Gota", predratna stratigrafija.</p></a>
+      <a class="card" href="registri.html#pitanja"><span class="num">M-Q</span><h3>14 pitanja</h3><p>Od Bayesovog modela faza do mikro-klime mozaika pod natkrivanjem.</p></a>
+      <a class="card" href="blizanac.html"><span class="num">3D</span><h3>Digitalni blizanac — radna maketa</h3><p>Three.js scena generisana uživo iz <code>data/GEOMETRIJA.jsonl</code>: svaka forma nosi poreklo mere i svoj izvor; šematsko je obeleženo kao šematsko. Isti registar gradi i Blender model (glTF).</p></a>
+      <a class="card" href="mapa.html"><span class="num">2D</span><h3>Mapa — region i lokalitet</h3><p>13 povezanih lokacija (<code>LOKACIJE.jsonl</code>): Via Diagonalis, tetrarhijski komparativi, nekropole — i šematski overlay kompleksa preko današnjeg snimka, sa izgovorenom preciznošću svake koordinate.</p></a>
+      <a class="card" href="izvori.html"><span class="num">90g</span><h3>Izvori i hronologija</h3><p>Anotirana bibliografija u četiri talasa (1936–2026, <code>IZVORI.jsonl</code>) i vremenska osa od Konstantinovog rođenja do tekućih iskopavanja (<code>HRONOLOGIJA.jsonl</code>).</p></a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Granice — izgovorene tačno</h2>
+    <ul class="honest">
+      <li>Nema novih terenskih podataka — sve je sinteza objavljene literature i javnih izveštaja.</li>
+      <li>Nema formalnog sporazuma sa institucijama — ovo je priprema za taj razgovor, ne njegov rezultat.</li>
+      <li>HBIM još ne postoji — postoji šematska radna maketa (registar znanja); pilot sa stvarnim planovima (stibadijum) je faza P2.</li>
+      <li>Raspored na maketi i overlay na mapi nisu georeferencirani; koordinate šire mape su očitane sa javnih karata, ne geodetski snimci.</li>
+      <li>Katalog literature je nepotpun; sve hipoteze nose status NEPROVERENO.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Saradnja — tehnološki partner, ne konkurent</h2>
+    <blockquote>Alat za upravljanje terenskom dokumentacijom, praćenje konzervatorskog stanja u 3D prostoru i naučna publikacija po London Charter standardu koja podiže citiranost i vidljivost istraživača.</blockquote>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Medijana · projekat u pripremi za saradnju sa Arheološkim institutom u Beogradu i Narodnim muzejom u Nišu<br>
+    Semir Poturak · <a href="mailto:scumutator@gmail.com">scumutator@gmail.com</a>
+  </div>
+</footer>
+</body>
+</html>

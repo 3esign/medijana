@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Medijana · Živi registri — hipoteze, kontradikcije, pitanja, rečnik, nivoi</title>
+<!--launch-meta-->
+<meta name="description" content="Strojni registri projekta Medijana renderovani uživo iz data/*.jsonl — jedan izvor istine za stranice, 3D maketu i mapu.">
+<link rel="canonical" href="https://3esign.github.io/medijana/registri.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Medijana · digitalni arheološki blizanac">
+<meta property="og:title" content="Medijana · Živi registri — hipoteze, kontradikcije, pitanja, rečnik, nivoi">
+<meta property="og:description" content="Strojni registri projekta Medijana renderovani uživo iz data/*.jsonl — jedan izvor istine za stranice, 3D maketu i mapu.">
+<meta property="og:url" content="https://3esign.github.io/medijana/registri.html">
+<meta property="og:image" content="https://3esign.github.io/medijana/assets/blizanac-render.png">
+<meta property="og:image:alt" content="Render 3D radne makete kompleksa Medijana iz registra geometrije">
+<meta property="og:locale" content="sr_RS">
+<link rel="alternate" hreflang="sr" href="https://3esign.github.io/medijana/">
+<link rel="alternate" hreflang="en" href="https://3esign.github.io/medijana/index-en.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#16130e">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<!--/launch-meta-->
+<style>
+  :root{
+    --bg:#16130e; --panel:#201b13; --panel2:#282217;
+    --ink:#ece4d4; --ink-dim:#b3a78e; --line:#3a3225;
+    --gold:#c9a24b; --terra:#b3542f; --ok:#7d9a6a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:980px;margin:0 auto;padding:0 24px}
+  header{padding:48px 0 32px;border-bottom:1px solid var(--line);text-align:center}
+  .kicker{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+  h1{font-size:clamp(24px,4vw,36px);font-weight:400;margin:12px 0 8px}
+  .sub{color:var(--ink-dim);font-style:italic;max-width:640px;margin:0 auto}
+  .sub a{color:var(--gold)}
+  nav.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:20px 0;border-bottom:1px solid var(--line);font-family:ui-sans-serif,system-ui,sans-serif}
+  nav.tabs button{background:var(--panel);border:1px solid var(--line);color:var(--ink-dim);border-radius:999px;padding:7px 16px;font-size:13px;cursor:pointer}
+  nav.tabs button.on{border-color:var(--gold);color:var(--gold)}
+  main{padding:32px 0 64px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  .card .id{font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;color:var(--terra);letter-spacing:.15em}
+  .card h3{font-size:15.5px;font-weight:600;margin:5px 0 7px}
+  .card p{font-size:13.5px;color:var(--ink-dim);font-family:ui-sans-serif,system-ui,sans-serif;line-height:1.55;margin-bottom:6px}
+  .card p b{color:var(--ink);font-weight:600}
+  .badge{display:inline-block;font-family:ui-sans-serif,system-ui,sans-serif;font-size:10.5px;letter-spacing:.08em;border:1px solid var(--line);border-radius:999px;padding:2px 9px;margin:2px 4px 0 0;color:var(--ink-dim)}
+  .badge.status-NEPROVERENO{border-color:var(--terra);color:var(--terra)}
+  .badge.status-OTVORENO{border-color:var(--gold);color:var(--gold)}
+  .badge.status-PRAVILO{border-color:var(--ok);color:var(--ok)}
+  .note{font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px;color:var(--ink-dim);text-align:center;padding:24px 0}
+  footer{padding:28px 0 56px;text-align:center;font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px;color:var(--ink-dim);border-top:1px solid var(--line)}
+  footer a{color:var(--gold);text-decoration:none}
+  nav.suite{font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px;border-bottom:1px solid var(--line);background:var(--panel)}
+  nav.suite .wrap{padding:10px 24px;display:flex;gap:18px;flex-wrap:wrap}
+  nav.suite a{color:var(--ink-dim);text-decoration:none}
+  nav.suite a:hover{color:var(--gold)}
+  nav.suite a[aria-current]{color:var(--gold)}
+</style>
+</head>
+<body>
+<nav class="suite" aria-label="Glavna navigacija"><div class="wrap">
+  <a href="index.html">Medijana</a>
+  <a href="blizanac.html">Blizanac 3D</a>
+  <a href="mapa.html">Mapa</a>
+  <a href="istrazivanje.html">Istraživanje</a>
+  <a href="pokrivenost.html">Pokrivenost</a>
+  <a href="registri.html" aria-current="page">Registri</a>
+  <a href="izvori.html">Izvori</a>
+  <a href="index-en.html">English [EN]</a>
+  <a href="https://github.com/3esign/medijana">GitHub</a>
+</div></nav>
+<header>
+  <div class="wrap">
+    <div class="kicker">Medijana · živi registri</div>
+    <h1>Jedan izvor istine</h1>
+    <p class="sub">Sve ispod se čita uživo iz <a href="data/">data/*.jsonl</a> — istih fajlova koje koriste dokumenti i budući blizanac. Ništa nije prepisano; kad se registar promeni, ova strana se promeni sama. <a href="index.html">← naslovna</a></p>
+  </div>
+</header>
+<nav class="tabs"><div class="wrap" id="tabs"></div></nav>
+<main><div class="wrap"><div class="cards" id="cards"></div><div class="note" id="note"></div></div></main>
+<footer><div class="wrap">Medijana · faza P1 — konsolidacija znanja · <a href="docs/00_KONCEPT_GITHUB_I_PAGES.md">koncept repozitorijuma i sajta</a></div></footer>
+<script>
+const REG = {
+  hipoteze: {file:'data/HIPOTEZE.jsonl', label:'Hipoteze M-H', render:r=>card(r.id, r.naslov,
+    `<p>${esc(r.tvrdnja)}</p><p><b>Test:</b> ${esc(r.test)}</p><p><b>Potvrda:</b> ${esc(r.potvrda)}</p><p><b>Opovrgnuće:</b> ${esc(r.opovrgnuce)}</p>`,
+    [['status-'+r.status, r.status], ...r.nivoi.map(n=>['',n]), ...(r.resava||[]).map(k=>['','rešava '+k]), ['','paradata '+r.paradata]])},
+  kontradikcije: {file:'data/KONTRADIKCIJE.jsonl', label:'Kontradikcije KR', render:r=>card(r.id, r.naslov,
+    `<p>${esc(r.sukob)}</p><p><b>Rešenje:</b> ${esc(r.resenje)}</p>`, [['status-'+r.status, r.status]])},
+  pitanja: {file:'data/PITANJA.jsonl', label:'Pitanja M-Q', render:r=>card(r.id, r.pitanje,
+    `<p><b>Disciplina:</b> ${esc(r.disciplina)}</p>`, [['', r.nivo], ...(r.veza?[['','mapa '+r.veza]]:[])])},
+  recnik: {file:'data/RECNIK.jsonl', label:'Rečnik', render:r=>card('', r.term,
+    `<p>${esc(r.definition)}</p>${r.source?`<p><b>Izvor:</b> ${esc(r.source)}</p>`:''}`, [])},
+  geometrija: {file:'data/GEOMETRIJA.jsonl', label:'Geometrija G', render:r=>card(r.id, r.naziv,
+    `<p>${esc(r.napomena)}</p><p><b>Sačuvano:</b> ${r.visina_sacuvana_m} m · <b>rek.:</b> ${r.visina_rek_m} m</p>`,
+    [['status-'+(r.pouzdanost==='objavljena_dimenzija'?'PRAVILO':r.pouzdanost==='izvedeno_iz_povrsine'?'OTVORENO':'NEPROVERENO'), r.pouzdanost.replace(/_/g,' ')], ...(r.izvori||[]).map(i=>['',i])])},
+  lokacije: {file:'data/LOKACIJE.jsonl', label:'Lokacije L', render:r=>card(r.id, r.naziv,
+    `<p>${esc(r.odnos)}</p><p>${esc(r.napomena)}</p><p><b>Period:</b> ${esc(r.period)}</p>`,
+    [['status-'+(r.preciznost==='priblizno'?'NEPROVERENO':'OTVORENO'),'koordinata: '+r.preciznost], ...(r.izvori||[]).map(i=>['',i==='opste'?'opšte — čeka referencu':i])])},
+  hronologija: {file:'data/HRONOLOGIJA.jsonl', label:'Hronologija HR', render:r=>card(r.id, `${r.prikaz} — ${r.dogadjaj}`,
+    `<p>${esc(r.napomena)}</p>`,
+    [['status-'+(r.status==='PO_IZVORU'?'PRAVILO':r.status==='OPSTE_PRIHVACENO'?'OTVORENO':'NEPROVERENO'), r.status.replace(/_/g,' ')], ['',r.tip], ...(r.izvori||[]).map(i=>['',i==='opste'?'opšte':i])])},
+  izvori: {file:'data/IZVORI.jsonl', label:'Izvori MED', render:r=>card(r.id, `${r.autori} (${r.godina}): ${r.naslov}`,
+    `<p><i>${esc(r.publikacija)}</i></p><p><b>Podupire:</b> ${esc(r.supports)}</p><p><b>Granice:</b> ${esc(r.limits)}</p>`,
+    [['','talas '+r.talas]])},
+  nivoi: {file:'data/NIVOI.jsonl', label:'Nivoi N0–N6', render:r=>card(r.id, r.ime,
+    `<p><b>Razmera:</b> ${esc(r.razmera)} · ${esc(r.objekat)}</p>`+
+    `<p><b>Discipline:</b> ${esc(str(r.discipline))}</p>`+
+    `<p><b>Metode:</b> ${esc(str(r.metode))}</p>`+
+    `<p><b>Na Medijani:</b> ${esc(str(r.medijana))}</p>`+
+    `<p><b>HBIM sloj:</b> ${esc(r.hbim_sloj)}</p>`, (r.izvori||[]).map(i=>['',i]))},
+};
+const esc = s => String(s??'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const str = v => Array.isArray(v) ? v.join(', ') : typeof v==='object'&&v ? Object.values(v).join(' · ') : v;
+function card(id, title, body, badges){
+  return `<div class="card"><span class="id">${esc(id)}</span><h3>${esc(title)}</h3>${body}`+
+    badges.map(([cls,t])=>`<span class="badge ${cls}">${esc(t)}</span>`).join('')+`</div>`;
+}
+async function show(key){
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on', b.dataset.k===key));
+  const {file, render} = REG[key];
+  const cards = document.getElementById('cards'), note = document.getElementById('note');
+  cards.innerHTML=''; note.textContent='učitavanje…';
+  try{
+    const txt = await (await fetch(file)).text();
+    const rows = txt.split('\n').filter(l=>l.trim()).map(l=>JSON.parse(l));
+    cards.innerHTML = rows.map(render).join('');
+    note.textContent = `${rows.length} zapisa · izvor: ${file}`;
+  }catch(e){
+    note.textContent = `Registar se čita preko HTTP-a (GitHub Pages ili lokalni server); otvaranje fajla direktno sa diska ne može da učita ${file}.`;
+  }
+}
+const tabs = document.getElementById('tabs');
+tabs.innerHTML = Object.entries(REG).map(([k,v])=>`<button data-k="${k}">${v.label}</button>`).join('');
+tabs.addEventListener('click', e=>{ if(e.target.dataset.k) show(e.target.dataset.k); });
+show(location.hash.slice(1) in REG ? location.hash.slice(1) : 'hipoteze');
+</script>
+</body>
+</html>

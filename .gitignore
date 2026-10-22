@@ -1,0 +1,8 @@
+# privatni radni materijal — ne ide u javni repo
+docs/private/
+*.private.md
+# izvedeno / krupno
+*.blend1
+__pycache__/
+.DS_Store
+Thumbs.db

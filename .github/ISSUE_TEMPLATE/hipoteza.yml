@@ -1,0 +1,38 @@
+name: Nova hipoteza / izmena statusa
+description: Predlog nove hipoteze ili promene statusa postojeće (M-Hxx). Hipoteza bez testa, potvrde i opovrgnuća ne ulazi u registar.
+title: "[M-H] "
+labels: [hipoteza]
+body:
+  - type: input
+    id: tvrdnja
+    attributes:
+      label: Tvrdnja
+      description: Jedna rečenica — šta se tvrdi.
+    validations:
+      required: true
+  - type: input
+    id: nivoi
+    attributes:
+      label: Nivoi analize
+      description: "Npr. N2/N4 (vidi docs/05_NIVOI_ANALIZE.md)"
+    validations:
+      required: true
+  - type: textarea
+    id: test
+    attributes:
+      label: Test
+      description: Kojom metodom i na kom materijalu se hipoteza proverava.
+    validations:
+      required: true
+  - type: textarea
+    id: potvrda
+    attributes:
+      label: Potvrda i opovrgnuće
+      description: Koji rezultat potvrđuje, koji obara. Negativan rezultat se upisuje — i on je saznanje.
+    validations:
+      required: true
+  - type: textarea
+    id: izvori
+    attributes:
+      label: Izvori i veze
+      description: ID-jevi izvora (T1–T4), kontradikcija (KR) ili pitanja (M-Q) iz kojih hipoteza izvire.

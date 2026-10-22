@@ -1,0 +1,8 @@
+<!doctype html><meta charset="utf-8"><title>mob</title>
+<style>body{margin:0;background:#444;display:flex;gap:8px;font:11px monospace;color:#fff}
+figure{margin:0}figcaption{padding:4px}iframe{width:390px;height:760px;border:0;background:#000}</style>
+<div id="w" style="display:flex;gap:8px"></div>
+<script>
+const p=new URLSearchParams(location.search).get('p').split(',');
+for(const x of p){const f=document.createElement('figure');f.innerHTML='<figcaption>'+x+'</figcaption><iframe src="../../'+x+'.html"></iframe>';document.getElementById('w').appendChild(f)}
+</script>

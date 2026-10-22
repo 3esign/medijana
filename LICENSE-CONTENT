@@ -1,0 +1,27 @@
+# Licenca istraživačkog sadržaja — CC BY 4.0
+
+Dokumenti (`docs/`), strojni registri (`data/*.jsonl`), 3D maketa
+(`modeli/medijana.glb`) i renderi (`assets/*.png`) objavljeni su pod licencom
+**Creative Commons Attribution 4.0 International (CC BY 4.0)**:
+https://creativecommons.org/licenses/by/4.0/
+
+Atribucija: Semir Poturak, *Medijana (Naissus) — digitalni arheološki blizanac*,
+3esign / Svemir, 2026. Način citiranja: `CITATION.cff`.
+
+## Šta ova licenca NE pokriva
+
+1. **Autorska prava izvornih istraživača.** Dimenzije, planovi, tumačenja i
+   nalazi preuzeti iz literature (Vasić 1936, Petrović 1994, Milošević 2016,
+   Jeremić 2006 i dalje) pripadaju svojim autorima i ustanovama. Ovaj repo
+   donosi sopstvenu konsolidaciju i pozivanje na izvor, ne same publikacije.
+2. **Vlasništvo nad nalazima i terenskom dokumentacijom.** Arheološki nalazi,
+   terenski dnevnici i neobjavljena dokumentacija ostaju u punom vlasništvu
+   nadležnih ustanova (Arheološki institut u Beogradu, Narodni muzej u Nišu,
+   Zavod za zaštitu spomenika kulture Niš).
+3. **Neobjavljeni materijal.** U repozitorijumu se ne objavljuje ništa iz
+   tekućih kampanja što nije već publikovano u literaturi.
+
+Rekonstruisana geometrija je **radni model**, ne georeferencirani merni
+dokument. Svaki element nosi izgovoreno poreklo mere (`data/GEOMETRIJA.jsonl`,
+`pokrivenost.html`); šematski položaj i pretpostavljena visina ne smeju se
+koristiti kao mera.

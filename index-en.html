@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mediana · Constantine's Villa at Niš · Archaeological Digital Twin</title>
+<!--launch-meta-->
+<meta name="description" content="Digital archaeological twin and forensic spatial-material platform of the Late Antique imperial complex Mediana (Naissus). 90 years of excavations translated into open, verifiable 4D data.">
+<link rel="canonical" href="https://3esign.github.io/medijana/index-en.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Medijana · digitalni arheološki blizanac">
+<meta property="og:title" content="Mediana · Constantine's Villa at Niš · Archaeological Digital Twin">
+<meta property="og:description" content="Digital archaeological twin and forensic spatial-material platform of the Late Antique imperial complex Mediana (Naissus). 90 years of excavations translated into open, verifiable 4D data.">
+<meta property="og:url" content="https://3esign.github.io/medijana/index-en.html">
+<meta property="og:image" content="https://3esign.github.io/medijana/assets/blizanac-render.png">
+<meta property="og:image:alt" content="Render 3D radne makete kompleksa Medijana iz registra geometrije">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="sr_RS">
+<link rel="alternate" hreflang="en" href="https://3esign.github.io/medijana/index-en.html">
+<link rel="alternate" hreflang="sr" href="https://3esign.github.io/medijana/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#16130e">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<!--/launch-meta-->
+<style>
+  :root{
+    --bg:#16130e; --panel:#201b13; --panel2:#282217;
+    --ink:#ece4d4; --ink-dim:#b3a78e; --line:#3a3225;
+    --gold:#c9a24b; --terra:#b3542f; --ok:#7d9a6a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:0 24px}
+  header{padding:72px 0 48px;border-bottom:1px solid var(--line);text-align:center}
+  .kicker{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+  h1{font-size:clamp(28px,5vw,44px);font-weight:400;margin:14px 0 10px;letter-spacing:.01em}
+  .sub{color:var(--ink-dim);font-style:italic;max-width:640px;margin:0 auto}
+  .status{display:inline-block;margin-top:22px;padding:5px 14px;border:1px solid var(--line);border-radius:999px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;color:var(--ink-dim)}
+  .status b{color:var(--ok);font-weight:600}
+  section{padding:44px 0;border-bottom:1px solid var(--line)}
+  h2{font-size:13px;font-family:ui-sans-serif,system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:22px}
+  p.lead{font-size:18px;max-width:720px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:8px}
+  a.card{display:block;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;text-decoration:none;color:var(--ink);transition:border-color .15s}
+  a.card:hover{border-color:var(--gold)}
+  .card .num{font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;color:var(--terra);letter-spacing:.15em}
+  .card h3{font-size:16px;font-weight:600;margin:6px 0 6px}
+  .card p{font-size:13.5px;color:var(--ink-dim);font-family:ui-sans-serif,system-ui,sans-serif;line-height:1.5}
+  .pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .pillar{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;text-align:center}
+  .pillar b{display:block;font-size:15px;margin-bottom:4px}
+  .pillar span{font-size:12.5px;color:var(--ink-dim);font-family:ui-sans-serif,system-ui,sans-serif}
+  ul.honest{list-style:none;font-family:ui-sans-serif,system-ui,sans-serif;font-size:14.5px;color:var(--ink-dim)}
+  ul.honest li{padding:9px 0 9px 26px;position:relative;border-bottom:1px dotted var(--line)}
+  ul.honest li:last-child{border-bottom:none}
+  ul.honest li::before{content:"—";position:absolute;left:2px;color:var(--terra)}
+  blockquote{border-left:3px solid var(--gold);padding:6px 0 6px 20px;color:var(--ink-dim);font-style:italic;max-width:660px;margin-top:14px}
+  footer{padding:40px 0 64px;text-align:center;font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px;color:var(--ink-dim)}
+  footer a{color:var(--gold);text-decoration:none}
+  nav.suite{font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px;border-bottom:1px solid var(--line);background:var(--panel)}
+  nav.suite .wrap{padding:10px 24px;display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+  nav.suite a{color:var(--ink-dim);text-decoration:none}
+  nav.suite a:hover{color:var(--gold)}
+  nav.suite a[aria-current]{color:var(--gold)}
+  .duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:20px}
+  .okvir{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .okvir iframe{display:block;width:100%;height:380px;border:0;background:#100e0a}
+  .okvir .pod{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:10px 16px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:12.5px;color:var(--ink-dim)}
+  .okvir .pod a{color:var(--gold);text-decoration:none}
+  .lang-tag{margin-left:auto;font-size:12px;color:var(--gold)}
+</style>
+</head>
+<body>
+<nav class="suite" aria-label="Glavna navigacija"><div class="wrap">
+  <a href="index.html">Medijana</a>
+  <a href="blizanac.html">Blizanac 3D</a>
+  <a href="mapa.html">Mapa</a>
+  <a href="istrazivanje.html">Istraživanje</a>
+  <a href="pokrivenost.html">Pokrivenost</a>
+  <a href="registri.html">Registri</a>
+  <a href="izvori.html">Izvori</a>
+  <a href="index-en.html" aria-current="page">English [EN]</a>
+  <a href="https://github.com/3esign/medijana">GitHub</a>
+</div></nav>
+<header>
+  <div class="wrap">
+    <div class="kicker">Mediana · Naissus · 4th Century AD</div>
+    <h1>The Villa of Constantine at Niš</h1>
+    <p class="sub">Digital archaeological twin and forensic spatial-material knowledge base of the Late Antique imperial complex — translating 90 years of scholarly research (1936–2026) into an open, verifiable four-dimensional digital twin.</p>
+    <div class="status">Phase <b>P1 · Knowledge Consolidation</b> — Active since 21.10.2026</div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Dual Perspective — 3D & 2D from Identical Machine Registries</h2>
+    <p class="lead">A Single Source of Truth (<code>data/*.jsonl</code>) powering two live views: an interactive 3D spatial knowledge model and a regional archaeological GIS overlay along the Via Diagonalis highway.</p>
+    <div class="duo">
+      <div class="okvir">
+        <iframe src="blizanac.html?embed=1" title="3D Working Model" loading="lazy"></iframe>
+        <div class="pod"><span>3D Model · Color = Provenance Level · Click = Evidence</span><a href="blizanac.html">open full 3D view →</a></div>
+      </div>
+      <div class="okvir">
+        <iframe src="mapa.html?embed=1#region" title="Archaeological Map" loading="lazy"></iframe>
+        <div class="pod"><span>Map · Regional Network & Schematic Footprint</span><a href="mapa.html">open full map →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Scientific Methodology — London Charter & Seville Principles</h2>
+    <p class="lead">Unlike closed 3D renders with unverifiable visuals, every geometric volume in this platform carries its primary bibliographic source and uncertainty rating in compliance with the London Charter (2009) and the Seville Principles (2011) — fact, analogy, and hypothesis strictly separated.</p>
+    <div class="pillars" style="margin-top:24px">
+      <div class="pillar"><b>Architecture</b><span>Bauforschung & 4 building phases</span></div>
+      <div class="pillar"><b>Stratigraphy</b><span>Geoarchaeology & flood deposits</span></div>
+      <div class="pillar"><b>Numismatics</b><span>Stratified coin deposits (272–441 AD)</span></div>
+      <div class="pillar"><b>Material Culture</b><span>Mosaics, sculpture & dolia defossa</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Core Scientific Documentation (P1 Corpus)</h2>
+    <div class="grid">
+      <a class="card" href="docs/01_NAUCNA_FORENZICKA_STRUKTURA.md"><span class="num">01</span><h3>Forensic Architecture</h3><p>Villa with peristyle (98.6×63 m), stibadium, baths, horreum, water tower, northern church, necropolis.</p></a>
+      <a class="card" href="docs/02_DIGITALNI_BLIZANAC_I_STANDARDI.md"><span class="num">02</span><h3>Digital Twin & Standards</h3><p>London Charter paradata matrix (A/B/C), WebGPU/OpenUSD pipeline, 4D temporal slider.</p></a>
+      <a class="card" href="docs/03_INSTITUCIONALNI_OKVIR_I_AKCIONI_PLAN.md"><span class="num">03</span><h3>Institutional Framework</h3><p>Collaborative roadmap with Archaeological Institute Belgrade and National Museum Niš; Horizon Europe.</p></a>
+      <a class="card" href="docs/04_BIBLIOGRAFIJA_I_IZVORI.md"><span class="num">04</span><h3>Annotated Bibliography</h3><p>4 waves of field research (1936–2026), critical reviews of Vasić, Petrović, Milošević, and Starinar.</p></a>
+      <a class="card" href="docs/05_NIVOI_ANALIZE.md"><span class="num">05</span><h3>Analysis Levels (N0–N6)</h3><p>From regional geology to mosaic petrography, lead pipe isotopes (pXRF) and thermoluminescence.</p></a>
+      <a class="card" href="docs/06_HIPOTEZE_I_PITANJA.md"><span class="num">06</span><h3>Hypotheses & Contradictions</h3><p>10 falsifiable hypotheses, 14 forensic research questions, explicit tests and refutation criteria.</p></a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>The Horreum Spatial Pilot</h2>
+    <p class="lead">The monumental granary/storehouse (91×27 m) serves as the primary spatial pilot: articulated internal layout with two longitudinal rows of supporting piers (3 aisles), western <i>cella vinaria</i> with 1.40 m deep masonry pools for wine and oil, southern covered porch with cart ramp, and embedded <i>dolia defossa</i>.</p>
+    <div class="duo" style="margin-top:16px">
+      <div class="pillar" style="text-align:left">
+        <b>Published Architectural Dimensions</b>
+        <span>Confirmed via primary monograph (Petrović 1994, SANU) and cross-verified secondary records.</span>
+      </div>
+      <div class="pillar" style="text-align:left">
+        <b>London Charter Paradata</b>
+        <span>Aisles and basin depths are documented; column grid remains schematic pending georeferenced plan digitization.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Delineation of Forensic Boundaries — What this Twin is Not</h2>
+    <ul class="honest" style="margin-top:16px">
+      <li><b>Not a speculative 3D render.</b> We do not invent decorative roof tiles, marble capitals, or wall paintings without in situ evidence.</li>
+      <li><b>Octagon building explicitly excluded.</b> Primary literature analysis (Gavrilović Vitas & Milošević Jevtić 2019, Starinar LXIX) confirmed that the published octagon belongs to the separate Gradsko polje site near Niš Fortress, not Mediana.</li>
+      <li><b>Schematic site arrangement.</b> Building positions are relative/schematic until institutional permission for georeferenced cadastral plans is finalized.</li>
+      <li><b>Technology partner, not a competitor.</b> Svemir provides open digital twin infrastructure to enhance Serbian academic heritage research and international European grant consortiums.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Mediana (Naissus) Archaeological Digital Twin · Maintained by <a href="https://github.com/3esign">3esign</a> / Svemir</p>
+    <p style="margin-top:6px">Published open data in machine-readable JSONL · Citation: Poturak et al. (2026), <i>Mediana Digital Twin</i>, v0.1</p>
+  </div>
+</footer>
+</body>
+</html>

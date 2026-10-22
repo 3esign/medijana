@@ -62,3 +62,14 @@ Provera: 113 zapisa u 10 registara, validator tools/proveri-registre.cjs prolazi
 **Vizuelna provera.** Headless snimak na `--window-size=390,900` pokazao je isečen raspored i delovao kao mobilni preliv — to je **artefakt headless režima**: bez emulacije uređaja Chrome ignoriše viewport meta i seče desktop raspored. Merodavna provera kroz iframe širine 390px daje `scrollWidth=390` na svih 9 stranica, bez preliva; navigacija se prelama u dva reda i čitljiva je. Alat ostaje u `tools/provera/`, snimci u `data/sessions/c1792693315645azrt/artifacts/launch/`.
 
 **Granice.** Oba validatora prolaze, ali strukturna ispravnost nije arheološka validacija. Repozitorijum ostaje privatan — tri koraka objave (odluka o istoriji, public + Pages, release sa Zenodo DOI) čekaju Semira i opisani su u `docs/08_LAUNCH.md`.
+
+## 2026-10-23 — LAUNCH izvrsen
+
+- `git push --force origin launch-p1:main` → `28e73bd`, jedan commit, istorija bez `docs/private/` i bez `07_PROTOKOL`.
+- Repo vidljivost: **PUBLIC** (`gh repo edit --visibility public`).
+- Pages: `build_type=workflow`, `https://3esign.github.io/medijana/` — Actions deploy prosao.
+- Tag `v0.1-p1` + release objavljen: https://github.com/3esign/medijana/releases/tag/v0.1-p1
+- Validator u CI: `Validate research registries` success na `main` i na tagu.
+- Smoke-test uzivo (HTTP 200): `/`, `index-en.html`, `blizanac.html`, `mapa.html`, `registri.html`, `izvori.html`, `404.html`, `robots.txt`, `sitemap.xml`, `data/GEOMETRIJA.jsonl`. `docs/private/` → 404.
+- Javni `docs/03` sadrzi samo javno objavljive brojke (programski rasponi fondova, kapitalni projekat 9,7 mil. RSD iz javnih izvestaja); pregovaracki `03a_PRVI_KONTAKT` i ceo `07` ostaju u `docs/private/` (gitignore).
+- **Otvoreno — Zenodo DOI:** zahteva rucno ukljucivanje repoa na zenodo.org/account/settings/github (OAuth, ne moze preko tokena). Posle toga: obrisati i ponovo objaviti release ili napraviti `v0.1-p1.1` da webhook uhvati, pa DOI uneti u `CITATION.cff`, `README.md`, `.zenodo.json`.

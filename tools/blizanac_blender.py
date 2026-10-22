@@ -8,10 +8,14 @@
 import bpy, bmesh, json, math, os, sys, mathutils
 
 KOREN = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Ista dokazna skala kao assets/medijana.css (--d1/--d2/--d3), prevedena iz sRGB u linearni prostor:
+# #8fba8c objavljena mera · #d7a24a izvedeno · #cf7049 sematsko.
 BOJE = {
-    "objavljena_dimenzija": (0.33, 0.42, 0.24, 1.0),
-    "izvedeno_iz_povrsine": (0.62, 0.47, 0.18, 0.9),
-    "sematski":             (0.55, 0.23, 0.10, 0.55),
+    "objavljena_dimenzija": (0.275, 0.558, 0.262, 1.0),
+    "izvedeno_iz_povrsine": (0.679, 0.361, 0.068, 0.9),
+    "sematski":             (0.624, 0.162, 0.067, 0.55),
+    # tlo nije dokazna klasa: tamna podloga teme "teren" (--g2), da forme ostanu nosilac boje
+    "teren_pod":            (0.022, 0.020, 0.016, 1.0),
 }
 REZIM = "rek"  # "rek" = rekonstruisane visine, "sac" = sačuvano stanje
 
@@ -122,9 +126,6 @@ def gradi(el):
     elif obl == "ravan":
         objekti.append(prizma(el["id"], pravougaonik(D["x"], D["z"]), 0.01, z0=-0.01))
     m = mat(el["pouzdanost"] if el["tip"] != "teren" else "teren_pod")
-    if el["tip"] == "teren":
-        m = bpy.data.materials.new("teren"); m.use_nodes = True
-        m.node_tree.nodes["Principled BSDF"].inputs["Base Color"].default_value = (.16, .13, .10, 1)
     rot = math.radians(el.get("rot_deg", 0))
     for o in objekti:
         o.data.materials.append(m)
@@ -161,7 +162,7 @@ def main():
     cx, cy = (min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2
     r = max(math.dist((cx, cy), (min(xs), min(ys))), math.dist((cx, cy), (max(xs), max(ys))))
     # objektiv 50 mm, senzor 36 mm, rezolucija 1600x900 -> vertikalni polu-ugao ~11.4 stepeni
-    d = (r * 1.5) / math.tan(math.radians(11.4))
+    d = (r * 1.12) / math.tan(math.radians(11.4))  # 1.12 = kadar sa ~10% vazduha; poster se koristi kao OG slika i podloga naslovne
     smer = (0.45, 0.8, 0.95)
     nl = math.sqrt(sum(c * c for c in smer))
     kam.location = (cx + smer[0] / nl * d, cy + smer[1] / nl * d, smer[2] / nl * d)
@@ -177,7 +178,7 @@ def main():
     sc.render.engine = "BLENDER_EEVEE_NEXT" if "BLENDER_EEVEE_NEXT" in \
         [e.identifier for e in bpy.types.RenderSettings.bl_rna.properties["engine"].enum_items] else "BLENDER_EEVEE"
     sc.world = bpy.data.worlds.new("svet"); sc.world.use_nodes = True
-    sc.world.node_tree.nodes["Background"].inputs[0].default_value = (.015, .015, .02, 1)
+    sc.world.node_tree.nodes["Background"].inputs[0].default_value = (.0037, .0037, .0034, 1)  # --g0 teme "teren"
     os.makedirs(os.path.join(KOREN, "modeli"), exist_ok=True)
     os.makedirs(os.path.join(KOREN, "assets"), exist_ok=True)
     bpy.ops.export_scene.gltf(filepath=os.path.join(KOREN, "modeli", "medijana.glb"))

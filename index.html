@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Medijana — Vila Konstantina kod Niša · Digitalni arheološki blizanac</title>
 <!--launch-meta-->
 <meta name="description" content="Digitalni arheološki blizanac kasnoantičkog carskog kompleksa Medijana (Naissus). Naučna forenzika, London Charter, HBIM/WebGPU.">
@@ -18,163 +16,307 @@
 <link rel="alternate" hreflang="sr" href="https://3esign.github.io/medijana/">
 <link rel="alternate" hreflang="en" href="https://3esign.github.io/medijana/index-en.html">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#16130e">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <!--/launch-meta-->
+<!--skelet-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>try{var u=new URLSearchParams(location.search).get('tema'),t=u||localStorage.getItem('medijana-tema');document.documentElement.dataset.tema=t==='arhiv'||t==='teren'?t:(matchMedia('(prefers-color-scheme: light)').matches?'arhiv':'teren')}catch(e){document.documentElement.dataset.tema='teren'}</script>
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/sourceserif4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0c0c0b">
+<link rel="stylesheet" href="assets/medijana.css">
+<script src="assets/suite.js" defer></script>
+<!--/skelet-->
 <style>
-  :root{
-    --bg:#16130e; --panel:#201b13; --panel2:#282217;
-    --ink:#ece4d4; --ink-dim:#b3a78e; --line:#3a3225;
-    --gold:#c9a24b; --terra:#b3542f; --ok:#7d9a6a;
+  .hero{position:relative;min-height:min(92vh,820px);display:grid;grid-template-columns:minmax(0,1fr);
+    align-content:end;overflow:hidden;border-bottom:1px solid var(--l1)}
+  .hero-pozadina{position:absolute;inset:0;z-index:0;background:var(--g1)}
+  .hero-pozadina img,.hero-pozadina iframe{width:100%;height:100%;object-fit:cover;border:0;display:block}
+  html[data-tema="arhiv"] .hero-pozadina img,html[data-tema="arhiv"] .hero-pozadina iframe{opacity:.88}
+  .hero-veo{position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:
+      linear-gradient(180deg,var(--g0) 0%,color-mix(in srgb,var(--g0) 42%,transparent) 28%,color-mix(in srgb,var(--g0) 34%,transparent) 56%,var(--g0) 93%),
+      linear-gradient(100deg,var(--g0) 0%,color-mix(in srgb,var(--g0) 80%,transparent) 36%,color-mix(in srgb,var(--g0) 8%,transparent) 68%)}
+  .hero-raster{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.6}
+  .hero>*{width:100%}
+  .hero-sadrzaj{position:relative;z-index:2;padding-block:clamp(40px,8vh,90px) 0}
+  .hero h1{margin:16px 0 0}
+  .hero .podnaslov{font-family:var(--f-serif);font-size:clamp(18px,2.2vw,25px);line-height:1.35;color:var(--ink2);margin-top:10px;max-width:24ch}
+  .hero .uvod{margin-top:22px}
+  .akcije{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+  .hero-dno{position:relative;z-index:2;margin-top:clamp(34px,6vh,64px)}
+  .hero-dno .brojke{grid-template-columns:repeat(auto-fit,minmax(168px,1fr));
+    background:color-mix(in srgb,var(--g1) 86%,transparent);
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+  .brojka:last-child{border-right:0}
+
+  .konvencije{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:26px}
+  .konvencija{border:1px solid var(--l1);border-radius:var(--r);padding:16px 18px;background:var(--g1)}
+  .uzorak{height:46px;border-radius:2px;margin-bottom:14px;border:1px solid var(--l2)}
+  .uzorak.u1{background:var(--d1)}
+  .uzorak.u2{background:color-mix(in srgb,var(--d2) 55%,transparent)}
+  .uzorak.u3{border-style:dashed;border-color:color-mix(in srgb,var(--d3) 55%,transparent);
+    background-image:repeating-linear-gradient(45deg,color-mix(in srgb,var(--d3) 60%,transparent) 0 2px,transparent 2px 8px)}
+  .uzorak.ux{border-style:dotted;background-image:repeating-linear-gradient(90deg,color-mix(in srgb,var(--dx) 50%,transparent) 0 1px,transparent 1px 6px)}
+  .konvencija b{display:block;font-size:14px;margin-bottom:5px}
+  .konvencija p{font-size:13px;color:var(--ink2);line-height:1.5}
+  .konvencija .racun{font:500 11px/1 var(--f-mono);letter-spacing:.06em;color:var(--ink3);margin-top:10px;display:block}
+
+  .stubovi{display:grid;gap:1px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    background:var(--l1);border:1px solid var(--l1);border-radius:var(--r);overflow:hidden;margin-top:26px}
+  .stub{background:var(--g1);padding:20px}
+  .stub .rb{font:500 10.5px/1 var(--f-mono);letter-spacing:.1em;color:var(--ink3)}
+  .stub b{display:block;font-family:var(--f-serif);font-size:20px;font-weight:400;margin:10px 0 6px}
+  .stub span{font-size:12.5px;color:var(--ink2);line-height:1.5}
+
+  .nivoi{display:flex;gap:6px;flex-wrap:wrap;margin-top:22px}
+  .nivo{flex:1 1 118px;border:1px solid var(--l1);border-radius:var(--r);padding:12px 13px;background:var(--g1)}
+  .nivo .n{font:600 11px/1 var(--f-mono);color:var(--ink3);letter-spacing:.08em}
+  .nivo .i{display:block;font-size:13px;margin-top:7px;line-height:1.35}
+  .nivo .r{display:block;font-size:11px;color:var(--ink3);margin-top:4px}
+
+  .osa-kratka{list-style:none;display:grid;gap:0;margin-top:22px;border-top:1px solid var(--l1)}
+  .osa-kratka li{display:grid;grid-template-columns:118px 1fr auto;gap:16px;align-items:baseline;
+    padding:13px 0;border-bottom:1px solid var(--l1)}
+  .osa-kratka .god{font:500 12px/1.4 var(--f-mono);color:var(--ink3);letter-spacing:.03em}
+  .osa-kratka .dog{font-size:14.5px}
+  .osa-kratka .dog em{display:block;font-size:12.5px;color:var(--ink3);font-style:normal;margin-top:3px}
+  @media (max-width:640px){
+    .osa-kratka li{grid-template-columns:1fr;gap:6px}
+    .osa-kratka li .znak{justify-self:start}
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:880px;margin:0 auto;padding:0 24px}
-  header{padding:72px 0 48px;border-bottom:1px solid var(--line);text-align:center}
-  .kicker{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
-  h1{font-size:clamp(28px,5vw,44px);font-weight:400;margin:14px 0 10px;letter-spacing:.01em}
-  .sub{color:var(--ink-dim);font-style:italic;max-width:620px;margin:0 auto}
-  .status{display:inline-block;margin-top:22px;padding:5px 14px;border:1px solid var(--line);border-radius:999px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;color:var(--ink-dim)}
-  .status b{color:var(--ok);font-weight:600}
-  section{padding:44px 0;border-bottom:1px solid var(--line)}
-  h2{font-size:13px;font-family:ui-sans-serif,system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:22px}
-  p.lead{font-size:18px;max-width:700px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:8px}
-  a.card{display:block;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;text-decoration:none;color:var(--ink);transition:border-color .15s}
-  a.card:hover{border-color:var(--gold)}
-  .card .num{font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;color:var(--terra);letter-spacing:.15em}
-  .card h3{font-size:16px;font-weight:600;margin:6px 0 6px}
-  .card p{font-size:13.5px;color:var(--ink-dim);font-family:ui-sans-serif,system-ui,sans-serif;line-height:1.5}
-  .pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
-  .pillar{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;text-align:center}
-  .pillar b{display:block;font-size:15px;margin-bottom:4px}
-  .pillar span{font-size:12.5px;color:var(--ink-dim);font-family:ui-sans-serif,system-ui,sans-serif}
-  ul.honest{list-style:none;font-family:ui-sans-serif,system-ui,sans-serif;font-size:14.5px;color:var(--ink-dim)}
-  ul.honest li{padding:9px 0 9px 26px;position:relative;border-bottom:1px dotted var(--line)}
-  ul.honest li:last-child{border-bottom:none}
-  ul.honest li::before{content:"—";position:absolute;left:2px;color:var(--terra)}
-  blockquote{border-left:3px solid var(--gold);padding:6px 0 6px 20px;color:var(--ink-dim);font-style:italic;max-width:660px;margin-top:14px}
-  footer{padding:40px 0 64px;text-align:center;font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px;color:var(--ink-dim)}
-  footer a{color:var(--gold);text-decoration:none}
-  nav.suite{font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px;border-bottom:1px solid var(--line);background:var(--panel)}
-  nav.suite .wrap{padding:10px 24px;display:flex;gap:18px;flex-wrap:wrap}
-  nav.suite a{color:var(--ink-dim);text-decoration:none}
-  nav.suite a:hover{color:var(--gold)}
-  nav.suite a[aria-current]{color:var(--gold)}
-  .duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:20px}
-  .okvir{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
-  .okvir iframe{display:block;width:100%;height:380px;border:0;background:#100e0a}
-  .okvir .pod{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:10px 16px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:12.5px;color:var(--ink-dim)}
-  .okvir .pod a{color:var(--gold);text-decoration:none}
+  .dve-kolone{display:grid;gap:clamp(22px,4vw,56px);grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
+  @media (max-width:860px){.dve-kolone{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<nav class="suite" aria-label="Glavna navigacija"><div class="wrap">
-  <a href="index.html" aria-current="page">Medijana</a>
-  <a href="blizanac.html">Blizanac 3D</a>
-  <a href="mapa.html">Mapa</a>
-  <a href="istrazivanje.html">Istraživanje</a>
-  <a href="pokrivenost.html">Pokrivenost</a>
-  <a href="registri.html">Registri</a>
-  <a href="izvori.html">Izvori</a>
-  <a href="index-en.html">English [EN]</a>
-  <a href="https://github.com/3esign/medijana">GitHub</a>
-</div></nav>
-<header>
-  <div class="wrap">
-    <div class="kicker">Medijana · Naissus · IV vek</div>
-    <h1>Vila Konstantina kod Niša</h1>
-    <p class="sub">Digitalni arheološki blizanac i forenzička prostorno-materijalna baza kasnoantičkog carskog kompleksa — 90 godina istraživanja (1936–2026) prevedeno u proverljiv, otvoren, četvorodimenzionalni model.</p>
-    <div class="status">Faza <b>P1 · konsolidacija znanja</b> — u toku od 21.10.2026</div>
+<!--hdr-->
+<a class="skip" href="#sadrzaj">Preskoči na sadržaj</a>
+<header class="hdr">
+  <a class="marka" href="index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="6.4" y="6.4" width="9.6" height="9.6" fill="var(--d1)"/><rect x="16" y="16" width="9.6" height="9.6" fill="var(--d3)" opacity=".5"/><g fill="none" stroke="currentColor"><rect x="6.4" y="6.4" width="19.2" height="19.2" stroke-width="1.7"/><path d="M16 6.4v19.2M6.4 16h19.2" stroke-width="1" opacity=".45"/></g></svg>
+    <span class="ime">Medijana</span><span class="uz">digitalni blizanac</span>
+  </a>
+  <nav id="glavna-navigacija" aria-label="Glavna navigacija">
+    <a href="index.html" aria-current="page">Pregled</a>
+    <a href="blizanac.html">Blizanac 3D</a>
+    <a href="mapa.html">Mapa</a>
+    <a href="istrazivanje.html">Istraživanje</a>
+    <a href="pokrivenost.html">Pokrivenost</a>
+    <a href="registri.html">Registri</a>
+    <a href="izvori.html">Izvori</a>
+    <a href="index-en.html" class="jezik">EN</a>
+  </nav>
+  <div class="hdr-alat">
+    <a class="dugme-ikona" href="https://github.com/3esign/medijana" title="Repozitorijum na GitHubu" aria-label="Repozitorijum na GitHubu"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.23 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.46-1.3.1-2.71 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.56 1.41.21 2.45.1 2.71.66.72 1.05 1.63 1.05 2.75 0 3.93-2.39 4.8-4.67 5.05.37.32.69.94.69 1.9l-.01 2.82c0 .27.19.59.71.49A10.2 10.2 0 0 0 12 1.8z"/></svg></a>
   </div>
 </header>
+<!--/hdr-->
 
-<section>
-  <div class="wrap">
-    <h2>Glavni prikaz — 3D i 2D iz istih registara</h2>
-    <p class="lead">Jedan izvor istine (<code>data/*.jsonl</code>), dva pogleda: prostorna maketa znanja i mapa — od carske geografije Via Diagonalis do šematskog rasporeda lokaliteta.</p>
-    <div class="duo">
-      <div class="okvir">
-        <iframe src="blizanac.html?embed=1" title="3D radna maketa" loading="lazy"></iframe>
-        <div class="pod"><span>3D maketa · boja = poreklo mere · klik = dokaz</span><a href="blizanac.html">otvori ceo prikaz →</a></div>
+<main id="sadrzaj">
+
+<div class="hero">
+  <div class="hero-pozadina" id="hero-pozadina">
+    <img src="assets/blizanac-render.png" alt="Render 3D radne makete kompleksa Medijana — boja svake forme prati poreklo njene mere" width="1600" height="900">
+  </div>
+  <div class="hero-veo"></div>
+  <div class="hero-raster raster"></div>
+  <div class="hero-sadrzaj okvir">
+    <div class="nadnaslov">Naissus · ad tertium lapidem · IV vek</div>
+    <h1 class="display">Medijana</h1>
+    <p class="podnaslov">Vila Konstantina kod Niša, čitana kao dokaz.</p>
+    <p class="uvod">Devedeset godina iskopavanja (1936–2026) prevedeno u otvoren, proverljiv prostorni model. Svaka forma nosi poreklo svoje mere: ono što je objavljeno stoji puno, ono što je izvedeno stoji tonirano, ono što je pretpostavka <strong>nacrtano je kao pretpostavka</strong> — i tako i izgleda.</p>
+    <div class="akcije">
+      <a class="dugme glavno veliko" href="blizanac.html">Uđi u blizanac<span class="strelica" aria-hidden="true">→</span></a>
+      <a class="dugme veliko" href="#jezik">Kako znamo ono što tvrdimo</a>
+    </div>
+  </div>
+  <div class="hero-dno okvir">
+    <div class="brojke" id="brojke">
+      <div class="brojka"><span class="v" data-broj="geometrija">—</span><span class="k">prostornih elemenata</span></div>
+      <div class="brojka"><span class="v" data-broj="izvori">—</span><span class="k">bibliografskih jedinica</span></div>
+      <div class="brojka"><span class="v" data-broj="hipoteze">—</span><span class="k">hipoteza u proveri</span></div>
+      <div class="brojka"><span class="v" data-broj="lokacije">—</span><span class="k">povezanih lokacija</span></div>
+      <div class="brojka"><span class="v" data-broj="zapisi">—</span><span class="k">zapisa u registrima</span></div>
+    </div>
+    <p class="sitno" style="margin-top:10px;color:var(--ink3)" id="brojke-note">Brojevi se čitaju uživo iz <a class="veza" href="data/">data/*.jsonl</a> — ništa nije prepisano rukom.</p>
+  </div>
+</div>
+
+<section class="traka" id="jezik">
+  <div class="okvir">
+    <div class="dve-kolone">
+      <div>
+        <div class="nadnaslov">Vizuelni jezik</div>
+        <h2 style="margin-top:14px">Boja ovde nije ukras. Boja je tvrdnja o dokazu.</h2>
       </div>
-      <div class="okvir">
-        <iframe src="mapa.html?embed=1#region" title="Mapa povezanih lokacija" loading="lazy"></iframe>
-        <div class="pod"><span>Mapa · region i šematski overlay lokaliteta</span><a href="mapa.html">otvori celu mapu →</a></div>
+      <div>
+        <p class="proza" style="color:var(--ink2)">Arheološki crtež vekovima razlikuje sačuvano od rekonstruisanog: zid koji stoji crta se puno, zid koji pretpostavljamo — šrafurom. Ovaj sajt uzima tu konvenciju kao ceo svoj vizuelni sistem. Nijedna boja na stranicama, mapi i maketi ne znači „antiku“; svaka znači koliko tvrdnja iza nje stoji.</p>
+        <p class="sitno razmak-s"><a class="veza" href="docs/09_VIZUELNI_JEZIK.md">Vizuelni jezik — puna odluka i obrazloženje</a></p>
+      </div>
+    </div>
+
+    <div class="traka-dokaza razmak-l" id="traka-dokaza" role="img" aria-label="Udeo klasa dokaza u registru geometrije"></div>
+    <p class="sitno" style="margin-top:8px;color:var(--ink3)" id="traka-note">Udeo klasa dokaza u <a class="veza" href="data/GEOMETRIJA.jsonl">GEOMETRIJA.jsonl</a>.</p>
+
+    <div class="konvencije">
+      <div class="konvencija"><div class="uzorak u1"></div><b>Puno — objavljena mera</b><p>Dimenzija stoji u objavljenoj literaturi; mi je prenosimo, ne izvodimo.</p><span class="racun" data-udeo="objavljena_dimenzija">—</span></div>
+      <div class="konvencija"><div class="uzorak u2"></div><b>Tonirano — izvedeno</b><p>Mera je izračunata iz objavljenog podatka (npr. iz površine), pa nosi našu računicu.</p><span class="racun" data-udeo="izvedeno_iz_povrsine">—</span></div>
+      <div class="konvencija"><div class="uzorak u3"></div><b>Šrafirano — šematsko</b><p>Oblik i položaj su radna pretpostavka dok ne stigne geodetski plan (faza P2).</p><span class="racun" data-udeo="sematski">—</span></div>
+      <div class="konvencija"><div class="uzorak ux"></div><b>Tačkasto — sporno</b><p>Identitet ili pripadnost su osporeni; element ostaje u registru, ali izlazi iz prikaza.</p><span class="racun" data-udeo="iskljuceno">—</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="traka">
+  <div class="okvir">
+    <div class="nadnaslov">Instrument</div>
+    <h2 style="margin-top:14px">Šest pogleda na isti izvor istine</h2>
+    <p class="uvod razmak-s">Nijedna stranica ne drži sopstvenu kopiju podataka. Sve čitaju iste <code>data/*.jsonl</code> registre, pa javna priča ne može da odluta od naučnog stanja.</p>
+    <div class="resetka razmak-m">
+      <a class="kartica" href="blizanac.html">
+        <span class="kartica-oznaka">3D</span><h3>Blizanac — radna maketa</h3>
+        <p>Three.js scena građena uživo iz registra geometrije: preklop sačuvanog stanja i rekonstrukcije, klik na objekat otvara njegov dokaz.</p>
+        <span class="znak gol" data-znak="geometrija">— elemenata</span>
+      </a>
+      <a class="kartica" href="mapa.html">
+        <span class="kartica-oznaka">2D</span><h3>Mapa — region i lokalitet</h3>
+        <p>Od Via Diagonalis i tetrarhijskih rezidencija do šematskog overlaya kompleksa preko današnjeg snimka, sa izgovorenom preciznošću svake koordinate.</p>
+        <span class="znak gol" data-znak="lokacije">— lokacija</span>
+      </a>
+      <a class="kartica" href="istrazivanje.html">
+        <span class="kartica-oznaka">M-H</span><h3>Istraživanje — od pitanja do dokaza</h3>
+        <p>Hipoteze, otvorena pitanja i kontradikcije sa testom provere; svaka vodi do objekta u maketi na koji se odnosi.</p>
+        <span class="znak gol" data-znak="istrazivanje">— zapisa</span>
+      </a>
+      <a class="kartica" href="pokrivenost.html">
+        <span class="kartica-oznaka">G</span><h3>Pokrivenost — šta model zna</h3>
+        <p>Karton svakog objekta: odakle mu mera, odakle položaj, odakle visina i šta tačno treba pribaviti da pređe u čvršću klasu.</p>
+        <span class="znak gol" data-znak="kartoni">— kartona</span>
+      </a>
+      <a class="kartica" href="registri.html">
+        <span class="kartica-oznaka">JSONL</span><h3>Registri — mašinski čitljivo</h3>
+        <p>Deset registara u sirovom obliku: hipoteze, kontradikcije, pitanja, rečnik, nivoi, geometrija, lokacije, hronologija, izvori, veze.</p>
+        <span class="znak gol" data-znak="zapisi">— zapisa</span>
+      </a>
+      <a class="kartica" href="izvori.html">
+        <span class="kartica-oznaka">1936–2026</span><h3>Izvori i hronologija</h3>
+        <p>Anotirana bibliografija u pet talasa, sa <i>supports</i>, <i>limits</i> i poštenim obimom čitanja — plus vremenska osa lokaliteta.</p>
+        <span class="znak gol" data-znak="izvori">— jedinica</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="traka">
+  <div class="okvir">
+    <div class="dve-kolone">
+      <div>
+        <div class="nadnaslov">Metod</div>
+        <h2 style="margin-top:14px">Četiri stuba dokaza, sedam nivoa posmatranja</h2>
+      </div>
+      <div>
+        <p class="proza" style="color:var(--ink2)">Umesto zatvorene animacije bez dokaza: svaki element modela nosi arheološki izvor i nivo pouzdanosti po Londonskoj povelji (2009) i Principima iz Sevilje (2011) — <b>A</b> činjenica, <b>B</b> analogija, <b>C</b> hipoteza.</p>
+      </div>
+    </div>
+    <div class="stubovi">
+      <div class="stub"><span class="rb">01</span><b>Arhitektura</b><span>Bauforschung, graditeljske faze, zidarska tehnika</span></div>
+      <div class="stub"><span class="rb">02</span><b>Tlo</b><span>Geoarheologija, stratigrafija, mikromorfologija</span></div>
+      <div class="stub"><span class="rb">03</span><b>Novčići</b><span>Numizmatički sat — terminus post quem</span></div>
+      <div class="stub"><span class="rb">04</span><b>Artefakti</b><span>Mozaici, skulptura i pokretni nalazi</span></div>
+    </div>
+    <div class="nivoi" id="nivoi" aria-label="Nivoi analize N0–N6"></div>
+    <p class="sitno" style="margin-top:12px;color:var(--ink3)">Nivoi se čitaju iz <a class="veza" href="data/NIVOI.jsonl">NIVOI.jsonl</a> · pun opis u <a class="veza" href="docs/05_NIVOI_ANALIZE.md">dokumentu 05</a>.</p>
+  </div>
+</section>
+
+<section class="traka">
+  <div class="okvir">
+    <div class="nadnaslov">Vreme</div>
+    <h2 style="margin-top:14px">Sedamnaest vekova, pet talasa istraživanja</h2>
+    <ul class="osa-kratka" id="osa-kratka"></ul>
+    <p class="sitno razmak-s"><a class="veza" href="izvori.html#hronologija">Cela hronologija i bibliografija →</a></p>
+  </div>
+</section>
+
+<section class="traka">
+  <div class="okvir">
+    <div class="dve-kolone">
+      <div>
+        <div class="nadnaslov">Granice</div>
+        <h2 style="margin-top:14px">Šta ovaj projekat još nije</h2>
+        <p class="sitno razmak-s" style="max-width:46ch">Ovo nije sitni otisak na dnu strane. Šrafura znači isto ovde i na maketi: pretpostavka koja čeka dokaz.</p>
+      </div>
+      <div class="polje-granica">
+        <ul class="popis" style="border:0">
+          <li>Nema novih terenskih podataka — sve je sinteza objavljene literature i javnih izveštaja.</li>
+          <li>Nema formalnog sporazuma sa institucijama; ovo je priprema za taj razgovor, ne njegov rezultat.</li>
+          <li>HBIM još ne postoji — postoji šematska radna maketa kao prostorni registar znanja. Pilot sa stvarnim planovima je faza P2.</li>
+          <li>Raspored na maketi i overlay na mapi nisu georeferencirani.</li>
+          <li>Katalog literature je nepotpun; sve hipoteze nose status <b>NEPROVERENO</b> dok se ne testiraju.</li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
-<section>
-  <div class="wrap">
-    <h2>Metod — četiri stuba dokaza</h2>
-    <p class="lead">Umesto zatvorenih animacija bez dokaza: svaki element modela nosi svoj arheološki izvor i nivo pouzdanosti po Londonskoj povelji (2009) i Principima iz Sevilje (2011) — A činjenica · B analogija · C hipoteza.</p>
-    <div class="pillars" style="margin-top:24px">
-      <div class="pillar"><b>Arhitektura</b><span>Bauforschung, graditeljske faze</span></div>
-      <div class="pillar"><b>Tlo</b><span>geoarheologija, stratigrafija</span></div>
-      <div class="pillar"><b>Novčići</b><span>numizmatički sat</span></div>
-      <div class="pillar"><b>Artefakti</b><span>mozaici i pokretni nalazi</span></div>
+<section class="traka">
+  <div class="okvir dve-kolone">
+    <div>
+      <div class="nadnaslov">Saradnja</div>
+      <h2 style="margin-top:14px">Tehnološki partner, ne konkurent</h2>
+      <p class="sitno razmak-s" style="max-width:48ch">Nalazi, prava i objavljivanje ostaju kod nadležnih ustanova i istraživača. Ono što donosimo je infrastruktura: dokumentacija u 3D prostoru, paradata po standardu i citabilna publikacija.</p>
+      <p class="razmak-m"><a class="dugme" href="docs/03_INSTITUCIONALNI_OKVIR_I_AKCIONI_PLAN.md">Institucionalni okvir i plan P1–P4<span class="strelica" aria-hidden="true">→</span></a></p>
     </div>
+    <blockquote>Alat za upravljanje terenskom dokumentacijom, praćenje konzervatorskog stanja u 3D prostoru i naučna publikacija po London Charter standardu — koja podiže citiranost i vidljivost istraživača.</blockquote>
   </div>
 </section>
 
-<section>
-  <div class="wrap">
-    <h2>Čime raspolažemo</h2>
-    <div class="grid">
-      <a class="card" href="docs/01_NAUCNA_FORENZICKA_STRUKTURA.md"><span class="num">01</span><h3>Naučna forenzička struktura</h3><p>4 graditeljske faze; vila sa peristilom, stibadijum, oktogon, terme, horreum, crkve, nekropola.</p></a>
-      <a class="card" href="docs/02_DIGITALNI_BLIZANAC_I_STANDARDI.md"><span class="num">02</span><h3>Digitalni blizanac i standardi</h3><p>London Charter, paradata matrica A/B/C, WebGPU/OpenUSD stek, vremenska osa.</p></a>
-      <a class="card" href="docs/03_INSTITUCIONALNI_OKVIR_I_AKCIONI_PLAN.md"><span class="num">03</span><h3>Institucionalni okvir</h3><p>Nadležnosti institucija, pozicija tehnološkog partnera, finansijski kanali, faze P1–P4.</p></a>
-      <a class="card" href="docs/04_BIBLIOGRAFIJA_I_IZVORI.md"><span class="num">04</span><h3>Bibliografija i izvori</h3><p>Anotirana literatura 1936–2026: Vasić, Petrović, Milošević, Jeremić, Drča i tekuće kampanje.</p></a>
-      <a class="card" href="docs/05_NIVOI_ANALIZE.md"><span class="num">05</span><h3>Nivoi analize N0–N6</h3><p>Od pejzaža do molekula: koja nauka radi na kom nivou i gde prelazi nivoa postaju mesta greške.</p></a>
-      <a class="card" href="docs/06_HIPOTEZE_I_PITANJA.md"><span class="num">06</span><h3>Hipoteze i pitanja</h3><p>Ground truth T1–T4, matrica tvrdnji × izvora, kontradikcije KR-01–05, hipoteze M-H01–10, pitanja M-Q01–14.</p></a>
-      <a class="card" href="docs/00_KONCEPT_GITHUB_I_PAGES.md"><span class="num">00</span><h3>Koncept repozitorijuma i sajta</h3><p>GitHub kao laboratorijska sveska sa pečatom vremena: registri, recenzija kroz PR, DOI, put rasta P1–P4.</p></a>
+</main>
+
+<footer class="podnozje">
+  <div class="okvir">
+    <div class="redovi">
+      <div>
+        <h4>Suite</h4>
+        <ul>
+          <li><a href="blizanac.html">Blizanac 3D</a></li>
+          <li><a href="mapa.html">Mapa</a></li>
+          <li><a href="istrazivanje.html">Istraživanje</a></li>
+          <li><a href="pokrivenost.html">Pokrivenost</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Izvorni materijal</h4>
+        <ul>
+          <li><a href="registri.html">Registri (JSONL)</a></li>
+          <li><a href="izvori.html">Izvori i hronologija</a></li>
+          <li><a href="modeli/medijana.glb">Maketa · GLB</a></li>
+          <li><a href="https://github.com/3esign/medijana">Repozitorijum</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Dokumenti</h4>
+        <ul>
+          <li><a href="docs/00_KONCEPT_GITHUB_I_PAGES.md">Koncept repozitorijuma</a></li>
+          <li><a href="docs/02_DIGITALNI_BLIZANAC_I_STANDARDI.md">Standardi i paradata</a></li>
+          <li><a href="docs/09_VIZUELNI_JEZIK.md">Vizuelni jezik</a></li>
+          <li><a href="README.md">README</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Projekat</h4>
+        <p style="max-width:34ch;color:var(--ink3);font-size:12.5px;line-height:1.6">
+          Faza P1 — konsolidacija znanja. Priprema za saradnju sa Arheološkim institutom u Beogradu i Narodnim muzejom u Nišu.<br><br>
+          Semir Poturak · <a href="mailto:scumutator@gmail.com">scumutator@gmail.com</a><br>
+          DOI <a href="https://doi.org/10.5281/zenodo.23580526">10.5281/zenodo.23580526</a><br>
+          Kôd MIT · sadržaj CC BY 4.0
+        </p>
+      </div>
     </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Živi registri</h2>
-    <p class="lead">Hipoteze, kontradikcije, pitanja, rečnik i nivoi analize renderuju se uživo iz strojnih registara (<code>data/*.jsonl</code>) — jedan izvor istine za dokumente, sajt i budući blizanac.</p>
-    <div class="grid" style="margin-top:20px">
-      <a class="card" href="registri.html#hipoteze"><span class="num">M-H</span><h3>10 hipoteza</h3><p>Svaka sa testom, potvrdom i opovrgnućem; sve NEPROVERENO dok se ne testiraju.</p></a>
-      <a class="card" href="registri.html#kontradikcije"><span class="num">KR</span><h3>5 kontradikcija</h3><p>Gde se izvori sudaraju — horreum, oktogon, „nekropola Gota", predratna stratigrafija.</p></a>
-      <a class="card" href="registri.html#pitanja"><span class="num">M-Q</span><h3>14 pitanja</h3><p>Od Bayesovog modela faza do mikro-klime mozaika pod natkrivanjem.</p></a>
-      <a class="card" href="blizanac.html"><span class="num">3D</span><h3>Digitalni blizanac — radna maketa</h3><p>Three.js scena generisana uživo iz <code>data/GEOMETRIJA.jsonl</code>: svaka forma nosi poreklo mere i svoj izvor; šematsko je obeleženo kao šematsko. Isti registar gradi i Blender model (glTF).</p></a>
-      <a class="card" href="mapa.html"><span class="num">2D</span><h3>Mapa — region i lokalitet</h3><p>13 povezanih lokacija (<code>LOKACIJE.jsonl</code>): Via Diagonalis, tetrarhijski komparativi, nekropole — i šematski overlay kompleksa preko današnjeg snimka, sa izgovorenom preciznošću svake koordinate.</p></a>
-      <a class="card" href="izvori.html"><span class="num">90g</span><h3>Izvori i hronologija</h3><p>Anotirana bibliografija u četiri talasa (1936–2026, <code>IZVORI.jsonl</code>) i vremenska osa od Konstantinovog rođenja do tekućih iskopavanja (<code>HRONOLOGIJA.jsonl</code>).</p></a>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Granice — izgovorene tačno</h2>
-    <ul class="honest">
-      <li>Nema novih terenskih podataka — sve je sinteza objavljene literature i javnih izveštaja.</li>
-      <li>Nema formalnog sporazuma sa institucijama — ovo je priprema za taj razgovor, ne njegov rezultat.</li>
-      <li>HBIM još ne postoji — postoji šematska radna maketa (registar znanja); pilot sa stvarnim planovima (stibadijum) je faza P2.</li>
-      <li>Raspored na maketi i overlay na mapi nisu georeferencirani; koordinate šire mape su očitane sa javnih karata, ne geodetski snimci.</li>
-      <li>Katalog literature je nepotpun; sve hipoteze nose status NEPROVERENO.</li>
-    </ul>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Saradnja — tehnološki partner, ne konkurent</h2>
-    <blockquote>Alat za upravljanje terenskom dokumentacijom, praćenje konzervatorskog stanja u 3D prostoru i naučna publikacija po London Charter standardu koja podiže citiranost i vidljivost istraživača.</blockquote>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    Medijana · projekat u pripremi za saradnju sa Arheološkim institutom u Beogradu i Narodnim muzejom u Nišu<br>
-    Semir Poturak · <a href="mailto:scumutator@gmail.com">scumutator@gmail.com</a><br>
-    DOI: <a href="https://doi.org/10.5281/zenodo.23580526">10.5281/zenodo.23580526</a> · CC BY 4.0
   </div>
 </footer>
+<script src="assets/naslovna.js" defer></script>
 </body>
 </html>

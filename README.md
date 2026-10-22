@@ -105,7 +105,7 @@ node tools/proveri-registre.cjs   # registri: shema, identifikatori, veze, GLB
 node tools/proveri-suite.cjs      # stranice: skelet, meta, navigacija, lokalne veze, privatnost
 ```
 
-Oba prolaza su uslov za objavu — Pages workflow (`.github/workflows/pages.yml`) ne isporučuje sajt ako provera padne. Redosled navigacije održava `node tools/uskladi-navigaciju.cjs`, a meta blok i `sitemap.xml` `node tools/pripremi-launch.cjs`. Vizuelna provera mobilnog: `tools/provera/`.
+Oba prolaza su uslov za objavu — Pages workflow (`.github/workflows/pages.yml`) ne isporučuje sajt ako provera padne. Zajednički skelet `<head>` i zaglavlje svih stranica održava `node tools/uskladi-skelet.cjs`, a meta blok i `sitemap.xml` `node tools/pripremi-launch.cjs`. Vizuelna provera mobilnog: `tools/provera/`.
 
 Kontrolna lista objave: [`docs/08_LAUNCH.md`](docs/08_LAUNCH.md).
 
@@ -163,3 +163,21 @@ U prostorni registar (`GEOMETRIJA.jsonl`) uneti su novi elementi `G-HORREUM-BASE
 
 3. **Radni paket za institucionalni sastanak:**
    - Operativni memorandum za Arheološki institut u Beogradu i Narodni muzej u Nišu (specifikacija geodetskih podloga, trostepeni režim prava i embarga, pilot Stibadijuma u P2) pripremljen je, ali se **ne objavljuje**: to je neposlat predlog upućen imenovanim ustanovama. Čuva se u `docs/private/`, izvan repozitorijuma, dok institucije ne pristanu na objavu.
+
+
+## Vizuelni jezik · 23.10.2026.
+
+Suite je prešao na jedan dizajn-sistem: [`assets/medijana.css`](assets/medijana.css) +
+[`assets/suite.js`](assets/suite.js), sa zaglavljem koje se generiše iz
+[`tools/uskladi-skelet.cjs`](tools/uskladi-skelet.cjs) i zato je identično na svih devet stranica.
+
+Teza sistema: **boja nije ukras i nije „antika“ — boja je tvrdnja o dokazu.** Raniji
+zlatno-braon „antički“ sloj zamenjen je konvencijom arheološkog crteža: puno = objavljena
+mera, tonirano = izvedeno, šrafirano = šematsko, tačkasto = sporno. Isti znaci važe na
+stranicama, mapi i u 3D maketi, a maketa čita boje iz istih CSS promenljivih kao stranice.
+
+Uz to: dve teme (`teren` tamna / `arhiv` svetla, pamte se i prate `prefers-color-scheme`,
+mogu se deliti i kroz `?tema=`), self-hosted pisma (Inter + Source Serif 4, OFL —
+[`assets/fonts/LICENSE.md`](assets/fonts/LICENSE.md), bez poziva ka trećoj strani),
+naslovna koja sve brojke čita uživo iz `data/*.jsonl`, i navigacija koja se ispod 1040 px
+sklapa u fioku. Puna odluka i granice: [`docs/09_VIZUELNI_JEZIK.md`](docs/09_VIZUELNI_JEZIK.md).

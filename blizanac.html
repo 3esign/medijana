@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
+<!--skelet-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<script>try{var u=new URLSearchParams(location.search).get('tema'),t=u||localStorage.getItem('medijana-tema');document.documentElement.dataset.tema=t==='arhiv'||t==='teren'?t:(matchMedia('(prefers-color-scheme: light)').matches?'arhiv':'teren')}catch(e){document.documentElement.dataset.tema='teren'}</script>
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/sourceserif4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0c0c0b">
+<link rel="stylesheet" href="assets/medijana.css">
+<script src="assets/suite.js" defer></script>
+<!--/skelet-->
 <title>Medijana · Digitalni blizanac — 3D radna maketa</title>
 <!--launch-meta-->
 <meta name="description" content="Prva 3D radna maketa kompleksa Medijana, generisana uživo iz data/GEOMETRIJA.jsonl; boja prati poreklo mere, ne pretpostavljeni izgled.">
@@ -18,86 +27,119 @@
 <link rel="alternate" hreflang="sr" href="https://3esign.github.io/medijana/">
 <link rel="alternate" hreflang="en" href="https://3esign.github.io/medijana/index-en.html">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#16130e">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <!--/launch-meta-->
 <style>
-  :root{
-    --bg:#16130e; --panel:#201b13; --panel2:#282217;
-    --ink:#ece4d4; --ink-dim:#b3a78e; --line:#3a3225;
-    --gold:#c9a24b; --terra:#b3542f; --ok:#7d9a6a;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{background:var(--bg);color:var(--ink);font:15px/1.6 Georgia,'Times New Roman',serif;overflow:hidden}
-  #scena{position:fixed;inset:0}
-  .hud{position:fixed;font-family:ui-sans-serif,system-ui,sans-serif}
-  header.hud{top:0;left:0;right:0;padding:14px 20px;display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;
-    background:linear-gradient(180deg,rgba(22,19,14,.92),rgba(22,19,14,0));pointer-events:none}
-  header.hud *{pointer-events:auto}
-  .kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
-  header.hud h1{font:400 20px Georgia,serif;color:var(--ink)}
-  header.hud a{color:var(--gold);font-size:12.5px;text-decoration:none}header.hud nav{display:flex;gap:12px;flex-wrap:wrap;margin:6px 0 2px}header.hud nav a[aria-current]{color:var(--ink);border-bottom:1px solid var(--gold)}
-  #kontrole{bottom:14px;left:14px;display:flex;gap:8px;flex-wrap:wrap}
-  #kontrole button{background:var(--panel);border:1px solid var(--line);color:var(--ink-dim);
-    border-radius:999px;padding:7px 16px;font-size:13px;cursor:pointer}
-  #kontrole button.on{border-color:var(--gold);color:var(--gold)}
-  #legenda{bottom:14px;right:14px;background:rgba(32,27,19,.92);border:1px solid var(--line);
-    border-radius:10px;padding:12px 15px;font-size:12px;color:var(--ink-dim);max-width:260px}
-  #legenda b{color:var(--ink);font-weight:600}
-  .lrow{display:flex;gap:8px;align-items:center;margin-top:5px}
-  .sw{width:14px;height:14px;border-radius:3px;border:1px solid var(--line);flex:none}
-  #info{top:64px;right:14px;width:min(340px,calc(100vw - 28px));background:rgba(32,27,19,.95);
-    border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:none;max-height:70vh;overflow:auto}
-  #info .id{font-size:11px;color:var(--terra);letter-spacing:.15em}
-  #info h3{font:600 16px Georgia,serif;margin:4px 0 8px;color:var(--ink)}
-  #info p{font-size:13px;color:var(--ink-dim);margin-bottom:7px}
+  html,body{height:100%;overflow:hidden}
+  #scena{position:fixed;inset:0;z-index:0}
+  #scena canvas{display:block}
+  .hdr{position:fixed;left:0;right:0;top:0}
+  .sloj{position:fixed;z-index:50}
+
+  /* kontrole: donja leva traka */
+  #kontrole{left:clamp(10px,2vw,18px);bottom:clamp(10px,2vw,18px);display:flex;gap:7px;flex-wrap:wrap;max-width:min(560px,calc(100vw - 20px))}
+  #kontrole button{background:var(--staklo);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    border-color:var(--l2);padding:9px 14px;font-size:12.5px;min-height:36px}
+  #kontrole button.on{background:var(--ink);color:var(--g0);border-color:var(--ink)}
+
+  /* legenda: donja desna ploca, na uskom ekranu sklopiva */
+  #legenda{right:clamp(10px,2vw,18px);bottom:clamp(10px,2vw,18px);width:min(300px,calc(100vw - 20px));
+    background:var(--staklo);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+    border:1px solid var(--l2);border-radius:var(--r);padding:15px 17px;box-shadow:var(--senka)}
+  #legenda h2{font:600 10.5px/1 var(--f-sans);letter-spacing:.15em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+  #legenda p{font-size:12.5px;line-height:1.5;color:var(--ink2);max-width:none}
+  #legenda .stavka{display:flex;gap:10px;align-items:center;margin-top:9px;font-size:12.5px;color:var(--ink2)}
+  #legenda .uz{width:16px;height:16px;flex:none;border:1px solid var(--l2);border-radius:2px}
+  #legenda .u1{background:var(--d1)}
+  #legenda .u2{background:color-mix(in srgb,var(--d2) 60%,transparent)}
+  #legenda .u3{border-style:dashed;border-color:color-mix(in srgb,var(--d3) 55%,transparent);
+    background-image:repeating-linear-gradient(45deg,color-mix(in srgb,var(--d3) 60%,transparent) 0 2px,transparent 2px 6px)}
+  #legenda .kraj{margin-top:12px;padding-top:11px;border-top:1px solid var(--l1);font-size:12px;color:var(--ink3)}
+  #legenda-dugme{display:none}
+
+  /* dosije objekta */
+  #info{right:clamp(10px,2vw,18px);top:calc(var(--h-hdr) + 12px);width:min(360px,calc(100vw - 20px));
+    background:var(--staklo);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+    border:1px solid var(--l2);border-radius:var(--r);padding:17px 19px;display:none;
+    max-height:calc(100dvh - var(--h-hdr) - 150px);overflow:auto;box-shadow:var(--senka)}
+  #info h3{font-size:18px;margin:8px 0 10px}
+  #info p{font-size:13px;line-height:1.55;color:var(--ink2);margin-bottom:8px;max-width:none}
   #info p b{color:var(--ink);font-weight:600}
-  .badge{display:inline-block;font-size:10.5px;letter-spacing:.08em;border:1px solid var(--line);
-    border-radius:999px;padding:2px 9px;margin:2px 4px 0 0;color:var(--ink-dim)}
-  .badge.p-objavljena_dimenzija{border-color:var(--ok);color:var(--ok)}
-  .badge.p-izvedeno_iz_povrsine{border-color:var(--gold);color:var(--gold)}
-  .badge.p-sematski{border-color:var(--terra);color:var(--terra)}
-  #info a{color:var(--gold)}
-  #info .x{float:right;cursor:pointer;color:var(--ink-dim);font-size:16px;border:none;background:none}
-  #status{top:50%;left:50%;transform:translate(-50%,-50%);color:var(--ink-dim);font-size:14px}
-  #oznaka{position:fixed;padding:2px 8px;font:12px ui-sans-serif,system-ui;color:var(--ink);
-    background:rgba(22,19,14,.85);border:1px solid var(--line);border-radius:6px;pointer-events:none;display:none}
+  #info .znak{margin:0 5px 6px 0}
+  #info .x{float:right;background:none;border:0;color:var(--ink3);font-size:18px;line-height:1;cursor:pointer;padding:2px 4px;min-height:0}
+  #info .x:hover{color:var(--ink);background:none}
+  #info a{color:var(--ink);border-bottom:1px solid var(--l2);text-decoration:none}
+
+  /* poruke */
+  #status{left:clamp(10px,2vw,18px);top:calc(var(--h-hdr) + 12px);max-width:min(380px,calc(100vw - 20px));
+    font-size:12px;line-height:1.5;color:var(--ink3);background:var(--staklo);
+    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+    border:1px solid var(--l1);border-left:2px solid var(--dx);border-radius:var(--r);padding:9px 13px}
+  #status:empty{display:none}
+  #oznaka{position:fixed;z-index:40;padding:2px 8px;font:500 11px/1.5 var(--f-sans);color:var(--ink);
+    background:var(--staklo);border:1px solid var(--l1);border-radius:3px;pointer-events:none;display:none}
+  .oznaka-3d{position:fixed;z-index:30;padding:2px 7px;font:500 11px/1.5 var(--f-sans);
+    color:var(--ink2);background:var(--staklo);border-radius:3px;pointer-events:none;white-space:nowrap;
+    transform:translate(-50%,-50%)}
+
+  @media (max-width:860px){
+    #legenda{width:min(320px,calc(100vw - 20px));bottom:62px}
+    #legenda[hidden]{display:none}
+    #legenda-dugme{display:inline-flex}
+    #info{top:auto;bottom:62px;left:clamp(10px,2vw,18px);right:clamp(10px,2vw,18px);width:auto;
+      max-height:min(54dvh,460px)}
+    #status{max-width:calc(100vw - 20px);font-size:11.5px}
+  }
+  body[data-embed="1"] .sloj,body[data-embed="1"] .hdr,body[data-embed="1"] .skip{display:none!important}
 </style>
 </head>
 <body>
-<div id="scena"></div>
-<div class="hud" id="status">učitavanje geometrije…</div>
-<header class="hud">
-  <span class="kicker">Medijana · digitalni blizanac</span>
-  <h1>3D radna maketa</h1>
-  <nav aria-label="Glavna navigacija">
-    <a href="index.html">Medijana</a>
+<!--hdr-->
+<a class="skip" href="#sadrzaj">Preskoči na sadržaj</a>
+<header class="hdr">
+  <a class="marka" href="index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="6.4" y="6.4" width="9.6" height="9.6" fill="var(--d1)"/><rect x="16" y="16" width="9.6" height="9.6" fill="var(--d3)" opacity=".5"/><g fill="none" stroke="currentColor"><rect x="6.4" y="6.4" width="19.2" height="19.2" stroke-width="1.7"/><path d="M16 6.4v19.2M6.4 16h19.2" stroke-width="1" opacity=".45"/></g></svg>
+    <span class="ime">Medijana</span><span class="uz">digitalni blizanac</span>
+  </a>
+  <nav id="glavna-navigacija" aria-label="Glavna navigacija">
+    <a href="index.html">Pregled</a>
     <a href="blizanac.html" aria-current="page">Blizanac 3D</a>
     <a href="mapa.html">Mapa</a>
     <a href="istrazivanje.html">Istraživanje</a>
     <a href="pokrivenost.html">Pokrivenost</a>
     <a href="registri.html">Registri</a>
     <a href="izvori.html">Izvori</a>
-    <a href="index-en.html">English [EN]</a>
-    <a href="https://github.com/3esign/medijana">GitHub</a>
+    <a href="index-en.html" class="jezik">EN</a>
   </nav>
-  <a href="data/GEOMETRIJA.jsonl">izvor: GEOMETRIJA.jsonl</a>
+  <div class="hdr-alat">
+    <a class="dugme-ikona" href="https://github.com/3esign/medijana" title="Repozitorijum na GitHubu" aria-label="Repozitorijum na GitHubu"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.23 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.46-1.3.1-2.71 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.56 1.41.21 2.45.1 2.71.66.72 1.05 1.63 1.05 2.75 0 3.93-2.39 4.8-4.67 5.05.37.32.69.94.69 1.9l-.01 2.82c0 .27.19.59.71.49A10.2 10.2 0 0 0 12 1.8z"/></svg></a>
+  </div>
 </header>
-<div class="hud" id="kontrole">
-  <button id="btnRez" class="on">Rekonstrukcija</button>
-  <button id="btnSac">Sačuvano stanje</button>
-  <button id="btnOzn" class="on">Oznake</button>
-</div>
-<div class="hud" id="legenda">
-  <b>Poštena maketa.</b> Ovo nije rekonstrukcija izgleda — ovo je prostorni registar znanja. Svaka forma nosi poreklo svoje mere:
-  <div class="lrow"><span class="sw" style="background:#8a9a72"></span>objavljena dimenzija (čvrsto)</div>
-  <div class="lrow"><span class="sw" style="background:#c9a24b"></span>izvedeno iz objavljene površine</div>
-  <div class="lrow"><span class="sw" style="background:#b3542f;opacity:.55"></span>šematski — čeka plan (P2)</div>
-  <div class="lrow" style="margin-top:8px">Klik na objekat → dokaz i granice. Raspored objekata je šematski, nije georeferenciran.</div>
-</div>
-<div class="hud" id="info"></div>
-<div id="oznaka"></div>
+<!--/hdr-->
+<main id="sadrzaj">
+  <div id="scena"></div>
+  <h1 class="vizuelno-skriveno">Medijana — 3D radna maketa iz registra geometrije</h1>
+  <div class="sloj" id="status">učitavanje geometrije…</div>
+
+  <div class="sloj" id="kontrole">
+    <button id="btnRez" type="button" class="on">Rekonstrukcija</button>
+    <button id="btnSac" type="button">Sačuvano stanje</button>
+    <button id="btnOzn" type="button" class="on">Oznake</button>
+    <button id="legenda-dugme" type="button" aria-expanded="true" aria-controls="legenda">Legenda</button>
+    <a class="dugme" href="modeli/medijana.glb" download style="background:var(--staklo)">GLB</a>
+  </div>
+
+  <aside class="sloj" id="legenda">
+    <h2>Poštena maketa</h2>
+    <p>Ovo nije rekonstrukcija izgleda — ovo je prostorni registar znanja. Svaka forma nosi poreklo svoje mere:</p>
+    <div class="stavka"><span class="uz u1"></span>objavljena dimenzija</div>
+    <div class="stavka"><span class="uz u2"></span>izvedeno iz objavljene površine</div>
+    <div class="stavka"><span class="uz u3"></span>šematski — čeka plan (P2)</div>
+    <div class="kraj">Klik na objekat otvara njegov dokaz i granice. Međusobni raspored je šematski i nije georeferenciran. Izvor: <a class="veza" href="data/GEOMETRIJA.jsonl">GEOMETRIJA.jsonl</a></div>
+  </aside>
+
+  <div class="sloj" id="info"></div>
+  <div id="oznaka"></div>
+</main>
 
 <script type="importmap">
 {"imports":{
@@ -109,17 +151,27 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-if(new URLSearchParams(location.search).has('embed')){
-  document.querySelector('header.hud').style.display='none';
-  document.getElementById('legenda').style.display='none';
-}
+const upit = new URLSearchParams(location.search);
+const ugradjeno = upit.has('embed');
+if (ugradjeno) document.body.dataset.embed = '1';
 
-const BOJE = { objavljena_dimenzija:0x8a9a72, izvedeno_iz_povrsine:0xc9a24b, sematski:0xb3542f };
-const PROVID = { objavljena_dimenzija:1.0, izvedeno_iz_povrsine:0.85, sematski:0.5 };
+/* boje scene dolaze iz istog sistema kao stranice (--g0, --d1, --d2, --d3) */
+const css = (ime, pad) => {
+  const v = getComputedStyle(document.documentElement).getPropertyValue(ime).trim();
+  return v ? new THREE.Color(v) : new THREE.Color(pad);
+};
+const paleta = () => ({
+  pozadina: css(ugradjeno ? '--g1' : '--g0', '#0c0c0b'),
+  objavljena_dimenzija: css('--d1', '#8fba8c'),
+  izvedeno_iz_povrsine: css('--d2', '#d7a24a'),
+  sematski: css('--d3', '#cf7049'),
+  teren: document.documentElement.dataset.tema === 'arhiv' ? new THREE.Color('#ded9cd') : new THREE.Color('#1b1a16'),
+  mreza: document.documentElement.dataset.tema === 'arhiv' ? 0xbdb6a6 : 0x3a3630
+});
+let BOJE = paleta();
+const PROVID = { objavljena_dimenzija:1.0, izvedeno_iz_povrsine:.88, sematski:.55 };
 
 const scena = new THREE.Scene();
-scena.background = new THREE.Color(0x16130e);
-scena.fog = new THREE.Fog(0x16130e, 420, 900);
 const kamera = new THREE.PerspectiveCamera(50, innerWidth/innerHeight, 0.5, 2000);
 kamera.position.set(150, 160, 230);
 const renderer = new THREE.WebGLRenderer({antialias:true});
@@ -129,18 +181,30 @@ renderer.shadowMap.enabled = true;
 document.getElementById('scena').appendChild(renderer.domElement);
 const kontrole = new OrbitControls(kamera, renderer.domElement);
 kontrole.target.set(0,0,20); kontrole.maxPolarAngle = Math.PI/2.05; kontrole.enableDamping = true;
+if (ugradjeno && upit.has('okret') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  kontrole.autoRotate = true; kontrole.autoRotateSpeed = .32; kontrole.enabled = false;
+}
 
-scena.add(new THREE.AmbientLight(0xcbb98f, .55));
+const ambijent = new THREE.AmbientLight(0xffffff, .55);
+scena.add(ambijent);
 const sunce = new THREE.DirectionalLight(0xffe7c0, 1.6);
 sunce.position.set(-180, 220, 120); sunce.castShadow = true;
 sunce.shadow.mapSize.set(2048,2048);
 const d=260; Object.assign(sunce.shadow.camera,{left:-d,right:d,top:d,bottom:-d,far:800});
 scena.add(sunce);
 
+function primeniPaletu(){
+  BOJE = paleta();
+  scena.background = BOJE.pozadina;
+  scena.fog = new THREE.Fog(BOJE.pozadina, 420, 900);
+  ambijent.intensity = document.documentElement.dataset.tema === 'arhiv' ? .85 : .55;
+}
+primeniPaletu();
+
 function materijal(el){
   return new THREE.MeshStandardMaterial({
-    color:BOJE[el.pouzdanost]??0x888888, roughness:.85, metalness:0,
-    transparent:PROVID[el.pouzdanost]<1, opacity:PROVID[el.pouzdanost]??1
+    color:BOJE[el.pouzdanost] ?? new THREE.Color('#8d8a84'), roughness:.85, metalness:0,
+    transparent:(PROVID[el.pouzdanost]??1)<1, opacity:PROVID[el.pouzdanost]??1
   });
 }
 const kutija=(x,y,z)=>new THREE.BoxGeometry(x,y,z);
@@ -194,9 +258,10 @@ function oblik(el, h){
       break; }
     case 'ravan': {
       const M=new THREE.Mesh(new THREE.PlaneGeometry(D.x,D.z),
-        new THREE.MeshStandardMaterial({color:0x241f15,roughness:1}));
+        new THREE.MeshStandardMaterial({color:BOJE.teren,roughness:1}));
       M.rotation.x=-Math.PI/2; M.receiveShadow=true; g.add(M);
-      const mreza=new THREE.GridHelper(Math.max(D.x,D.z),Math.max(D.x,D.z)/20,0x3a3225,0x2b251a);
+      const mreza=new THREE.GridHelper(Math.max(D.x,D.z),Math.max(D.x,D.z)/20,BOJE.mreza,BOJE.mreza);
+      mreza.material.opacity=.5; mreza.material.transparent=true;
       mreza.position.y=.02; g.add(mreza);
       break; }
   }
@@ -216,35 +281,47 @@ function sagradi(){
     const obj = oblik(el, h);
     obj.traverse(o=>{o.userData.el=el;});
     scena.add(obj); grupe.push({obj, el});
-    if(el.tip!=='teren'){
-      const d=document.createElement('div'); d.textContent=el.naziv;
-      d.style.cssText='position:fixed;padding:1px 7px;font:11px ui-sans-serif;color:#b3a78e;background:rgba(22,19,14,.7);border-radius:5px;pointer-events:none';
+    if(el.tip!=='teren' && !ugradjeno){
+      const d=document.createElement('div');
+      d.className='oznaka-3d'; d.textContent=el.naziv;
       document.body.appendChild(d);
       oznake.push({el:d, pos:new THREE.Vector3(el.pos[0],h+3,el.pos[1])});
     }
   }
 }
 function azurirajOznake(){
-  for(const o of oznake){
+  const gore = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--h-hdr')) + 16;
+  const postavljene = [];
+  // bliži objekat ima prednost; oznaka koja bi pala preko već postavljene se izostavlja
+  const kandidati = oznake.map(o=>{
     const v=o.pos.clone().project(kamera);
-    const vidljivo = oznakeOn && v.z<1;
+    return {o, v, x:(v.x+1)/2*innerWidth, y:(-v.y+1)/2*innerHeight};
+  }).sort((a,b)=>a.v.z-b.v.z);
+  for(const k of kandidati){
+    const {o,v,x,y}=k;
+    const w=o.el.offsetWidth||120, h=o.el.offsetHeight||18;
+    let vidljivo = oznakeOn && v.z<1 && y>gore && y<innerHeight-72 && x>w/2+8 && x<innerWidth-w/2-8;
+    if(vidljivo) vidljivo = !postavljene.some(p=>
+      Math.abs(p.x-x) < (p.w+w)/2+6 && Math.abs(p.y-y) < (p.h+h)/2+4);
     o.el.style.display=vidljivo?'block':'none';
-    if(vidljivo){o.el.style.left=((v.x+1)/2*innerWidth)+'px'; o.el.style.top=((-v.y+1)/2*innerHeight)+'px';}
+    if(vidljivo){o.el.style.left=x+'px'; o.el.style.top=y+'px'; postavljene.push({x,y,w,h});}
   }
 }
 
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const klasa=p=>p==='objavljena_dimenzija'?'d1':p==='izvedeno_iz_povrsine'?'d2':p==='sematski'?'d3':'dx';
 function pokazi(el){
   const i=document.getElementById('info');
-  const hip=(el.hipoteze||[]).map(h=>{const H=hipoteze[h];return `<p><b>${esc(h)}</b> — ${esc(H?H.naslov:'')} <span class="badge p-sematski">${esc(H?H.status:'')}</span></p>`;}).join('');
-  i.innerHTML=`<button class="x" onclick="this.parentElement.style.display='none'">×</button>
+  const hip=(el.hipoteze||[]).map(h=>{const H=hipoteze[h];return `<p><b>${esc(h)}</b> — ${esc(H?H.naslov:'')} <span class="znak d3">${esc(H?H.status:'')}</span></p>`;}).join('');
+  i.innerHTML=`<button class="x" type="button" aria-label="Zatvori">×</button>
     <span class="id">${esc(el.id)} · ${esc(el.nivo)}</span><h3>${esc(el.naziv)}</h3>
-    <span class="badge p-${esc(el.pouzdanost)}">${esc(el.pouzdanost.replace(/_/g,' '))}</span>
-    <span class="badge">položaj: ${esc(el.polozaj)}</span>
-    <p style="margin-top:9px">${esc(el.napomena)}</p>
+    <span class="znak ${klasa(el.pouzdanost)}">${esc(el.pouzdanost.replace(/_/g,' '))}</span>
+    <span class="znak ${el.polozaj==='sematski'?'d3':'gol'}">položaj: ${esc(el.polozaj)}</span>
+    <p style="margin-top:10px">${esc(el.napomena)}</p>
     <p><b>Sačuvano:</b> ${el.visina_sacuvana_m} m · <b>u maketi rekonstruisano:</b> ${el.visina_rek_m} m (šematski)</p>
     ${hip?'<p><b>Vezane hipoteze:</b></p>'+hip:''}
-    <p><b>Izvori:</b> ${(el.izvori||[]).map(esc).join(', ')} · <a href="docs/04_BIBLIOGRAFIJA_I_IZVORI.md">bibliografija</a> · <a href="registri.html">registri</a></p>`;
+    <p><b>Izvori:</b> ${(el.izvori||[]).map(esc).join(', ')} · <a href="pokrivenost.html?q=${encodeURIComponent(el.id)}">karton</a> · <a href="docs/04_BIBLIOGRAFIJA_I_IZVORI.md">bibliografija</a></p>`;
+  i.querySelector('.x').addEventListener('click',()=>{i.style.display='none';});
   i.style.display='block';
 }
 const ray=new THREE.Raycaster(), mis=new THREE.Vector2();
@@ -259,23 +336,49 @@ const b=(id,f)=>document.getElementById(id).addEventListener('click',f);
 b('btnRez',()=>{rezim='rek';btnRez.classList.add('on');btnSac.classList.remove('on');sagradi();});
 b('btnSac',()=>{rezim='sac';btnSac.classList.add('on');btnRez.classList.remove('on');sagradi();});
 b('btnOzn',()=>{oznakeOn=!oznakeOn;btnOzn.classList.toggle('on',oznakeOn);});
+const legenda=document.getElementById('legenda'), legDug=document.getElementById('legenda-dugme');
+function legendaStanje(otvorena){
+  legenda.hidden=!otvorena;
+  legDug.setAttribute('aria-expanded',String(otvorena));
+  legDug.classList.toggle('on',otvorena);
+}
+legDug.addEventListener('click',()=>legendaStanje(legenda.hidden));
+if(innerWidth<=860) legendaStanje(false); else legendaStanje(true);
 
-addEventListener('resize',()=>{kamera.aspect=innerWidth/innerHeight;kamera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
-(function petlja(){requestAnimationFrame(petlja);kontrole.update();azurirajOznake();renderer.render(scena,kamera);})();
+// promena teme menja i scenu: isti sistem, ne druga paleta
+new MutationObserver(()=>{primeniPaletu();sagradi();})
+  .observe(document.documentElement,{attributes:true,attributeFilter:['data-tema']});
+
+function uskladiVelicinu(){
+  const w=innerWidth, h=innerHeight, t=renderer.getSize(new THREE.Vector2());
+  if(t.x===w && t.y===h) return;
+  kamera.aspect=w/h; kamera.updateProjectionMatrix(); renderer.setSize(w,h);
+}
+addEventListener('resize',uskladiVelicinu);
+(function petlja(){requestAnimationFrame(petlja);uskladiVelicinu();kontrole.update();azurirajOznake();renderer.render(scena,kamera);})();
 
 try{
   const [g,h]=await Promise.all([jsonl('data/GEOMETRIJA.jsonl'),jsonl('data/HIPOTEZE.jsonl')]);
   elementi=g.filter(el=>el.prikaz!==false); h.forEach(x=>hipoteze[x.id]=x);
   sagradi();
-  const selectedElement = elementi.find(el => el.id === new URLSearchParams(location.search).get('element'));
-  if(selectedElement){
-    const [x,z] = selectedElement.pos;
+  const trazen = upit.get('element');
+  const izabran = elementi.find(el => el.id === trazen);
+  const izvanTrazen = !izabran && trazen && g.find(el => el.id === trazen);
+  if(izabran){
+    const [x,z] = izabran.pos;
     kontrole.target.set(x,0,z);
     kamera.position.set(x+80,100,z+110);
-    kontrole.update(); pokazi(selectedElement);
+    kontrole.update(); pokazi(izabran);
   }
-  const excluded=g.filter(el=>el.prikaz===false);
-  document.getElementById('status').textContent=excluded.length ? 'Izostavljeno zbog spornog identiteta: '+excluded.map(el=>el.id).join(', ')+'. Vidi Pokrivenost.' : '';
+  const izvan=g.filter(el=>el.prikaz===false);
+  const st=document.getElementById('status');
+  if(izvanTrazen){
+    st.innerHTML = `<b>${esc(izvanTrazen.id)}</b> (${esc(izvanTrazen.naziv)}) nije u sceni: identitet je sporan, pa je element izvan prostornog prikaza. ` +
+      `<a class="veza" href="pokrivenost.html?q=${encodeURIComponent(izvanTrazen.id)}">Otvori karton →</a>`;
+  } else {
+    st.innerHTML = izvan.length
+      ? `Izvan prikaza zbog spornog identiteta: <b>${izvan.map(el=>esc(el.id)).join(', ')}</b>. <a class="veza" href="pokrivenost.html">Vidi Pokrivenost.</a>` : '';
+  }
 }catch(e){
   document.getElementById('status').textContent='Ne mogu da učitam data/GEOMETRIJA.jsonl — otvori stranicu preko HTTP servera ili GitHub Pages. ('+e.message+')';
 }

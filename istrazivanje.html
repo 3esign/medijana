@@ -1,11 +1,24 @@
-<!doctype html>
-<html lang="sr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Medijana · Istraživački sto</title>
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<!--skelet-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>try{var u=new URLSearchParams(location.search).get('tema'),t=u||localStorage.getItem('medijana-tema');document.documentElement.dataset.tema=t==='arhiv'||t==='teren'?t:(matchMedia('(prefers-color-scheme: light)').matches?'arhiv':'teren')}catch(e){document.documentElement.dataset.tema='teren'}</script>
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/sourceserif4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0c0c0b">
+<link rel="stylesheet" href="assets/medijana.css">
+<script src="assets/suite.js" defer></script>
+<!--/skelet-->
+<title>Medijana · Istraživanje — od pitanja do dokaza</title>
 <!--launch-meta-->
 <meta name="description" content="Radna sveska projekta Medijana: hipoteze M-H01–M-H10, otvorena pitanja i registar kontradikcija, sa planom provere za svaki zapis.">
 <link rel="canonical" href="https://3esign.github.io/medijana/istrazivanje.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Medijana · digitalni arheološki blizanac">
-<meta property="og:title" content="Medijana · Istraživački sto">
+<meta property="og:title" content="Medijana · Istraživanje — od pitanja do dokaza">
 <meta property="og:description" content="Radna sveska projekta Medijana: hipoteze M-H01–M-H10, otvorena pitanja i registar kontradikcija, sa planom provere za svaki zapis.">
 <meta property="og:url" content="https://3esign.github.io/medijana/istrazivanje.html">
 <meta property="og:image" content="https://3esign.github.io/medijana/assets/blizanac-render.png">
@@ -14,26 +27,104 @@
 <link rel="alternate" hreflang="sr" href="https://3esign.github.io/medijana/">
 <link rel="alternate" hreflang="en" href="https://3esign.github.io/medijana/index-en.html">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#16130e">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <!--/launch-meta-->
 <style>
-:root{--bg:#16130e;--panel:#201b13;--ink:#ece4d4;--muted:#b3a78e;--line:#514532;--gold:#dfb963;--warning:#f2a280}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 Georgia,serif}a{color:var(--gold)}nav,.controls,.meta,button,label,footer{font-family:system-ui,sans-serif}nav{border-bottom:1px solid var(--line);padding:14px max(24px,calc((100% - 1120px)/2));display:flex;gap:20px;flex-wrap:wrap;font-size:13px}nav a{text-decoration:none}main{max-width:1168px;margin:auto;padding:48px 24px}header{max-width:760px;margin-bottom:36px}.eyebrow{color:var(--gold);letter-spacing:.18em;font:12px system-ui;text-transform:uppercase}h1{font-weight:400;font-size:clamp(36px,6vw,68px);line-height:1.08;margin:18px 0}h2{font-size:26px;font-weight:400;line-height:1.3}h3{font-size:19px}p{margin:10px 0}.muted,.meta{color:var(--muted)}.meta{font-size:12px}.notice{border-left:3px solid var(--warning);padding:12px 20px;background:var(--panel);font-size:15px;margin:24px 0}.controls{display:flex;gap:16px;align-items:end;flex-wrap:wrap;padding:24px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}label{display:grid;gap:6px;font-size:13px;flex:1;min-width:160px}input,select,button{font:15px system-ui;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:12px;min-height:46px}button{cursor:pointer}button:hover{border-color:var(--gold)}:focus-visible{outline:3px solid var(--gold);outline-offset:4px}#results{margin:20px 0}article{border-top:1px solid var(--line);padding:28px 0;scroll-margin-top:24px}article:target{border-top:3px solid var(--gold)}.row{display:flex;gap:20px;justify-content:space-between;align-items:baseline}.status{font:12px system-ui;color:var(--warning);border:1px solid var(--line);padding:6px 10px;white-space:nowrap}.evidence{display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px;margin:24px 0}.evidence b{display:block;color:var(--gold);font:12px system-ui;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}.evidence p{font-size:15px}.links{display:flex;gap:12px;flex-wrap:wrap;font:14px system-ui}.links a{padding:6px 0}details{margin:18px 0}summary{cursor:pointer;color:var(--gold)}footer{border-top:1px solid var(--line);padding:28px 0;font-size:13px}.brief{margin-top:48px;border-top:1px solid var(--line)}li{margin:8px 0}button:disabled{opacity:.5;cursor:wait}@media(max-width:650px){main{padding:32px 20px}.evidence{grid-template-columns:1fr;gap:10px}.row{display:block}.status{display:inline-block}nav{gap:14px}.controls{align-items:stretch}.controls label{flex-basis:100%}.controls button{flex:1 1 140px}}@media print{body{background:white;color:black}nav,.controls,button{display:none}main{padding:0}.muted,.meta,a,.status,.evidence b{color:#333}article{break-inside:avoid}.notice{background:none}details{display:none}}
-</style></head><body>
-<nav aria-label="Glavna navigacija">
-  <a href="index.html">Medijana</a>
-  <a href="blizanac.html">Blizanac 3D</a>
-  <a href="mapa.html">Mapa</a>
-  <a href="istrazivanje.html" aria-current="page">Istraživanje</a>
-  <a href="pokrivenost.html">Pokrivenost</a>
-  <a href="registri.html">Registri</a>
-  <a href="izvori.html">Izvori</a>
-  <a href="index-en.html">English [EN]</a>
-  <a href="https://github.com/3esign/medijana">GitHub</a>
-</nav>
-<main><header><span class="eyebrow">Medijana / radna sveska</span><h1>Od pitanja<br>do dokaza.</h1><p class="muted">Šta pretpostavljamo, kako to proveravamo i koji deo kompleksa može da promeni naše tumačenje.</p></header>
-<aside class="notice">Ovo je plan istraživanja. Povezanost sa 3D elementom ne potvrđuje hipotezu. Prostorni raspored i rekonstruisane visine ostaju šematski.</aside>
-<div class="controls"><label>Pretraga<input id="search" type="search" placeholder="Oktogon, voda, M-H09…"></label><label>Vrsta zapisa<select id="kind"><option value="hypotheses">Hipoteze</option><option value="questions">Otvorena pitanja</option><option value="conflicts">Kontradikcije</option></select></label><label>Nivo analize<select id="level"><option value="">Svi nivoi</option><option>N0</option><option>N1</option><option>N2</option><option>N3</option><option>N4</option><option>N5</option><option>N6</option></select></label><button id="export" disabled>Izvezi izbor · JSON</button><button id="print">Štampaj</button></div>
-<p id="count" class="meta" role="status" aria-live="polite">Učitavanje registara…</p><section id="results" aria-label="Istraživački zapisi"></section><button id="retry" hidden>Pokušaj ponovo</button><noscript>Za pretragu uključi JavaScript. Izvorni zapisi su dostupni na <a href="data/HIPOTEZE.jsonl">ovom linku</a>.</noscript>
-<section class="brief"><span class="eyebrow">Predlog za razgovor sa Institutom</span><h2>Prvi zajednički paket</h2><p>Odabrati jedan objekat, jednu proverljivu hipotezu i jedan skup podataka za pilot. Obim i učešće tek treba dogovoriti.</p><ol><li><b>Plan i položaj:</b> verzija crteža, razmera, orijentacija, koordinatni sistem i kontrolne tačke.</li><li><b>Dokaz:</b> oznake prostorija i stratigrafskih jedinica, fotografije, kataloške veze i tačne strane publikacije.</li><li><b>Prava korišćenja:</b> autor, ustanova, dozvoljeni prikaz i podaci koji ostaju u zatvorenom radnom prostoru.</li><li><b>Recenzija:</b> potvrda stručnog saradnika šta je snimljeno, izvedeno ili pretpostavljeno; zapis ispravki pre naredne verzije.</li></ol><p><a href="modeli/medijana.glb" download>Preuzmi radnu 3D maketu · GLB</a> · <a href="docs/02_DIGITALNI_BLIZANAC_I_STANDARDI.md">Metod i standardi</a></p></section>
-<footer>Registri se učitavaju direktno iz repozitorijuma. Izvoz čuva izabrane zapise i njihove veze; ne predstavlja naučnu validaciju niti sporazum o saradnji.</footer></main><script src="assets/istrazivanje.js" defer></script></body></html>
+  .stranica{padding-block:clamp(36px,6vw,62px) 30px;border-bottom:1px solid var(--l1)}
+  .alatke{position:sticky;top:var(--h-hdr);z-index:40;background:var(--staklo);
+    -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid var(--l1);padding-block:12px}
+  .alatke .kontrole{justify-content:flex-start}
+  #count{font:500 12px/1.5 var(--f-mono);color:var(--ink3);padding-top:18px}
+  .paket{margin-top:clamp(34px,5vw,56px);border-top:1px solid var(--l1);padding-top:clamp(28px,4vw,44px)}
+  .paket .dve{display:grid;gap:clamp(20px,4vw,52px);grid-template-columns:minmax(0,1fr) minmax(0,1.2fr)}
+  @media (max-width:860px){.paket .dve{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<!--hdr-->
+<a class="skip" href="#sadrzaj">Preskoči na sadržaj</a>
+<header class="hdr">
+  <a class="marka" href="index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="6.4" y="6.4" width="9.6" height="9.6" fill="var(--d1)"/><rect x="16" y="16" width="9.6" height="9.6" fill="var(--d3)" opacity=".5"/><g fill="none" stroke="currentColor"><rect x="6.4" y="6.4" width="19.2" height="19.2" stroke-width="1.7"/><path d="M16 6.4v19.2M6.4 16h19.2" stroke-width="1" opacity=".45"/></g></svg>
+    <span class="ime">Medijana</span><span class="uz">digitalni blizanac</span>
+  </a>
+  <nav id="glavna-navigacija" aria-label="Glavna navigacija">
+    <a href="index.html">Pregled</a>
+    <a href="blizanac.html">Blizanac 3D</a>
+    <a href="mapa.html">Mapa</a>
+    <a href="istrazivanje.html" aria-current="page">Istraživanje</a>
+    <a href="pokrivenost.html">Pokrivenost</a>
+    <a href="registri.html">Registri</a>
+    <a href="izvori.html">Izvori</a>
+    <a href="index-en.html" class="jezik">EN</a>
+  </nav>
+  <div class="hdr-alat">
+    <a class="dugme-ikona" href="https://github.com/3esign/medijana" title="Repozitorijum na GitHubu" aria-label="Repozitorijum na GitHubu"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.23 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.46-1.3.1-2.71 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.56 1.41.21 2.45.1 2.71.66.72 1.05 1.63 1.05 2.75 0 3.93-2.39 4.8-4.67 5.05.37.32.69.94.69 1.9l-.01 2.82c0 .27.19.59.71.49A10.2 10.2 0 0 0 12 1.8z"/></svg></a>
+  </div>
+</header>
+<!--/hdr-->
+<main id="sadrzaj">
+<div class="stranica">
+  <div class="okvir">
+    <div class="nadnaslov">Radna sveska</div>
+    <h1 style="margin-top:14px">Od pitanja do dokaza</h1>
+    <p class="uvod razmak-s">Šta pretpostavljamo, kako to proveravamo i koji deo kompleksa može da promeni naše tumačenje. Svaki zapis nosi test koji bi ga potvrdio i test koji bi ga oborio.</p>
+    <div class="napomena razmak-m"><b>Ovo je plan istraživanja.</b> Povezanost sa 3D elementom ne potvrđuje hipotezu. Prostorni raspored i rekonstruisane visine ostaju šematski.</div>
+  </div>
+</div>
+
+<div class="alatke">
+  <div class="okvir">
+    <div class="kontrole">
+      <label>Pretraga<input id="search" type="search" placeholder="Oktogon, voda, M-H09…"></label>
+      <label>Vrsta zapisa<select id="kind">
+        <option value="hypotheses">Hipoteze</option>
+        <option value="questions">Otvorena pitanja</option>
+        <option value="conflicts">Kontradikcije</option>
+      </select></label>
+      <label>Nivo analize<select id="level">
+        <option value="">Svi nivoi</option><option>N0</option><option>N1</option><option>N2</option>
+        <option>N3</option><option>N4</option><option>N5</option><option>N6</option>
+      </select></label>
+      <button id="export" type="button" disabled>Izvezi izbor · JSON</button>
+      <button id="print" type="button">Štampaj</button>
+    </div>
+  </div>
+</div>
+
+<div class="okvir">
+  <p id="count" role="status" aria-live="polite">Učitavanje registara…</p>
+  <section id="results" class="sveska" aria-label="Istraživački zapisi"></section>
+  <button id="retry" type="button" class="razmak-m" hidden>Pokušaj ponovo</button>
+  <noscript><p class="napomena razmak-m">Za pretragu uključi JavaScript. Izvorni zapisi su dostupni u <a class="veza" href="data/HIPOTEZE.jsonl">HIPOTEZE.jsonl</a>.</p></noscript>
+
+  <section class="paket">
+    <div class="dve">
+      <div>
+        <div class="nadnaslov">Predlog za razgovor sa Institutom</div>
+        <h2 style="margin-top:14px">Prvi zajednički paket</h2>
+        <p class="sitno razmak-s">Odabrati jedan objekat, jednu proverljivu hipotezu i jedan skup podataka za pilot. Obim i učešće tek treba dogovoriti.</p>
+        <p class="razmak-m">
+          <a class="dugme" href="modeli/medijana.glb" download>Preuzmi radnu maketu · GLB</a>
+          <a class="dugme" href="docs/02_DIGITALNI_BLIZANAC_I_STANDARDI.md">Metod i standardi</a>
+        </p>
+      </div>
+      <ol class="koraci">
+        <li><b>Plan i položaj:</b> verzija crteža, razmera, orijentacija, koordinatni sistem i kontrolne tačke.</li>
+        <li><b>Dokaz:</b> oznake prostorija i stratigrafskih jedinica, fotografije, kataloške veze i tačne strane publikacije.</li>
+        <li><b>Prava korišćenja:</b> autor, ustanova, dozvoljeni prikaz i podaci koji ostaju u zatvorenom radnom prostoru.</li>
+        <li><b>Recenzija:</b> potvrda stručnog saradnika šta je snimljeno, izvedeno ili pretpostavljeno; zapis ispravki pre naredne verzije.</li>
+      </ol>
+    </div>
+  </section>
+</div>
+</main>
+
+<footer class="podnozje">
+  <div class="okvir">
+    Registri se učitavaju direktno iz repozitorijuma. Izvoz čuva izabrane zapise i njihove veze; ne predstavlja naučnu validaciju niti sporazum o saradnji. ·
+    <a href="registri.html#hipoteze">sirovi registri</a> · <a href="index.html">naslovna</a>
+  </div>
+</footer>
+<script src="assets/istrazivanje.js" defer></script>
+</body>
+</html>

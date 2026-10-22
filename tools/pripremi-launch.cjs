@@ -51,8 +51,6 @@ for (const [file, desc] of Object.entries(pages)) {
     `<link rel="alternate" hreflang="${file === 'index-en.html' ? 'en' : 'sr'}" href="${BASE}/${file === 'index-en.html' ? 'index-en.html' : ''}">`,
     `<link rel="alternate" hreflang="${file === 'index-en.html' ? 'sr' : 'en'}" href="${BASE}/${file === 'index-en.html' ? '' : 'index-en.html'}">`,
     `<meta name="twitter:card" content="summary_large_image">`,
-    `<meta name="theme-color" content="#16130e">`,
-    `<link rel="icon" href="favicon.svg" type="image/svg+xml">`,
     CLOSE,
   ].join('\n');
 

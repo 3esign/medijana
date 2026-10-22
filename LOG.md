@@ -86,3 +86,11 @@ DOI unet u `CITATION.cff` (`doi:` + oba `identifiers`), `.zenodo.json` (`isVersi
 footer `index.html` i `index-en.html`. Oba validatora prolaze: registri `{10,115,14}`, suite `{8,122,47,nav ok,publish ok}`.
 
 Granica: Zenodo zapis nosi ono što je bilo u tagu `v0.1-p1`; sadržaj ovog commita nije u DOI-ju v0.1-p1 dok ne izađe sledeći tag.
+
+2026-10-23 · Vizuelni jezik: ceo suite prebačen na jedan dizajn-sistem (assets/medijana.css, assets/suite.js, tools/uskladi-skelet.cjs). Zlatno-braon „antička“ paleta zamenjena konvencijom arheološkog crteža (puno / tonirano / šrafirano / tačkasto); dve teme teren+arhiv; self-hosted Inter i Source Serif 4 (OFL); naslovna čita sve brojke uživo iz registara; zaglavlje jedno za svih 9 stranica, sa fiokom ispod 1040 px.
+
+Lekcija: tri stranice su imale tri različita zaglavlja, a 3D prikaz nije imao `<nav>` uopšte — zato skelet sada ima jednog vlasnika (alat), a provera traži markere, zajednički CSS/JS i odsustvo stare palete.
+
+Lekcija (JS): `defer` skripta se izvršava posle svake inline skripte u telu dokumenta. Inline skripte stranica su zato pozivale `MED` pre nego što `assets/suite.js` postoji i tiho padale u poruku „registri se čitaju preko HTTP-a“. Izdvojene su u assets/registri.js, assets/izvori.js, assets/mapa.js sa `defer`.
+
+Sledeće: peti znak konvencije — „mereno na terenu“ — ulazi tek sa geodetskim planom u P2.

@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
+<!--skelet-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Medijana · Mapa — carska geografija i šematski raspored lokaliteta</title>
+<script>try{var u=new URLSearchParams(location.search).get('tema'),t=u||localStorage.getItem('medijana-tema');document.documentElement.dataset.tema=t==='arhiv'||t==='teren'?t:(matchMedia('(prefers-color-scheme: light)').matches?'arhiv':'teren')}catch(e){document.documentElement.dataset.tema='teren'}</script>
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/sourceserif4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0c0c0b">
+<link rel="stylesheet" href="assets/medijana.css">
+<script src="assets/suite.js" defer></script>
+<!--/skelet-->
+<title>Medijana · Mapa — od magistrale do lokaliteta</title>
 <!--launch-meta-->
 <meta name="description" content="Šira mapa povezanih kasnoantičkih lokacija (Via Diagonalis, tetrarhijske rezidencije) i šematski raspored lokaliteta Medijana.">
 <link rel="canonical" href="https://3esign.github.io/medijana/mapa.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Medijana · digitalni arheološki blizanac">
-<meta property="og:title" content="Medijana · Mapa — carska geografija i šematski raspored lokaliteta">
+<meta property="og:title" content="Medijana · Mapa — od magistrale do lokaliteta">
 <meta property="og:description" content="Šira mapa povezanih kasnoantičkih lokacija (Via Diagonalis, tetrarhijske rezidencije) i šematski raspored lokaliteta Medijana.">
 <meta property="og:url" content="https://3esign.github.io/medijana/mapa.html">
 <meta property="og:image" content="https://3esign.github.io/medijana/assets/blizanac-render.png">
@@ -18,241 +27,104 @@
 <link rel="alternate" hreflang="sr" href="https://3esign.github.io/medijana/">
 <link rel="alternate" hreflang="en" href="https://3esign.github.io/medijana/index-en.html">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#16130e">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <!--/launch-meta-->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
-  :root{
-    --bg:#16130e; --panel:#201b13; --panel2:#282217;
-    --ink:#ece4d4; --ink-dim:#b3a78e; --line:#3a3225;
-    --gold:#c9a24b; --terra:#b3542f; --ok:#7d9a6a;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
-  body{background:var(--bg);color:var(--ink);font:15px/1.6 Georgia,'Times New Roman',serif;display:flex;flex-direction:column}
-  nav.suite{font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px;border-bottom:1px solid var(--line);background:var(--panel)}
-  nav.suite .wrap{max-width:980px;margin:0 auto;padding:10px 24px;display:flex;gap:18px;flex-wrap:wrap}
-  nav.suite a{color:var(--ink-dim);text-decoration:none}
-  nav.suite a:hover{color:var(--gold)}
-  nav.suite a[aria-current]{color:var(--gold)}
-  header{padding:18px 24px 14px;border-bottom:1px solid var(--line);text-align:center}
-  .kicker{font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
-  h1{font-size:clamp(20px,3vw,28px);font-weight:400;margin:6px 0 4px}
-  .sub{color:var(--ink-dim);font-style:italic;font-size:14px;max-width:720px;margin:0 auto}
-  #pogledi{font-family:ui-sans-serif,system-ui,sans-serif;display:flex;gap:8px;justify-content:center;padding:12px;border-bottom:1px solid var(--line);flex-wrap:wrap}
-  #pogledi button{background:var(--panel);border:1px solid var(--line);color:var(--ink-dim);border-radius:999px;padding:7px 16px;font-size:13px;cursor:pointer}
-  #pogledi button.on{border-color:var(--gold);color:var(--gold)}
-  #mapa{flex:1;min-height:320px}
-  #upozorenje{position:absolute;z-index:1000;left:50%;transform:translateX(-50%);bottom:18px;
-    background:rgba(32,27,19,.94);border:1px solid var(--terra);border-radius:10px;padding:10px 16px;
-    font:12.5px ui-sans-serif,system-ui,sans-serif;color:var(--ink-dim);max-width:min(560px,92vw);text-align:center}
-  #upozorenje b{color:var(--terra)}
-  #status{position:absolute;z-index:1000;top:12px;left:50%;transform:translateX(-50%);
-    font:13px ui-sans-serif,system-ui,sans-serif;color:var(--ink-dim);background:rgba(32,27,19,.9);
-    border:1px solid var(--line);border-radius:8px;padding:6px 14px;display:none}
-  .leaflet-container{background:#100e0a;font:12.5px ui-sans-serif,system-ui,sans-serif}
-  .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
-  .leaflet-popup-content{margin:12px 16px;line-height:1.55}
-  .pp .id{font-size:10.5px;color:var(--terra);letter-spacing:.14em}
-  .pp h3{font:600 15px Georgia,serif;margin:3px 0 6px}
-  .pp p{font-size:12.5px;color:var(--ink-dim);margin-bottom:5px}
-  .pp p b{color:var(--ink)}
-  .pp .badge{display:inline-block;font-size:10px;letter-spacing:.07em;border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin:1px 3px 0 0;color:var(--ink-dim)}
-  .pp .badge.p-objavljena_dimenzija{border-color:var(--ok);color:var(--ok)}
-  .pp .badge.p-izvedeno_iz_povrsine{border-color:var(--gold);color:var(--gold)}
-  .pp .badge.p-sematski,.pp .badge.p-priblizno,.pp .badge.p-NEPROVERENO{border-color:var(--terra);color:var(--terra)}
-  .pp a{color:var(--gold)}
-  .leg{font:11.5px ui-sans-serif,system-ui,sans-serif;color:var(--ink-dim);background:rgba(32,27,19,.92)!important;
-    border:1px solid var(--line)!important;border-radius:10px!important;padding:10px 13px!important;box-shadow:none!important}
-  .leg b{color:var(--ink)}
-  .leg .r{display:flex;gap:7px;align-items:center;margin-top:4px}
-  .leg .sw{width:12px;height:12px;border-radius:50%;flex:none;border:1px solid var(--line)}
-  .leg .sq{border-radius:3px}
+  body{display:flex;flex-direction:column;overflow:hidden}
+  .traka-mape{border-bottom:1px solid var(--l1);background:var(--g0);flex:none}
+  .traka-mape .okvir{display:flex;gap:18px;align-items:center;justify-content:space-between;
+    padding-block:12px;flex-wrap:wrap}
+  .traka-mape h1{font-size:clamp(18px,2.2vw,23px);margin-top:7px}
+  .traka-mape .sub{font-size:12.5px;color:var(--ink3);margin-top:5px;max-width:64ch}
+  #pogledi{display:flex;gap:6px;flex:none}
+  #pogledi button{font-size:12.5px;padding:9px 14px}
+  #pogledi button.on{background:var(--ink);color:var(--g0);border-color:var(--ink)}
+  #mapa{flex:1;min-height:300px;position:relative;z-index:0}
+  .leaflet-container{background:var(--g1);font:12.5px/1.5 var(--f-sans)}
+  html[data-tema="teren"] .osnovna-ploce{filter:invert(1) hue-rotate(180deg) brightness(.84) contrast(.86) saturate(.22) grayscale(.35)}
+  .leaflet-control-layers,.leaflet-bar a,.leaflet-control-attribution{
+    background:var(--staklo)!important;color:var(--ink2)!important;border-color:var(--l2)!important}
+  .leaflet-control-attribution a{color:var(--ink2)!important}
+  .leaflet-bar a{border-bottom-color:var(--l1)!important}
+  .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--g1);color:var(--ink);
+    border:1px solid var(--l2);border-radius:var(--r);box-shadow:var(--senka)}
+  .leaflet-popup-content{margin:15px 17px;line-height:1.55}
+  .leaflet-popup-close-button{color:var(--ink3)!important}
+  .pp h3{font-size:17px;margin:8px 0 9px;line-height:1.3}
+  .pp p{font-size:12.5px;color:var(--ink2);margin-bottom:6px;max-width:none}
+  .pp p b{color:var(--ink);font-weight:600}
+  .pp a{color:var(--ink);border-bottom:1px solid var(--l2);text-decoration:none}
+  .pp .znak{margin:0 5px 6px 0}
+  .leg{background:var(--staklo);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    border:1px solid var(--l2);border-radius:var(--r);padding:13px 15px;color:var(--ink2);
+    font:12px/1.5 var(--f-sans);max-width:260px;box-shadow:var(--senka)}
+  .leg b{display:block;font:600 10px/1 var(--f-sans);letter-spacing:.15em;text-transform:uppercase;
+    color:var(--ink3);margin-bottom:9px}
+  .leg .r{display:flex;gap:9px;align-items:center;margin-top:7px}
+  .leg .sw{width:12px;height:12px;border-radius:50%;flex:none}
+  .leg .sw.sq{border-radius:2px}
+  #upozorenje{position:absolute;z-index:1000;left:50%;transform:translateX(-50%);bottom:16px;
+    background:var(--staklo);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    border:1px solid color-mix(in srgb,var(--d3) 50%,transparent);border-radius:var(--r);
+    padding:11px 16px;font-size:12px;line-height:1.5;color:var(--ink2);max-width:min(560px,92vw);text-align:center}
+  #upozorenje b{color:var(--d3)}
+  #status{position:fixed;z-index:1000;top:calc(var(--h-hdr) + 92px);left:50%;transform:translateX(-50%);
+    font-size:12.5px;color:var(--ink2);background:var(--staklo);border:1px solid var(--l2);
+    border-radius:var(--r);padding:9px 15px;display:none;max-width:min(520px,92vw)}
+  @media (max-width:720px){
+    .traka-mape .okvir{padding-block:10px}
+    .traka-mape .sub{display:none}
+    .leg{display:none}
+    #upozorenje{font-size:11px;padding:9px 12px;bottom:10px}
+  }
 </style>
 </head>
 <body>
-<nav class="suite" aria-label="Glavna navigacija"><div class="wrap">
-  <a href="index.html">Medijana</a>
-  <a href="blizanac.html">Blizanac 3D</a>
-  <a href="mapa.html" aria-current="page">Mapa</a>
-  <a href="istrazivanje.html">Istraživanje</a>
-  <a href="pokrivenost.html">Pokrivenost</a>
-  <a href="registri.html">Registri</a>
-  <a href="izvori.html">Izvori</a>
-  <a href="index-en.html">English [EN]</a>
-  <a href="https://github.com/3esign/medijana">GitHub</a>
-</div></nav>
-<header>
-  <div class="kicker">Medijana · prostor</div>
-  <h1>Mapa — od magistrale do lokaliteta</h1>
-  <p class="sub">Dva pogleda iz istih registara: carska geografija oko Via Diagonalis (<code>data/LOKACIJE.jsonl</code>) i šematski raspored kompleksa (<code>data/GEOMETRIJA.jsonl</code>) preko današnjeg snimka.</p>
+<!--hdr-->
+<a class="skip" href="#sadrzaj">Preskoči na sadržaj</a>
+<header class="hdr">
+  <a class="marka" href="index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="6.4" y="6.4" width="9.6" height="9.6" fill="var(--d1)"/><rect x="16" y="16" width="9.6" height="9.6" fill="var(--d3)" opacity=".5"/><g fill="none" stroke="currentColor"><rect x="6.4" y="6.4" width="19.2" height="19.2" stroke-width="1.7"/><path d="M16 6.4v19.2M6.4 16h19.2" stroke-width="1" opacity=".45"/></g></svg>
+    <span class="ime">Medijana</span><span class="uz">digitalni blizanac</span>
+  </a>
+  <nav id="glavna-navigacija" aria-label="Glavna navigacija">
+    <a href="index.html">Pregled</a>
+    <a href="blizanac.html">Blizanac 3D</a>
+    <a href="mapa.html" aria-current="page">Mapa</a>
+    <a href="istrazivanje.html">Istraživanje</a>
+    <a href="pokrivenost.html">Pokrivenost</a>
+    <a href="registri.html">Registri</a>
+    <a href="izvori.html">Izvori</a>
+    <a href="index-en.html" class="jezik">EN</a>
+  </nav>
+  <div class="hdr-alat">
+    <a class="dugme-ikona" href="https://github.com/3esign/medijana" title="Repozitorijum na GitHubu" aria-label="Repozitorijum na GitHubu"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.23 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.46-1.3.1-2.71 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.56 1.41.21 2.45.1 2.71.66.72 1.05 1.63 1.05 2.75 0 3.93-2.39 4.8-4.67 5.05.37.32.69.94.69 1.9l-.01 2.82c0 .27.19.59.71.49A10.2 10.2 0 0 0 12 1.8z"/></svg></a>
+  </div>
 </header>
-<div id="pogledi">
-  <button id="btnRegion">Region — povezane lokacije</button>
-  <button id="btnLokalitet">Lokalitet — šematski overlay</button>
+<!--/hdr-->
+<main id="sadrzaj" style="display:contents">
+<div class="traka-mape">
+  <div class="okvir">
+    <div>
+      <div class="nadnaslov">Prostor</div>
+      <h1>Od magistrale do lokaliteta</h1>
+      <p class="sub">Dva pogleda iz istih registara: carska geografija oko Via Diagonalis (<a class="veza" href="data/LOKACIJE.jsonl">LOKACIJE.jsonl</a>) i šematski raspored kompleksa (<a class="veza" href="data/GEOMETRIJA.jsonl">GEOMETRIJA.jsonl</a>) preko današnjeg snimka.</p>
+    </div>
+    <div id="pogledi">
+      <button id="btnRegion" type="button">Region</button>
+      <button id="btnLokalitet" type="button">Lokalitet</button>
+    </div>
+  </div>
 </div>
 <div id="mapa"></div>
 <div id="status"></div>
 <div id="upozorenje" style="display:none"><b>ŠEMATSKI RASPORED — NIJE GEOREFERENCIRANO.</b>
-  Oblici dolaze iz prostornog registra znanja (međusobni položaj je radna pretpostavka, P2 donosi georeferencirani plan).
-  Boja = poreklo mere. Klik na oblik → dokaz.</div>
+  Oblici dolaze iz prostornog registra znanja; međusobni položaj je radna pretpostavka, a P2 donosi georeferencirani plan.
+  Boja = poreklo mere. Klik na oblik otvara dokaz.</div>
+</main>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-const EMBED = new URLSearchParams(location.search).has('embed');
-if(EMBED){for(const s of ['nav.suite','header','#pogledi'])document.querySelector(s).style.display='none';}
-
-const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-async function jsonl(p){const t=await (await fetch(p)).text();return t.split('\n').filter(l=>l.trim()).map(l=>JSON.parse(l));}
-
-const osnovna = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {maxZoom:19, attribution:'&copy; OpenStreetMap'});
-const satelit = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-  {maxZoom:19, attribution:'Esri World Imagery'});
-const mapa = L.map('mapa',{layers:[osnovna], zoomControl:!EMBED});
-L.control.layers({'Karta (OSM)':osnovna,'Satelit (Esri)':satelit},{},{position:'topright'}).addTo(mapa);
-
-const BOJA_TIP = {jezgro:'#c9a24b', grad:'#7d9a6a', carski_kompleks:'#b3542f', nekropola:'#8d7fb3'};
-const BOJA_POUZ = {objavljena_dimenzija:'#8a9a72', izvedeno_iz_povrsine:'#c9a24b', sematski:'#b3542f'};
-const TIP_IME = {jezgro:'Medijana — predmet projekta', grad:'antički grad', carski_kompleks:'carski kompleks', nekropola:'nekropola'};
-
-const slojRegion = L.layerGroup(), slojLokalitet = L.layerGroup();
-let lokacije=[], geometrija=[], pogled=null;
-
-function popupLok(r){
-  return `<div class="pp"><span class="id">${esc(r.id)}${r.anticko_ime?' · '+esc(r.anticko_ime):''}</span>
-    <h3>${esc(r.naziv)}</h3>
-    <span class="badge">${esc(TIP_IME[r.tip]||r.tip)}</span>
-    <span class="badge${r.preciznost==='priblizno'?' p-priblizno':''}">koordinata: ${esc(r.preciznost)}</span>
-    <span class="badge">${esc(r.period)}</span>
-    <p style="margin-top:6px">${esc(r.odnos)}</p>
-    <p>${esc(r.napomena)}</p>
-    <p><b>Izvori:</b> ${(r.izvori||[]).map(i=>i==='opste'?'opšte poznato — čeka referencu':esc(i)).join(', ')} · <a href="izvori.html">bibliografija</a></p></div>`;
-}
-function sagradiRegion(){
-  for(const r of lokacije){
-    const boja = BOJA_TIP[r.tip]||'#888';
-    L.circleMarker([r.lat,r.lon],{radius:r.tip==='jezgro'?10:7, color:boja, weight:2,
-      fillColor:boja, fillOpacity:r.preciznost==='priblizno'?.25:.7})
-      .bindPopup(popupLok(r),{maxWidth:320})
-      .bindTooltip(r.naziv,{direction:'top',offset:[0,-8]})
-      .addTo(slojRegion);
-    if(r.preciznost==='priblizno')
-      L.circle([r.lat,r.lon],{radius:5000,color:boja,weight:1,dashArray:'4 6',fill:false}).addTo(slojRegion);
-  }
-  // Via Diagonalis — šematske prave linije između stanica, ne stvarna trasa puta
-  const stanice=['L-SINGIDUNUM','L-VIMINACIUM','L-NAISSUS','L-MEDIJANA','L-REMESIANA','L-SERDICA','L-KONSTANTINOPOLJ']
-    .map(id=>lokacije.find(r=>r.id===id)).filter(Boolean).map(r=>[r.lat,r.lon]);
-  L.polyline(stanice,{color:'#c9a24b',weight:2,dashArray:'6 8',opacity:.7})
-    .bindTooltip('Via Diagonalis (Via Militaris) — šematska veza stanica, ne stvarna trasa')
-    .addTo(slojRegion);
-}
-
-// lokalni metri (x ka istoku, z ka jugu — pogled odozgo kao u 3D maketi) → geografske koordinate
-const SIDRO=[43.3101,21.9487]; // L-MEDIJANA — vizuelno poravnato sa zaštitnom konstrukcijom vile na satelitskom snimku
-const M_LAT=111320, M_LON=111320*Math.cos(SIDRO[0]*Math.PI/180);
-function tacka(x,z,cx,cz,rot){
-  const a=(rot||0)*Math.PI/180, rx=cx+x*Math.cos(a)-z*Math.sin(a), rz=cz+x*Math.sin(a)+z*Math.cos(a);
-  return [SIDRO[0]-rz/M_LAT, SIDRO[1]+rx/M_LON];
-}
-const pravoug=(x,z,cx,cz,rot,ox=0,oz=0)=>[[-x/2,-z/2],[x/2,-z/2],[x/2,z/2],[-x/2,z/2]].map(([a,b])=>tacka(a+ox,b+oz,cx,cz,rot));
-function luk(r,cx,cz,rot,od,doU,ox=0,oz=0,n=20){
-  const p=[]; for(let i=0;i<=n;i++){const u=od+(doU-od)*i/n; p.push(tacka(ox+r*Math.cos(u), oz+r*Math.sin(u), cx, cz, rot));}
-  return p;
-}
-function popupGeo(el){
-  return `<div class="pp"><span class="id">${esc(el.id)} · ${esc(el.nivo)}</span><h3>${esc(el.naziv)}</h3>
-    <span class="badge p-${esc(el.pouzdanost)}">${esc(el.pouzdanost.replace(/_/g,' '))}</span>
-    <span class="badge p-sematski">položaj: ${esc(el.polozaj)}</span>
-    <p style="margin-top:6px">${esc(el.napomena)}</p>
-    <p><b>Izvori:</b> ${(el.izvori||[]).map(esc).join(', ')} · <a href="blizanac.html">3D maketa</a> · <a href="registri.html">registri</a></p></div>`;
-}
-function sagradiLokalitet(){
-  for(const el of geometrija.filter(el=>el.prikaz!==false)){
-    const boja=BOJA_POUZ[el.pouzdanost]||'#888';
-    const stil={color:boja,weight:2,fillColor:boja,fillOpacity:el.pouzdanost==='sematski'?.18:.32};
-    const [cx,cz]=el.pos, rot=el.rot_deg||0, D=el.dim, delovi=[];
-    switch(el.oblik){
-      case 'kutija': delovi.push(L.polygon(pravoug(D.x,D.z,cx,cz,rot),stil)); break;
-      case 'prsten': delovi.push(L.polygon([pravoug(D.spolja_x,D.spolja_z,cx,cz,rot),
-                                            pravoug(D.unutra_x,D.unutra_z,cx,cz,rot)],stil)); break;
-      case 'kolonada_prsten': delovi.push(L.polygon(pravoug(D.x,D.z,cx,cz,rot),
-        {color:boja,weight:1.5,dashArray:'3 5',fill:false})); break;
-      case 'kolonada_dvoredna': delovi.push(L.polygon(pravoug(D.duzina_x, D.razmak_z, cx, cz, rot),
-        {color:boja,weight:1.5,dashArray:'3 5',fill:false})); break;
-      case 'apsida': delovi.push(L.polygon(
-        [tacka(-D.dubina,-D.r,cx,cz,rot), ...luk(D.r,cx,cz,rot,-Math.PI/2,Math.PI/2), tacka(-D.dubina,D.r,cx,cz,rot)],stil)); break;
-      case 'oktogon': delovi.push(L.polygon(luk(D.r,cx,cz,rot,0,2*Math.PI,0,0,8),stil)); break;
-      case 'bazilika': delovi.push(L.polygon(
-        [tacka(-D.x/2,-D.z/2,cx,cz,rot), tacka(D.x/2,-D.z/2,cx,cz,rot),
-         ...luk(D.r_apside,cx,cz,rot,-Math.PI/2,Math.PI/2,D.x/2,0),
-         tacka(D.x/2,D.z/2,cx,cz,rot), tacka(-D.x/2,D.z/2,cx,cz,rot)],stil)); break;
-      case 'cilindri_mreza': {
-        const kx=(D.po_redu-1)*3.2, kz=(D.redova-1)*4.5;
-        for(let r=0;r<D.redova;r++)for(let c=0;c<D.po_redu;c++)
-          delovi.push(L.circle(tacka(-kx/2+c*3.2,-kz/2+r*4.5,cx,cz,rot),
-            {radius:D.precnik_m/2,color:boja,weight:1,fillColor:boja,fillOpacity:.3}));
-        break; }
-      case 'ravan': delovi.push(L.polygon(pravoug(D.x,D.z,cx,cz,rot),
-        {color:'#3a3225',weight:1,dashArray:'2 6',fill:false})); break;
-    }
-    for(const d of delovi) d.bindPopup(popupGeo(el),{maxWidth:320}).bindTooltip(el.naziv,{direction:'top'}).addTo(slojLokalitet);
-  }
-}
-
-const legenda=L.control({position:'bottomright'});
-legenda.onAdd=()=>{const d=L.DomUtil.create('div','leg');return d;};
-if(!EMBED) legenda.addTo(mapa);
-function legHTML(){
-  return pogled==='region'
-    ? `<b>Povezane lokacije</b>
-       <div class="r"><span class="sw" style="background:#c9a24b"></span>Medijana — predmet projekta</div>
-       <div class="r"><span class="sw" style="background:#7d9a6a"></span>antički grad</div>
-       <div class="r"><span class="sw" style="background:#b3542f"></span>carski kompleks</div>
-       <div class="r"><span class="sw" style="background:#8d7fb3"></span>nekropola</div>
-       <div class="r">— — zlatno: Via Diagonalis (šematski)</div>
-       <div class="r">isprekidan krug = približna koordinata</div>`
-    : `<b>Poreklo mere</b> (isto kao u 3D)
-       <div class="r"><span class="sw sq" style="background:#8a9a72"></span>objavljena dimenzija</div>
-       <div class="r"><span class="sw sq" style="background:#c9a24b"></span>izvedeno iz površine</div>
-       <div class="r"><span class="sw sq" style="background:#b3542f"></span>šematski — čeka plan</div>`;
-}
-
-function prikazi(koji){
-  pogled=koji;
-  document.getElementById('btnRegion').classList.toggle('on',koji==='region');
-  document.getElementById('btnLokalitet').classList.toggle('on',koji==='lokalitet');
-  document.getElementById('upozorenje').style.display=koji==='lokalitet'?'block':'none';
-  slojRegion.remove(); slojLokalitet.remove();
-  if(koji==='region'){
-    slojRegion.addTo(mapa);
-    if(mapa.hasLayer(satelit)){mapa.removeLayer(satelit);osnovna.addTo(mapa);}
-    const sve=lokacije.map(r=>[r.lat,r.lon]);
-    if(sve.length) mapa.fitBounds(sve,{padding:[36,36]});
-  }else{
-    slojLokalitet.addTo(mapa);
-    if(mapa.hasLayer(osnovna)){mapa.removeLayer(osnovna);satelit.addTo(mapa);}
-    mapa.setView(SIDRO,17);
-  }
-  if(!EMBED) legenda.getContainer().innerHTML=legHTML();
-  if(location.hash.slice(1)!==koji) history.replaceState(null,'','#'+koji);
-}
-document.getElementById('btnRegion').onclick=()=>prikazi('region');
-document.getElementById('btnLokalitet').onclick=()=>prikazi('lokalitet');
-
-(async()=>{
-  const st=document.getElementById('status');
-  try{
-    [lokacije,geometrija]=await Promise.all([jsonl('data/LOKACIJE.jsonl'),jsonl('data/GEOMETRIJA.jsonl')]);
-    sagradiRegion(); sagradiLokalitet();
-    prikazi(location.hash.slice(1)==='lokalitet'?'lokalitet':'region');
-  }catch(e){
-    mapa.setView(SIDRO,8);
-    st.style.display='block';
-    st.textContent='Registri se čitaju preko HTTP-a (GitHub Pages ili lokalni server) — otvaranje sa diska ne može da učita data/*.jsonl.';
-  }
-})();
-</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+<script src="assets/mapa.js" defer></script>
 </body>
 </html>

@@ -1,18 +1,61 @@
-<!doctype html>
-<html lang="sr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Medijana · Strana ne postoji</title>
-<meta name="robots" content="noindex">
-<meta name="theme-color" content="#16130e">
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<!--skelet-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>try{var u=new URLSearchParams(location.search).get('tema'),t=u||localStorage.getItem('medijana-tema');document.documentElement.dataset.tema=t==='arhiv'||t==='teren'?t:(matchMedia('(prefers-color-scheme: light)').matches?'arhiv':'teren')}catch(e){document.documentElement.dataset.tema='teren'}</script>
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/sourceserif4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0c0c0b">
+<link rel="stylesheet" href="assets/medijana.css">
+<script src="assets/suite.js" defer></script>
+<!--/skelet-->
+<title>Medijana · Strana ne postoji</title>
+<meta name="robots" content="noindex">
 <style>
-:root{--bg:#16130e;--ink:#ece4d4;--muted:#b3a78e;--line:#514532;--gold:#dfb963}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font:17px/1.65 Georgia,serif;padding:24px}
-main{max-width:620px}.eyebrow{color:var(--gold);letter-spacing:.18em;font:12px system-ui;text-transform:uppercase}
-h1{font-weight:400;font-size:clamp(32px,6vw,56px);line-height:1.1;margin:18px 0}
-p{color:var(--muted)}nav{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);display:flex;gap:18px;flex-wrap:wrap;font:14px system-ui}
-a{color:var(--gold);text-decoration:none}a:hover{text-decoration:underline}:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
-</style></head><body><main>
-<span class="eyebrow">404 · Medijana</span>
-<h1>Ovog sloja<br>nema.</h1>
-<p>Putanja ne postoji u ovoj verziji suite-a. Registri i stranice su ispod.</p>
-<nav aria-label="Glavna navigacija"><a href="index.html">Medijana</a><a href="blizanac.html">Blizanac 3D</a><a href="mapa.html">Mapa</a><a href="istrazivanje.html">Istraživanje</a><a href="pokrivenost.html">Pokrivenost</a><a href="izvori.html">Izvori</a><a href="registri.html">Registri</a><a href="index-en.html">English [EN]</a></nav>
-</main></body></html>
+  main{display:grid;place-items:center;min-height:calc(100dvh - var(--h-hdr));padding:48px 0}
+  .sonda{max-width:640px}
+  .sonda .polje{width:132px;height:132px;border:1px solid var(--l2);position:relative;margin-bottom:34px}
+  .sonda .polje::before,.sonda .polje::after{content:"";position:absolute;background:var(--l2)}
+  .sonda .polje::before{left:50%;top:0;bottom:0;width:1px}
+  .sonda .polje::after{top:50%;left:0;right:0;height:1px}
+  .sonda .kvadrant{position:absolute;right:0;bottom:0;width:50%;height:50%;
+    background-image:repeating-linear-gradient(45deg,color-mix(in srgb,var(--d3) 55%,transparent) 0 2px,transparent 2px 8px)}
+</style>
+</head>
+<body>
+<!--hdr-->
+<a class="skip" href="#sadrzaj">Preskoči na sadržaj</a>
+<header class="hdr">
+  <a class="marka" href="index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="6.4" y="6.4" width="9.6" height="9.6" fill="var(--d1)"/><rect x="16" y="16" width="9.6" height="9.6" fill="var(--d3)" opacity=".5"/><g fill="none" stroke="currentColor"><rect x="6.4" y="6.4" width="19.2" height="19.2" stroke-width="1.7"/><path d="M16 6.4v19.2M6.4 16h19.2" stroke-width="1" opacity=".45"/></g></svg>
+    <span class="ime">Medijana</span><span class="uz">digitalni blizanac</span>
+  </a>
+  <nav id="glavna-navigacija" aria-label="Glavna navigacija">
+    <a href="index.html">Pregled</a>
+    <a href="blizanac.html">Blizanac 3D</a>
+    <a href="mapa.html">Mapa</a>
+    <a href="istrazivanje.html">Istraživanje</a>
+    <a href="pokrivenost.html">Pokrivenost</a>
+    <a href="registri.html">Registri</a>
+    <a href="izvori.html">Izvori</a>
+    <a href="index-en.html" class="jezik">EN</a>
+  </nav>
+  <div class="hdr-alat">
+    <a class="dugme-ikona" href="https://github.com/3esign/medijana" title="Repozitorijum na GitHubu" aria-label="Repozitorijum na GitHubu"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8a10.2 10.2 0 0 0-3.23 19.88c.51.1.7-.22.7-.49l-.01-1.9c-2.84.62-3.44-1.2-3.44-1.2-.47-1.18-1.14-1.5-1.14-1.5-.93-.63.07-.62.07-.62 1.03.07 1.57 1.06 1.57 1.06.91 1.57 2.4 1.12 2.99.86.09-.66.36-1.12.65-1.37-2.27-.26-4.66-1.14-4.66-5.06 0-1.12.4-2.03 1.05-2.75-.1-.26-.46-1.3.1-2.71 0 0 .86-.28 2.81 1.05a9.7 9.7 0 0 1 5.12 0c1.95-1.33 2.81-1.05 2.81-1.05.56 1.41.21 2.45.1 2.71.66.72 1.05 1.63 1.05 2.75 0 3.93-2.39 4.8-4.67 5.05.37.32.69.94.69 1.9l-.01 2.82c0 .27.19.59.71.49A10.2 10.2 0 0 0 12 1.8z"/></svg></a>
+  </div>
+</header>
+<!--/hdr-->
+<main id="sadrzaj">
+  <div class="okvir sonda">
+    <div class="polje" aria-hidden="true"><span class="kvadrant"></span></div>
+    <div class="nadnaslov">404 · prazna sonda</div>
+    <h1 style="margin-top:16px">Ovog sloja nema.</h1>
+    <p class="uvod razmak-s">Putanja ne postoji u ovoj verziji suite-a. Registri i stranice stoje u zaglavlju, a sirovi podaci su u <a class="veza" href="data/">data/</a>.</p>
+    <p class="razmak-m"><a class="dugme glavno" href="index.html">Nazad na pregled<span class="strelica" aria-hidden="true">→</span></a></p>
+  </div>
+</main>
+</body>
+</html>

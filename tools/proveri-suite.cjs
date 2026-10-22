@@ -33,6 +33,19 @@ for (const file of pages) {
   assert.equal(canonical, `${BASE}/${file === 'index.html' ? '' : file}`, where(`pogresan canonical: ${canonical}`));
   assert(fs.existsSync(path.join(root, 'favicon.svg')), 'nema favicon.svg');
 
+  // zajednicki skelet i zaglavlje: jedan sistem, ne stranica po stranica
+  for (const marker of ['<!--skelet-->', '<!--/skelet-->', '<!--hdr-->', '<!--/hdr-->']) {
+    assert(html.includes(marker), where(`nema ${marker} — pokreni tools/uskladi-skelet.cjs`));
+  }
+  assert(html.includes('<link rel="stylesheet" href="assets/medijana.css">'), where('ne ucitava assets/medijana.css'));
+  assert(html.includes('<script src="assets/suite.js" defer></script>'), where('ne ucitava assets/suite.js'));
+  assert(/<header class="hdr">/.test(html), where('nema zajednicko zaglavlje .hdr'));
+  assert(html.includes('class="marka"'), where('zaglavlje bez marke'));
+  assert(html.includes('class="skip"'), where('nema vezu za preskakanje na sadrzaj'));
+  assert(html.includes('id="sadrzaj"'), where('nema cilj #sadrzaj za preskakanje'));
+  // nijedna stranica ne sme da vrati staru zlatno-braon paletu
+  assert(!/#16130e|#c9a24b|Georgia,/.test(html), where('zaostala stara paleta ili Georgia'));
+
   // pristupacnost navigacije
   const nav = (html.match(/<nav[\s\S]*?<\/nav>/) || [])[0];
   assert(nav, where('nema <nav>'));

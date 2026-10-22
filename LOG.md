@@ -73,3 +73,16 @@ Provera: 113 zapisa u 10 registara, validator tools/proveri-registre.cjs prolazi
 - Smoke-test uzivo (HTTP 200): `/`, `index-en.html`, `blizanac.html`, `mapa.html`, `registri.html`, `izvori.html`, `404.html`, `robots.txt`, `sitemap.xml`, `data/GEOMETRIJA.jsonl`. `docs/private/` → 404.
 - Javni `docs/03` sadrzi samo javno objavljive brojke (programski rasponi fondova, kapitalni projekat 9,7 mil. RSD iz javnih izvestaja); pregovaracki `03a_PRVI_KONTAKT` i ceo `07` ostaju u `docs/private/` (gitignore).
 - **Otvoreno — Zenodo DOI:** zahteva rucno ukljucivanje repoa na zenodo.org/account/settings/github (OAuth, ne moze preko tokena). Posle toga: obrisati i ponovo objaviti release ili napraviti `v0.1-p1.1` da webhook uhvati, pa DOI uneti u `CITATION.cff`, `README.md`, `.zenodo.json`.
+
+## 2026-10-23 · Zenodo DOI
+
+Zenodo GitHub integracija uključena (Semir). Webhook `701866193` (event `release`) potvrđen aktivnim.
+Release `v0.1-p1` obrisan i ponovo napravljen da webhook uhvati `release.published` — deposition prošla, `state: done`.
+
+- **Concept DOI (uvek poslednja verzija): `10.5281/zenodo.23580526`**
+- Verzija v0.1-p1: `10.5281/zenodo.23580527` — https://zenodo.org/records/23580527
+
+DOI unet u `CITATION.cff` (`doi:` + oba `identifiers`), `.zenodo.json` (`isVersionOf`), `README.md` (badge + red o citiranju),
+footer `index.html` i `index-en.html`. Oba validatora prolaze: registri `{10,115,14}`, suite `{8,122,47,nav ok,publish ok}`.
+
+Granica: Zenodo zapis nosi ono što je bilo u tagu `v0.1-p1`; sadržaj ovog commita nije u DOI-ju v0.1-p1 dok ne izađe sledeći tag.

@@ -21,6 +21,14 @@ keywords:
   - HBIM
   - London Charter
   - archaeology
+doi: "10.5281/zenodo.23580526"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.23580526"
+    description: "Concept DOI — uvek poslednja verzija / always latest version"
+  - type: doi
+    value: "10.5281/zenodo.23580527"
+    description: "Verzija v0.1-p1"
 repository-code: "https://github.com/3esign/medijana"
 version: 0.1-p1
 date-released: 2026-10-22

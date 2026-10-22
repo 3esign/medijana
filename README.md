@@ -2,6 +2,8 @@
 
 **Digitalni arheološki blizanac i forenzička prostorno-materijalna baza kasnoantičkog carskog kompleksa Medijana**
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23580526.svg)](https://doi.org/10.5281/zenodo.23580526)
+
 Repozitorijum konsoliduje ono čime projekat trenutno raspolaže, kao osnova za razgovor o naučno-tehničkoj saradnji sa Arheološkim institutom u Beogradu, Narodnim muzejom u Nišu i Zavodom za zaštitu spomenika kulture Niš.
 
 ---
@@ -94,6 +96,7 @@ Nalazi, terenska dokumentacija i naučna interpretacija ostaju kod nadležnih us
 - **Istraživački sadržaj** (`docs/`, `data/*.jsonl`, `modeli/`, renderi): [CC BY 4.0](LICENSE-CONTENT).
 - Autorska prava izvornih istraživača i vlasništvo ustanova nad nalazima ovim licencama **nisu** zahvaćeni — granice su izgovorene u [LICENSE-CONTENT](LICENSE-CONTENT).
 - Citiranje: [`CITATION.cff`](CITATION.cff); Zenodo metapodaci: [`.zenodo.json`](.zenodo.json).
+- DOI: [10.5281/zenodo.23580526](https://doi.org/10.5281/zenodo.23580526) (concept — uvek poslednja verzija) · [10.5281/zenodo.23580527](https://doi.org/10.5281/zenodo.23580527) (v0.1-p1).
 
 ## Provera pre objave
 

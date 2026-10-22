@@ -15,6 +15,7 @@
   "language": "srp",
   "version": "0.1-p1",
   "related_identifiers": [
-    { "identifier": "https://github.com/3esign/medijana", "relation": "isSupplementTo", "scheme": "url" }
+    { "identifier": "https://github.com/3esign/medijana", "relation": "isSupplementTo", "scheme": "url" },
+    { "identifier": "10.5281/zenodo.23580526", "relation": "isVersionOf", "scheme": "doi" }
   ]
 }

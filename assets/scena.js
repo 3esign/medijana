@@ -12,6 +12,8 @@ const REC = {
   sr: {
     ceo: 'Ceo kompleks', osnova: 'Osnova', izaberi: 'Izaberi objekat…',
     rek: 'Rekonstrukcija', sac: 'Sačuvano stanje', oznake: 'Oznake', legenda: 'Legenda',
+    /* kratka imena za usku traku na telefonu — isto znacenje, manje mesta */
+    ceoK: 'Ceo', osnovaK: 'Osnova', rekK: 'Rekonstr.', sacK: 'Sačuvano', oznakeK: 'Oznake', legendaK: 'Legenda',
     legendaNaslov: 'Poštena maketa', legendaUvod: 'Radna maketa sa šematskim rasporedom. Ivica nosi poreklo mera:',
     p1: 'objavljena dimenzija', p2: 'izvedeno iz objavljene površine', p3: 'šematski — čeka plan (P2)',
     legendaKraj: 'Klik na objekat otvara njegov dokaz i granice. Međusobni raspored je šematski i nije georeferenciran.',
@@ -26,6 +28,7 @@ const REC = {
   en: {
     ceo: 'Whole complex', osnova: 'Plan', izaberi: 'Select an object…',
     rek: 'Reconstruction', sac: 'Preserved state', oznake: 'Labels', legenda: 'Key',
+    ceoK: 'Whole', osnovaK: 'Plan', rekK: 'Recon.', sacK: 'Preserved', oznakeK: 'Labels', legendaK: 'Key',
     legendaNaslov: 'An honest model', legendaUvod: 'A working model with a schematic layout. The edge carries the origin of each dimension:',
     p1: 'published dimension', p2: 'derived from a published area', p3: 'schematic — awaiting plans (P2)',
     legendaKraj: 'Click an object to open its evidence and limits. The mutual layout is schematic and not georeferenced.',
@@ -166,14 +169,14 @@ export async function pokreniScenu(opcije = {}) {
     <div class="scena-status" role="status">${esc(T.ucitavanje)}</div>
     <div class="scena-kontrole">
       <div class="scena-red">
-        <button type="button" data-radnja="kadar">${esc(T.ceo)}</button>
-        <button type="button" data-radnja="plan" aria-pressed="false">${esc(T.osnova)}</button>
+        <button type="button" data-radnja="kadar"><span class="dugo">${esc(T.ceo)}</span><span class="kratko">${esc(T.ceoK)}</span></button>
+        <button type="button" data-radnja="plan" aria-pressed="false"><span class="dugo">${esc(T.osnova)}</span><span class="kratko">${esc(T.osnovaK)}</span></button>
         <select class="scena-objekat" aria-label="${esc(T.izaberi)}"><option value="">${esc(T.izaberi)}</option></select>
       </div>
-      <button type="button" data-radnja="rek" class="on">${esc(T.rek)}</button>
-      <button type="button" data-radnja="sac">${esc(T.sac)}</button>
-      <button type="button" data-radnja="oznake" class="on">${esc(T.oznake)}</button>
-      <button type="button" data-radnja="legenda" aria-expanded="false" aria-controls="scena-legenda">${esc(T.legenda)}</button>
+      <button type="button" data-radnja="rek" class="on"><span class="dugo">${esc(T.rek)}</span><span class="kratko">${esc(T.rekK)}</span></button>
+      <button type="button" data-radnja="sac"><span class="dugo">${esc(T.sac)}</span><span class="kratko">${esc(T.sacK)}</span></button>
+      <button type="button" data-radnja="oznake" class="on"><span class="dugo">${esc(T.oznake)}</span><span class="kratko">${esc(T.oznakeK)}</span></button>
+      <button type="button" data-radnja="legenda" aria-expanded="false" aria-controls="scena-legenda"><span class="dugo">${esc(T.legenda)}</span><span class="kratko">${esc(T.legendaK)}</span></button>
       ${punaStrana ? '<a class="scena-glb" href="modeli/medijana.glb" download>GLB</a>' : ''}
     </div>
     <aside class="scena-legenda" id="scena-legenda" hidden>
@@ -243,7 +246,7 @@ export async function pokreniScenu(opcije = {}) {
     const gore = koren.classList.contains('scena-pod-zaglavljem')
       ? parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--h-hdr')) || 58 : 0;
     const status = statusEl.getBoundingClientRect(), dole = kontroleEl.getBoundingClientRect();
-    let x0 = 0.055 * w, x1 = 0.945 * w;
+    let x0 = 0.03 * w, x1 = 0.97 * w;
     let y0 = Math.max(gore + 10, status.bottom - c.top + 14);
     let y1 = dole.top - c.top - 18;
     if (!infoEl.hidden && w > 860) x1 = Math.min(x1, infoEl.getBoundingClientRect().left - c.left - 18);

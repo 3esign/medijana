@@ -307,18 +307,23 @@ button.on,.dugme.glavno{color:var(--g0);background:var(--ink);border-color:var(-
 .scena-status:empty{display:none}
 .scena-pod-zaglavljem .scena-status{top:calc(var(--h-hdr) + 12px)}
 
-.scena-kontrole{position:absolute;left:clamp(10px,2vw,16px);bottom:clamp(10px,2vw,16px);
-  display:flex;gap:5px;flex-wrap:wrap;max-width:min(520px,calc(100% - 20px))}
-.scena-red{display:flex;gap:5px;flex-wrap:wrap;width:100%}
+.scena-kontrole{position:absolute;left:50%;transform:translateX(-50%);bottom:clamp(10px,2vw,16px);
+  display:flex;align-items:center;gap:2px;flex-wrap:nowrap;max-width:calc(100% - 20px);
+  padding:4px;border:1px solid var(--l1);border-radius:999px;background:var(--staklo);
+  box-shadow:var(--senka);backdrop-filter:blur(12px);overflow-x:auto;scrollbar-width:none}
+.scena-kontrole::-webkit-scrollbar{display:none}
+.scena-red{display:flex;align-items:center;gap:2px;padding-right:5px;margin-right:3px;
+  border-right:1px solid var(--l1);flex:none}
 .scena-kontrole button,.scena-kontrole .scena-glb{
-  font:500 11px/1 var(--f-sans);color:var(--ink2);background:var(--staklo);
-  border:1px solid var(--l2);border-radius:var(--r);padding:7px 10px;min-height:30px;
+  font:500 11px/1 var(--f-sans);color:var(--ink2);background:transparent;white-space:nowrap;flex:none;
+  border:0;border-radius:999px;padding:7px 11px;min-height:30px;
   cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;transition:var(--pokret)}
-.scena-kontrole button:hover,.scena-kontrole .scena-glb:hover{color:var(--ink);border-color:var(--l3)}
-.scena-kontrole button.on{background:var(--ink);color:var(--g0);border-color:var(--ink)}
-.scena-kontrole select{max-width:190px;min-width:0;flex:1;font-size:11px;padding:6px 8px;
-  background:var(--staklo);border:1px solid var(--l2);border-radius:var(--r);color:var(--ink);min-height:30px}
-.scena-glb{padding:7px 10px}
+.scena-kontrole button:hover,.scena-kontrole .scena-glb:hover{color:var(--ink);background:var(--g2,rgba(0,0,0,.05))}
+.scena-kontrole button.on{background:var(--ink);color:var(--g0)}
+.scena-kontrole select{max-width:178px;min-width:92px;font-size:11px;padding:6px 8px;flex:none;
+  background:transparent;border:0;border-radius:999px;color:var(--ink2);min-height:30px;cursor:pointer}
+.scena-glb{padding:7px 11px}
+.scena-kontrole .kratko{display:none}
 
 .scena-legenda{position:absolute;right:clamp(12px,2vw,18px);bottom:clamp(12px,2vw,18px);
   width:min(300px,calc(100% - 24px));background:var(--staklo);border:1px solid var(--l2);
@@ -363,10 +368,14 @@ button.on,.dugme.glavno{color:var(--g0);background:var(--ink);border-color:var(-
 
 @media (max-width:860px){
   .scena-oznaka{max-width:118px;font-size:10.5px;line-height:1.4}
-  .scena-kontrole{max-width:calc(100% - 20px);gap:4px;left:10px;bottom:10px}
-  .scena-kontrole button,.scena-kontrole .scena-glb{font-size:10.5px;padding:6px 8px;min-height:34px}
-  .scena-red{flex-wrap:nowrap;gap:4px}
-  .scena-kontrole select{flex:1;width:84px;min-height:34px;padding:5px;font-size:10.5px}
+  .scena-kontrole{width:calc(100% - 16px);max-width:calc(100% - 16px);bottom:10px;padding:4px;overflow:visible;
+    flex-wrap:wrap;justify-content:center;row-gap:2px;border-radius:20px}
+  .scena-red{width:100%;justify-content:center;border-right:0;padding-right:0;margin-right:0;
+    border-bottom:1px solid var(--l1);padding-bottom:3px;margin-bottom:2px}
+  .scena-kontrole .dugo{display:none}
+  .scena-kontrole .kratko{display:inline}
+  .scena-kontrole button,.scena-kontrole .scena-glb{font-size:10px;padding:6px 8px;min-height:32px;letter-spacing:-.01em}
+  .scena-kontrole select{min-width:76px;max-width:108px;min-height:32px;padding:4px;font-size:10px}
   .scena-kontrole .scena-glb{display:none}
   .scena-legenda{width:min(320px,calc(100% - 24px));bottom:calc(clamp(12px,2vw,18px) + 92px)}
   .scena-info{top:auto;bottom:calc(clamp(12px,2vw,18px) + 92px);left:clamp(12px,2vw,18px);

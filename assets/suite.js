@@ -4,6 +4,8 @@
   'use strict';
   var KLJUC = 'medijana-tema';
   var doc = document.documentElement;
+  var en = doc.lang === 'en';
+  doc.classList.add('avec-js');
 
   /* ---- tema: teren (tamno) / arhiv (papir) ---- */
   function postavi(t, upisi) {
@@ -13,8 +15,8 @@
     var b = document.getElementById('tema-dugme');
     if (b) {
       var naArhiv = t === 'teren';
-      b.setAttribute('aria-label', naArhiv ? 'Pređi na svetlo (arhiv)' : 'Pređi na tamno (teren)');
-      b.setAttribute('title', naArhiv ? 'Arhiv — svetla podloga' : 'Teren — tamna podloga');
+      b.setAttribute('aria-label', en ? (naArhiv ? 'Switch to light theme' : 'Switch to dark theme') : (naArhiv ? 'Pređi na svetlo (arhiv)' : 'Pređi na tamno (teren)'));
+      b.setAttribute('title', b.getAttribute('aria-label'));
       b.innerHTML = naArhiv ? IKONA.sunce : IKONA.mesec;
     }
     if (upisi) { try { localStorage.setItem(KLJUC, t); } catch (e) {} }
@@ -44,12 +46,12 @@
       meni.type = 'button'; meni.className = 'dugme-ikona meni-dugme';
       meni.setAttribute('aria-controls', nav.id || (nav.id = 'glavna-navigacija'));
       meni.setAttribute('aria-expanded', 'false');
-      meni.setAttribute('aria-label', 'Otvori navigaciju');
+      meni.setAttribute('aria-label', en ? 'Open navigation' : 'Otvori navigaciju');
       meni.innerHTML = IKONA.meni;
       function stanjeMenija(otvoren) {
         doc.dataset.meni = otvoren ? '1' : '0';
         meni.setAttribute('aria-expanded', String(otvoren));
-        meni.setAttribute('aria-label', otvoren ? 'Zatvori navigaciju' : 'Otvori navigaciju');
+        meni.setAttribute('aria-label', en ? (otvoren ? 'Close navigation' : 'Open navigation') : (otvoren ? 'Zatvori navigaciju' : 'Otvori navigaciju'));
         meni.innerHTML = otvoren ? IKONA.zatvori : IKONA.meni;
       }
       meni.addEventListener('click', function () { stanjeMenija(doc.dataset.meni !== '1'); });

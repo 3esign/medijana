@@ -12,3 +12,13 @@ Statički server iz korena suite-a, pa:
 Headless snimak direktno na `--window-size=390,900` **nije** merodavan za mobilni:
 bez emulacije uređaja Chrome ignoriše viewport meta i iseca desktop raspored.
 Zato ove provere idu kroz iframe širine 390px.
+
+Za neposrednu proveru danas se koristi i Chrome DevTools Protocol:
+`Emulation.setDeviceMetricsOverride` sa stvarnom širinom/visinom, a za telefon
+`mobile: true`. Isključiti keš (`Network.setCacheDisabled`) pre navigacije;
+inače stari CSS može dati lažan nalaz kontrasta ili preloma.
+
+`blizanac.html?dijag=1` izlaže read-only `window.medijanaKadar()` sa granicama
+projekcije, raspoloživim pravougaonikom, izabranim objektom i prisutnim ID-jevima.
+Koristi se za proveru da nijedan odabrani objekat nije odsečen i da je sporni
+oktogon izvan scene. Dijagnostika ne šalje mrežne zahteve.

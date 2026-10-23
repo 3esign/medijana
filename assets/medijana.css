@@ -51,7 +51,7 @@
 :root,
 html[data-tema="teren"]{
   --g0:#0c0c0b; --g1:#131312; --g2:#1a1a18; --g3:#232320;
-  --ink:#eeebe5; --ink2:#a5a29b; --ink3:#726f69;
+  --ink:#eeebe5; --ink2:#a5a29b; --ink3:#939087;
   --l1:rgba(238,235,229,.09); --l2:rgba(238,235,229,.17); --l3:rgba(238,235,229,.30);
   --raster:rgba(238,235,229,.045);
   --staklo:rgba(12,12,11,.74);
@@ -61,7 +61,7 @@ html[data-tema="teren"]{
 /* arhiv — papir za crtanje */
 html[data-tema="arhiv"]{
   --g0:#f3f1ec; --g1:#fbfaf7; --g2:#eceae3; --g3:#e3e0d8;
-  --ink:#171614; --ink2:#55524c; --ink3:#817d75;
+  --ink:#171614; --ink2:#55524c; --ink3:#625f58;
   --l1:rgba(23,22,20,.12); --l2:rgba(23,22,20,.22); --l3:rgba(23,22,20,.38);
   --raster:rgba(23,22,20,.055);
   --staklo:rgba(243,241,236,.80);
@@ -144,7 +144,7 @@ code,.mono,.id{font-family:var(--f-mono);font-size:.86em;letter-spacing:-.01em}
   padding-left:10px;border-left:1px solid var(--l2)}
 .hdr-alat{display:flex;align-items:center;gap:6px;margin-left:auto;flex:none}
 .dugme-ikona{
-  width:34px;height:34px;min-height:34px;padding:0;display:grid;place-items:center;border:1px solid transparent;border-radius:var(--r);
+  width:40px;height:40px;min-height:40px;padding:0;display:grid;place-items:center;border:1px solid transparent;border-radius:var(--r);
   background:none;color:var(--ink2);cursor:pointer;text-decoration:none;transition:var(--pokret)}
 .dugme-ikona:hover{color:var(--ink);background:var(--g2);border-color:var(--l1)}
 .dugme-ikona svg{width:17px;height:17px;display:block}
@@ -180,6 +180,10 @@ code,.mono,.id{font-family:var(--f-mono);font-size:.86em;letter-spacing:-.01em}
     margin-top:6px;padding-top:16px;border-radius:var(--r)}
 }
 @media (max-width:420px){ .marka .ime{font-size:12.5px;letter-spacing:.14em} }
+@media(max-width:1040px){
+  html:not(.avec-js) .hdr{height:auto;flex-wrap:wrap;position:relative}
+  html:not(.avec-js) .hdr nav{position:static;opacity:1;visibility:visible;pointer-events:auto;transform:none;width:100%;box-shadow:none}
+}
 
 /* ---------- konvencija crteza: znakovi dokaza ---------------------------- */
 .znak{

@@ -3,28 +3,48 @@
 (function () {
   'use strict';
   var E = MED.esc;
+  var en = document.documentElement.lang === 'en';
   var REG = ['GEOMETRIJA', 'HIPOTEZE', 'HRONOLOGIJA', 'IZVORI', 'KONTRADIKCIJE',
     'LOKACIJE', 'NIVOI', 'PITANJA', 'RECNIK', 'VEZE_IZVORA'];
 
-  /* --- ziva 3D podloga samo tamo gde ima smisla (sirok ekran, bez ustede) --- */
+  /* Preview keeps its static fallback until the renderer confirms readiness. */
   var pozadina = document.getElementById('hero-pozadina');
   var usporeno = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var stednja = navigator.connection && (navigator.connection.saveData ||
     /2g/.test(navigator.connection.effectiveType || ''));
-  if (pozadina && innerWidth >= 980 && !usporeno && !stednja) {
-    var okvir = document.createElement('iframe');
-    okvir.src = 'blizanac.html?embed=1&okret=1';
-    okvir.title = '3D radna maketa Medijane — živa podloga';
+  var okvir, pogled='3d', pokreni=document.getElementById('pokreni-prikaz');
+  function posalji(){
+    if(!okvir || pozadina.dataset.ready!=='true')return;
+    okvir.contentWindow.postMessage({type:'medijana-theme',theme:document.documentElement.dataset.tema},location.origin);
+    okvir.contentWindow.postMessage({type:'medijana-view',view:pogled},location.origin);
+  }
+  function ucitaj(){
+    if(!pozadina||okvir)return;
+    okvir = document.createElement('iframe');
+    okvir.src = 'blizanac.html?embed=1&tema='+document.documentElement.dataset.tema;
+    okvir.title = en ? 'Schematic spatial preview of Mediana' : 'Šematski prostorni pregled Medijane';
     okvir.setAttribute('tabindex', '-1');
     okvir.setAttribute('aria-hidden', 'true');
-    okvir.loading = 'lazy';
     okvir.style.pointerEvents = 'none';
-    okvir.addEventListener('load', function () {
-      var slika = pozadina.querySelector('img');
-      if (slika) slika.remove();
-    });
+    pokreni.hidden=true;
     pozadina.appendChild(okvir);
+    setTimeout(function(){if(pozadina.dataset.ready!=='true'){
+      document.getElementById('prikaz-stanje').textContent=en?'Static preview · open the twin to retry':'Statični pregled · otvori blizanac za novi pokušaj';
+    }},12000);
   }
+  addEventListener('message',function(e){
+    if(!okvir||e.source!==okvir.contentWindow||e.origin!==location.origin)return;
+    if(e.data?.type==='medijana-ready'){pozadina.dataset.ready='true';posalji();}
+    if(e.data?.type==='medijana-failed'){pozadina.dataset.ready='false';document.getElementById('prikaz-stanje').textContent=en?'Static preview · 3D unavailable':'Statični pregled · 3D nije dostupan';}
+  });
+  document.querySelectorAll('[data-pogled]').forEach(function(b){b.addEventListener('click',function(){
+    pogled=b.dataset.pogled;
+    document.querySelectorAll('[data-pogled]').forEach(function(t){t.setAttribute('aria-pressed',String(t===b))});
+    ucitaj();posalji();
+  })});
+  new MutationObserver(posalji).observe(document.documentElement,{attributes:true,attributeFilter:['data-tema']});
+  if(pokreni)pokreni.addEventListener('click',ucitaj);
+  if(pozadina){if(!usporeno&&!stednja)ucitaj();else pokreni.hidden=false;}
 
   Promise.all(REG.map(function (r) { return MED.jsonl('data/' + r + '.jsonl'); }))
     .then(function (nizovi) {
@@ -54,22 +74,22 @@
 
       /* --- traka dokaza --- */
       var klase = [
-        ['objavljena_dimenzija', 's1', 'objavljena mera'],
-        ['izvedeno_iz_povrsine', 's2', 'izvedeno iz objavljenog podatka'],
-        ['sematski', 's3', 'šematsko — čeka plan']
+        ['objavljena_dimenzija', 's1', en?'published dimension':'objavljena mera'],
+        ['izvedeno_iz_povrsine', 's2', en?'derived dimension':'izvedeno iz objavljenog podatka'],
+        ['sematski', 's3', en?'schematic — awaiting plans':'šematsko — čeka plan']
       ];
       var traka = document.getElementById('traka-dokaza');
       var delovi = klase.map(function (k) {
         return { kod: k[0], cls: k[1], ime: k[2], n: prikazani.filter(function (g) { return g.pouzdanost === k[0]; }).length };
       });
-      if (iskljuceni) delovi.push({ kod: 'iskljuceno', cls: 'sx', ime: 'sporno — izvan prikaza', n: iskljuceni });
+      if (iskljuceni) delovi.push({ kod: 'iskljuceno', cls: 'sx', ime: en?'disputed — excluded':'sporno — izvan prikaza', n: iskljuceni });
       var ukupno = delovi.reduce(function (s, d) { return s + d.n; }, 0) || 1;
       if (traka) {
         traka.innerHTML = delovi.filter(function (d) { return d.n; }).map(function (d) {
           return '<span class="' + d.cls + '" style="width:' + (d.n / ukupno * 100).toFixed(2) + '%" ' +
             'title="' + E(d.ime) + ': ' + d.n + '"></span>';
         }).join('');
-        traka.setAttribute('aria-label', 'Klase dokaza u registru geometrije: ' +
+        traka.setAttribute('aria-label', (en?'Evidence classes: ':'Klase dokaza u registru geometrije: ') +
           delovi.map(function (d) { return d.ime + ' ' + d.n; }).join(', '));
       }
       delovi.forEach(function (d) {
@@ -77,8 +97,8 @@
         if (el) el.textContent = d.n + ' / ' + geom.length + ' · ' + Math.round(d.n / geom.length * 100) + '%';
       });
       var tn = document.getElementById('traka-note');
-      if (tn) tn.innerHTML = geom.length + ' elemenata u <a class="veza" href="data/GEOMETRIJA.jsonl">GEOMETRIJA.jsonl</a>' +
-        (iskljuceni ? ' · ' + iskljuceni + ' izvan prikaza zbog spornog identiteta' : '') + '.';
+      if (tn) tn.innerHTML = geom.length + (en?' elements in ':' elemenata u ')+'<a class="veza" href="data/GEOMETRIJA.jsonl">GEOMETRIJA.jsonl</a>' +
+        (iskljuceni ? ' · ' + iskljuceni + (en?' excluded due to disputed identity':' izvan prikaza zbog spornog identiteta') : '') + '.';
 
       /* --- nivoi N0–N6 --- */
       var nivoi = document.getElementById('nivoi');
@@ -99,8 +119,7 @@
     })
     .catch(function (e) {
       var n = document.getElementById('brojke-note');
-      if (n) n.innerHTML = '<b>Registri se čitaju preko HTTP-a.</b> Otvaranje stranice direktno sa diska ne može da učita <code>data/*.jsonl</code>, pa brojevi ostaju neispisani. ' +
-        '(' + E(e.message) + ')';
+      if (n) n.textContent = en ? 'Registry data could not be loaded. Reload the page to try again; the spatial preview remains available.' : 'Podaci registra trenutno nisu dostupni. Osveži stranicu za novi pokušaj; prostorni pregled ostaje dostupan.';
       ['nivoi', 'osa-kratka', 'traka-dokaza'].forEach(function (id) {
         var el = document.getElementById(id);
         if (el) el.remove();

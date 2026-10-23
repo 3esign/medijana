@@ -97,10 +97,13 @@ prikaz nije imao `<nav>` uopšte).
 
 ## 5. Pristupačnost i otpornost
 
-- Kontrast teksta i podloge ≥ 4.5:1 u obe teme; `:focus-visible` je vidljiv
-  prsten, ne uklonjen outline.
+- Sekundarni tekst (`--ink3`) prema četiri pune podloge ima izmeren kontrast
+  najmanje 4,83:1 u svetloj i 4,94:1 u tamnoj temi. Ovo nije potpuna WCAG revizija;
+  prozirni slojevi i spoljne pločice mape traže zasebnu proveru. `:focus-visible`
+  je vidljiv prsten, ne uklonjen outline.
 - Klasa dokaza se nikad ne prenosi **samo** bojom (vidi tačku 2).
-- `prefers-reduced-motion` gasi prelaze i automatsku rotaciju 3D podloge.
+- Naslovna nema automatsku rotaciju. `prefers-reduced-motion` i štednja podataka
+  zadržavaju statični render do izričitog pokretanja pregleda.
 - Naslovna bez JavaScript-a prikazuje statičan render i ceo tekst; brojke se
   tada ne ispisuju i to se kaže, umesto da se upišu rukom.
 - Štampa (`@media print`) skida zaglavlje i kontrole; kartice se ne lome.
@@ -115,3 +118,37 @@ prikaz nije imao `<nav>` uopšte).
 - Nije dokaz tačnosti. Vizuelni red ne zamenjuje recenziju ni terenski plan.
 - Nije konačan. Kad u P2 stignu geodetski plan i HBIM, dodaje se peti znak —
   **mereno na terenu** — i tek tada šrafura počinje da se povlači.
+
+## 7. Prostorni interfejs — završni prolaz, 23.10.2026
+
+Naslovna razdvaja uvod i prostorni instrument: tekst levo, stabilan 3D prikaz
+desno; na telefonu su jedan ispod drugog. Dugmad 3D / Osnova menjaju pogled iste
+scene. Osnova je pogled odozgo na šematski model, ne digitalizovan terenski plan.
+Veza na regionalnu mapu ostaje zasebna. Oba jezika koriste isti raspored i kod.
+
+U punom pregledaču izbor objekta otvara njegov dosije i uokviruje ga uz slobodan
+prostor za panel. Ceo kompleks vraća kadar; Osnova menja pravac kamere. Izbor
+objekta je dostupan i iz standardnog polja tastaturom. Povlačenje kamere ne
+otvara dosije na kraju gesta. Legenda se otvara po potrebi.
+
+Kamera uklapa projektovane granice vidljivih objekata, a ne teren ili samo
+obuhvatnu kuglu. Posle izbora objekta, promene veličine ili prikaza računa se
+raspoloživ prostor. Scena se ponovo crta kada se nešto promeni, bez stalnog
+okretanja i prazne petlje. Zamenjeni materijali i geometrije se oslobađaju.
+
+Statična slika ostaje prisutna dok 3D scena ne potvrdi spremnost. Sam događaj
+učitavanja iframe-a nije potvrda da su WebGL, moduli i registri dostupni.
+
+**Provera:** 126 browser kontrola; svih osam stranica na 390, 768 i 1440 px;
+kadriranje na 390×844, 768×1024, 1440×960, 1920×1080 i 844×390. Provereni su
+izbor, reset, prikaz sačuvanih visina, meni i Escape, tema u ugrađenoj sceni,
+smanjeno kretanje, nedostupan CDN i statičan sadržaj bez JavaScript-a. Pregledana
+su tri vizuelna prolaza. Provera je izvedena u desktop Chromiumu sa emulacijom;
+fizički telefon, Safari i čitač ekrana nisu ispitani. Arheološki registri i
+njihove tvrdnje nisu ponovo proveravani ovim dizajnerskim zahvatom.
+
+**Kapija lepote:** rečenica je „istraži prostor i proveri izvor“; brojke dolaze
+iz registara; uklonjeni su tekst preko modela, stalno okretanje i prevelika
+legenda; redosled je lokalitet → pregled → istraživanje; kretanje odgovara izboru;
+naslovna ne zavisi od gradijenata, zamućenja ili senki; granice pristupačnosti
+i kompatibilnosti navedene su iznad.

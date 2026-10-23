@@ -30,25 +30,6 @@
 <meta name="twitter:card" content="summary_large_image">
 <!--/launch-meta-->
 <style>
-  .hero{position:relative;min-height:min(86vh,760px);display:grid;grid-template-columns:minmax(0,1fr);
-    align-content:end;overflow:hidden;border-bottom:1px solid var(--l1)}
-  .hero-pozadina{position:absolute;inset:0;z-index:0;background:var(--g1)}
-  .hero-pozadina img,.hero-pozadina iframe{width:100%;height:100%;object-fit:cover;border:0;display:block}
-  .hero-veo{position:absolute;inset:0;z-index:1;pointer-events:none;
-    background:
-      linear-gradient(180deg,var(--g0) 0%,color-mix(in srgb,var(--g0) 42%,transparent) 28%,color-mix(in srgb,var(--g0) 34%,transparent) 56%,var(--g0) 93%),
-      linear-gradient(100deg,var(--g0) 0%,color-mix(in srgb,var(--g0) 80%,transparent) 36%,color-mix(in srgb,var(--g0) 8%,transparent) 68%)}
-  .hero-raster{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.6}
-  .hero>*{width:100%}
-  .hero-sadrzaj{position:relative;z-index:2;padding-block:clamp(40px,8vh,90px) 0}
-  .hero .podnaslov{font-family:var(--f-serif);font-size:clamp(18px,2.2vw,25px);line-height:1.35;color:var(--ink2);margin-top:10px;max-width:26ch}
-  .hero .uvod{margin-top:22px}
-  .akcije{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
-  .hero-dno{position:relative;z-index:2;margin-top:clamp(34px,6vh,64px)}
-  .hero-dno .brojke{grid-template-columns:repeat(auto-fit,minmax(168px,1fr));
-    background:color-mix(in srgb,var(--g1) 86%,transparent);
-    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-  .brojka:last-child{border-right:0}
   .konvencije{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:26px}
   .konvencija{border:1px solid var(--l1);border-radius:var(--r);padding:16px 18px;background:var(--g1)}
   .uzorak{height:46px;border-radius:2px;margin-bottom:14px;border:1px solid var(--l2)}
@@ -63,6 +44,7 @@
   .dve-kolone{display:grid;gap:clamp(22px,4vw,56px);grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
   @media (max-width:860px){.dve-kolone{grid-template-columns:1fr}}
 </style>
+<link rel="stylesheet" href="assets/landing.css">
 </head>
 <body>
 <!--hdr-->
@@ -90,30 +72,39 @@
 <main id="sadrzaj">
 
 <div class="hero">
-  <div class="hero-pozadina" id="hero-pozadina">
-    <img src="assets/blizanac-render.png" alt="Render of the 3D working model of the Mediana complex — colour encodes the provenance of each measurement" width="1600" height="900">
-  </div>
-  <div class="hero-veo"></div>
-  <div class="hero-raster raster"></div>
   <div class="hero-sadrzaj okvir">
-    <div class="nadnaslov">Naissus · ad tertium lapidem · 4th century AD</div>
+    <div class="nadnaslov">Niš, Serbia · imperial estate · 4th century</div>
     <h1 class="display">Mediana</h1>
-    <p class="podnaslov">A Late Antique imperial residence, read as evidence.</p>
-    <p class="uvod">Ninety years of excavation (1936–2026) translated into an open, verifiable spatial model. Every form carries the provenance of its measurement: what is published is drawn solid, what is derived is tinted, and what is a hypothesis <strong>is drawn as a hypothesis</strong> — and looks like one.</p>
+    <p class="podnaslov">A place to explore.<br> A record to question.</p>
+    <p class="uvod">Explore the imperial estate at Mediana through a working spatial model, published sources and open research questions. Every dimension keeps its provenance; the layout remains schematic.</p>
     <div class="akcije">
       <a class="dugme glavno veliko" href="blizanac.html">Enter the twin<span class="strelica" aria-hidden="true">→</span></a>
-      <a class="dugme veliko" href="#language">The visual language</a>
+      <a class="dugme veliko" href="#language">How to read the evidence</a>
     </div>
   </div>
+  <section class="hero-prikaz" aria-label="Spatial preview">
+    <div class="prikaz-zaglavlje"><span class="prikaz-naslov">01 / The complex</span>
+      <div class="prikaz-izbor" role="group" aria-label="View">
+        <button type="button" data-pogled="3d" aria-pressed="true">3D</button>
+        <button type="button" data-pogled="plan" aria-pressed="false">Plan</button>
+      </div>
+    </div>
+    <div class="hero-pozadina" id="hero-pozadina">
+      <img src="assets/blizanac-render.png" alt="Schematic working model of Mediana" width="1600" height="900">
+      <button type="button" id="pokreni-prikaz" hidden>Load 3D preview</button>
+    </div>
+    <div class="prikaz-podnozje"><span id="prikaz-stanje" role="status">Working model · schematic layout</span><a href="blizanac.html">Explore ↗</a></div>
+    <div class="prikaz-kljuc"><span class="znak d1">Published</span><span class="znak d2">Derived</span><span class="znak d3">Schematic</span><a href="mapa.html">Regional map →</a></div>
+  </section>
   <div class="hero-dno okvir">
     <div class="brojke">
       <div class="brojka"><span class="v" data-broj="geometrija">—</span><span class="k">spatial elements</span></div>
       <div class="brojka"><span class="v" data-broj="izvori">—</span><span class="k">bibliographic records</span></div>
-      <div class="brojka"><span class="v" data-broj="hipoteze">—</span><span class="k">hypotheses under test</span></div>
+      <div class="brojka"><span class="v" data-broj="hipoteze">—</span><span class="k">research hypotheses</span></div>
       <div class="brojka"><span class="v" data-broj="lokacije">—</span><span class="k">linked sites</span></div>
       <div class="brojka"><span class="v" data-broj="zapisi">—</span><span class="k">records in registries</span></div>
     </div>
-    <p class="sitno" style="margin-top:10px;color:var(--ink3)" id="brojke-note">Figures are read live from <a class="veza" href="data/">data/*.jsonl</a> — nothing is transcribed by hand.</p>
+    <p class="sitno" style="margin-top:10px;color:var(--ink3)" id="brojke-note">Phase P1 · An open research model, awaiting survey plans. <a class="veza" href="pokrivenost.html">Evidence and limits →</a></p>
   </div>
 </div>
 

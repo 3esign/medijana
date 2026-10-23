@@ -18,6 +18,12 @@ assert(result.find(r=>r.id==='G-OKTOGON').tasks.some(t=>t.includes('neusaglašen
 assert.equal(g.find(r=>r.id==='G-OKTOGON').prikaz,false,'Disputed site identity must stay excluded');
 for(const row of s){for(const id of row.verification?.related_sources||[])assert(sourceIds.has(id));}
 for(const link of links){for(const id of link.evidence||[])assert(sourceIds.has(id));}
+// Isti registar oblika kao sajt: nov zapis sa nepoznatim oblikom ili rupom u dim pada ovde, ne tek u pregledaču.
+const oblici=import(require('node:url').pathToFileURL(path.join(root,'assets','scena','oblici.js')).href);
+oblici.then(({proveriZapis})=>{
+ for(const row of g){if(row.prikaz===false)continue;const e=proveriZapis(row);assert.equal(e.length,0,`${row.id}: ${e.join('; ')}`);}
+ console.log(JSON.stringify({shapeCheck:g.filter(r=>r.prikaz!==false).length}));
+}).catch(e=>{console.error(e);process.exit(1)});
 const glb=fs.readFileSync(path.join(root,'modeli','medijana.glb'));
 const gltf=JSON.parse(glb.subarray(20,20+glb.readUInt32LE(12)).toString());
 assert(!gltf.nodes.some(n=>(n.name||'').includes('G-OKTOGON')),'GLB must exclude disputed octagon');

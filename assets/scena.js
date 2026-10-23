@@ -6,6 +6,7 @@
 
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { OBLICI, proveriZapis } from './scena/oblici.js';
 
 const REC = {
   sr: {
@@ -68,6 +69,8 @@ export async function pokreniScenu(opcije = {}) {
   /* ---------- renderer, scena, kamera ---------- */
   const scena = new THREE.Scene();
   scena.background = new THREE.Color(PAPIR);
+  /* blaga dubinska atmosfera: daleki krajevi makete tonu u papir */
+  scena.fog = new THREE.Fog(new THREE.Color(PAPIR), 700, 3200);
   const kamera = new THREE.PerspectiveCamera(50, 1, 0.1, 5000);
   const renderer = new THREE.WebGLRenderer({ antialias: !slabiji, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(devicePixelRatio, slabiji ? 1.5 : 2));
@@ -106,6 +109,16 @@ export async function pokreniScenu(opcije = {}) {
   };
   const kutija = (x, y, z) => new THREE.BoxGeometry(x, y, z);
 
+  /* kontaktna senka: meka mrlja pod objektom — radi i na uređajima bez pravih senki */
+  const senkaTex = (() => {
+    const c = document.createElement('canvas'); c.width = c.height = 128;
+    const cx = c.getContext('2d');
+    const gr = cx.createRadialGradient(64, 64, 8, 64, 64, 62);
+    gr.addColorStop(0, 'rgba(40,36,30,0.30)'); gr.addColorStop(0.7, 'rgba(40,36,30,0.12)'); gr.addColorStop(1, 'rgba(40,36,30,0)');
+    cx.fillStyle = gr; cx.fillRect(0, 0, 128, 128);
+    return new THREE.CanvasTexture(c);
+  })();
+
   function oblik(e, h) {
     const g = new THREE.Group(), m = materijal(e), D = e.dim;
     const dodaj = (geo, px = 0, pz = 0, ry = 0, py = h / 2) => {
@@ -114,50 +127,19 @@ export async function pokreniScenu(opcije = {}) {
       if (!slabiji) M.castShadow = M.receiveShadow = true;
       g.add(M); return M;
     };
-    switch (e.oblik) {
-      case 'kutija': dodaj(kutija(D.x, h, D.z)); break;
-      case 'prsten': {
-        const tx = (D.spolja_x - D.unutra_x) / 2, tz = (D.spolja_z - D.unutra_z) / 2;
-        dodaj(kutija(D.spolja_x, h, tz), 0, -(D.unutra_z + tz) / 2);
-        dodaj(kutija(D.spolja_x, h, tz), 0, (D.unutra_z + tz) / 2);
-        dodaj(kutija(tx, h, D.unutra_z), -(D.unutra_x + tx) / 2, 0);
-        dodaj(kutija(tx, h, D.unutra_z), (D.unutra_x + tx) / 2, 0);
-        break; }
-      case 'kolonada_prsten': {
-        const vs = Math.min(h, D.visina_stuba_m), geo = new THREE.CylinderGeometry(D.precnik_stuba_m / 2, D.precnik_stuba_m / 2, vs, 12);
-        const hx = D.x / 2 - 1, hz = D.z / 2 - 1, korak = D.razmak_m;
-        for (let x = -hx; x <= hx; x += korak) { dodaj(geo.clone(), x, -hz, 0, vs / 2); dodaj(geo.clone(), x, hz, 0, vs / 2); }
-        for (let z = -hz + korak; z <= hz - korak; z += korak) { dodaj(geo.clone(), -hx, z, 0, vs / 2); dodaj(geo.clone(), hx, z, 0, vs / 2); }
-        break; }
-      case 'kolonada_dvoredna': {
-        const vs = Math.min(h, D.visina_m || h);
-        const geo = new THREE.CylinderGeometry(D.precnik_m / 2, D.precnik_m / 2, vs, 12);
-        const n = Math.floor(D.duzina_x / D.razmak_x) + 1, x0 = -D.duzina_x / 2;
-        for (const z_off of [-D.razmak_z / 2, D.razmak_z / 2])
-          for (let i = 0; i < n; i++) dodaj(geo.clone(), x0 + i * D.razmak_x, z_off, 0, vs / 2);
-        break; }
-      case 'apsida': {
-        dodaj(kutija(D.dubina, h, D.r * 2), -D.dubina / 2, 0);
-        dodaj(new THREE.CylinderGeometry(D.r, D.r, h, 24, 1, false, 0, Math.PI), 0, 0, Math.PI / 2);
-        break; }
-      case 'oktogon': dodaj(new THREE.CylinderGeometry(D.r, D.r, h, 8)); break;
-      case 'bazilika': {
-        dodaj(kutija(D.x, h, D.z));
-        dodaj(new THREE.CylinderGeometry(D.r_apside, D.r_apside, h, 24, 1, false, 0, Math.PI), D.x / 2, 0, -Math.PI / 2);
-        break; }
-      case 'cilindri_mreza': {
-        const geo = new THREE.CylinderGeometry(D.precnik_m / 2, D.precnik_m / 2, D.visina_m, 14);
-        const kx = (D.po_redu - 1) * 3.2, kz = (D.redova - 1) * 4.5;
-        for (let r = 0; r < D.redova; r++) for (let c = 0; c < D.po_redu; c++)
-          dodaj(geo.clone(), -kx / 2 + c * 3.2, -kz / 2 + r * 4.5, 0, D.visina_m / 2 - 0.8);
-        break; }
-      case 'ravan': {
-        const M = new THREE.Mesh(new THREE.PlaneGeometry(D.x, D.z), new THREE.MeshStandardMaterial({ color: TLO, roughness: 1 }));
-        M.rotation.x = -Math.PI / 2; if (!slabiji) M.receiveShadow = true; g.add(M);
-        const mreza = new THREE.GridHelper(Math.max(D.x, D.z), Math.max(D.x, D.z) / 20, MREZA, MREZA);
-        mreza.material.opacity = 0.4; mreza.material.transparent = true;
-        mreza.position.y = 0.02; g.add(mreza);
-        break; }
+    const greske = proveriZapis(e);
+    if (greske.length) console.warn(`GEOMETRIJA ${e.id}: ${greske.join('; ')}`);
+    OBLICI[e.oblik]?.gradi({ THREE, dodaj, kutija, D, h, g, TLO, PAPIR, MREZA, slabiji });
+    /* mrlja ispod svake građevine, iz lokalnog obima grupe */
+    if (e.tip !== 'teren' && e.oblik !== 'ravan' && g.children.length) {
+      const box = new THREE.Box3().setFromObject(g);
+      const sx = (box.max.x - box.min.x) * 1.35, sz = (box.max.z - box.min.z) * 1.35;
+      const S = new THREE.Mesh(new THREE.PlaneGeometry(sx, sz),
+        new THREE.MeshBasicMaterial({ map: senkaTex, transparent: true, depthWrite: false, opacity: slabiji ? 0.9 : 0.55 }));
+      S.rotation.x = -Math.PI / 2;
+      S.position.set((box.min.x + box.max.x) / 2, 0.05, (box.min.z + box.max.z) / 2);
+      S.renderOrder = -1; S.userData.senka = true;
+      g.add(S);
     }
     g.position.set(e.pos[0], 0, e.pos[1]);
     g.rotation.y = (e.rot_deg || 0) * Math.PI / 180;
@@ -364,7 +346,9 @@ export async function pokreniScenu(opcije = {}) {
     for (const g of grupe) {
       if (g.el.tip === 'teren' || (trazeniKadar && g.el.id !== trazeniKadar)) continue;
       g.obj.updateWorldMatrix(true, true);
-      const box = new THREE.Box3().setFromObject(g.obj);
+      /* kontaktne senke ne ulaze u kadar: šire su od objekta */
+      const box = new THREE.Box3();
+      g.obj.traverse(o => { if (o.isMesh && !o.userData.senka) box.expandByObject(o); });
       for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z])
         points.push(new THREE.Vector3(x, y, z));
     }

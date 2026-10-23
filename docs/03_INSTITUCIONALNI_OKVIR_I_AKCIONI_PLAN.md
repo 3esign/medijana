@@ -49,7 +49,8 @@ Za uspeh projekta ključno je precizno razumevanje nadležnosti i uloga postoje�
 Pilot projekta u okviru saradnje sa Arheološkim institutom predstavlja
 početni pregled objavljenih izvora, radne 3D makete i istraživačkih pitanja.
 
-**doc. dr Bojan Končarević · doc. dr Poturak Semir**  
+**doc. dr Bojan Končarević · doc. dr Poturak Semir**
+
 Univerzitet Union – Nikola Tesla · Fakultet za graditeljski menadžment
 
 Sledeća faza podrazumeva dogovor o objektu, dostupnim planovima, pravima

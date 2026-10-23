@@ -6,7 +6,8 @@
 
 Pilot projekta u okviru saradnje sa Arheološkim institutom. Početna faza objedinjuje objavljene izvore, radnu 3D maketu i pitanja za zajedničku stručnu proveru.
 
-**doc. dr Bojan Končarević · doc. dr Poturak Semir**  
+**doc. dr Bojan Končarević · doc. dr Poturak Semir**
+
 Univerzitet Union – Nikola Tesla · Fakultet za graditeljski menadžment
 
 Project pilot within the collaboration with the Institute of Archaeology. Authors: Assist. Prof. Dr Bojan Končarević · Assist. Prof. Dr Semir Poturak. Union – Nikola Tesla University · Faculty of Construction Management.

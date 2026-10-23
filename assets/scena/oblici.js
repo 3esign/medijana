@@ -80,11 +80,18 @@ export const OBLICI = {
       cx.fillStyle = gr; cx.fillRect(0, 0, 512, 512);
       const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
       const M = new THREE.Mesh(new THREE.PlaneGeometry(D.x, D.z),
-        new THREE.MeshStandardMaterial({ map: tex, roughness: 1 }));
+        new THREE.MeshStandardMaterial({ map: tex, roughness: 1, polygonOffset: true, polygonOffsetFactor: 2, polygonOffsetUnits: 2 }));
       M.rotation.x = -Math.PI / 2; if (!slabiji) M.receiveShadow = true; g.add(M);
-      const mreza = new THREE.GridHelper(Math.max(D.x, D.z), Math.max(D.x, D.z) / 20, MREZA, MREZA);
-      mreza.material.opacity = 0.4; mreza.material.transparent = true;
-      mreza.position.y = 0.02; g.add(mreza);
+      /* raster tačno u granicama tla (GridHelper je kvadrat pa je virio preko
+         ivica) i dignut iznad podloge da dubinski ne treperi sa njom */
+      const korak = 20, poz = [];
+      for (let x = -D.x / 2; x <= D.x / 2 + 1e-6; x += korak) poz.push(x, 0, -D.z / 2, x, 0, D.z / 2);
+      for (let z = -D.z / 2; z <= D.z / 2 + 1e-6; z += korak) poz.push(-D.x / 2, 0, z, D.x / 2, 0, z);
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(poz, 3));
+      const mreza = new THREE.LineSegments(geo,
+        new THREE.LineBasicMaterial({ color: MREZA, transparent: true, opacity: 0.4 }));
+      mreza.position.y = 0.1; g.add(mreza);
     },
   },
 };

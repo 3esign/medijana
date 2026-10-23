@@ -362,9 +362,13 @@ button.on,.dugme.glavno{color:var(--g0);background:var(--ink);border-color:var(-
   opacity:0;transition:opacity .15s ease;will-change:transform}
 .scena-oznaka-van{opacity:0!important}
 .scena:not(.scena-u-pokretu) .scena-oznaka:not(.scena-oznaka-van){opacity:1}
-.scena-u-pokretu .scena-oznaka{opacity:.22}
-.scena-linije{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none}
+.scena-u-pokretu .scena-oznaka{opacity:.45}
+/* pokazne linije žive i umiru zajedno sa natpisima: isti prelaz, isto prigušenje */
+.scena-linije{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none;
+  opacity:1;transition:opacity .15s ease}
 .scena-linije line{stroke:var(--ink3);stroke-width:1}
+.scena-u-pokretu .scena-linije{opacity:.45}
+.scena-bez-oznaka .scena-oznaka,.scena-bez-oznaka .scena-linije{opacity:0!important}
 
 @media (max-width:860px){
   .scena-oznaka{max-width:118px;font-size:10.5px;line-height:1.4}

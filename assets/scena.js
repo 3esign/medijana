@@ -48,6 +48,8 @@ export async function pokreniScenu(opcije = {}) {
   const koren = opcije.koren;
   const T = REC[opcije.jezik === 'en' ? 'en' : 'sr'];
   const punaStrana = !!opcije.punaStrana;
+  /* ime elementa na jeziku stranice: registar nosi naziv i naziv_en */
+  const ime = e => (opcije.jezik === 'en' && e.naziv_en) || e.naziv;
   const smanjeniPokret = matchMedia('(prefers-reduced-motion: reduce)').matches;
   /* slabiji uredjaji (mali ekran ili grub pokazivac): manje piksela, bez senki —
      to je glavni uzrok trzanja na telefonu, ne broj trouglova u maketi */
@@ -74,7 +76,9 @@ export async function pokreniScenu(opcije = {}) {
   scena.background = new THREE.Color(PAPIR);
   /* blaga dubinska atmosfera: daleki krajevi makete tonu u papir */
   scena.fog = new THREE.Fog(new THREE.Color(PAPIR), 700, 3200);
-  const kamera = new THREE.PerspectiveCamera(50, 1, 0.1, 5000);
+  /* near 2 (ne 0.1): sa dalekom ravni na 4200 dubinska preciznost na ~500 m
+     pada ispod centimetra, pa raster, ivice i senke na tlu ne trepere */
+  const kamera = new THREE.PerspectiveCamera(50, 1, 2, 4200);
   const renderer = new THREE.WebGLRenderer({ antialias: !slabiji, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(devicePixelRatio, slabiji ? 1.5 : 2));
   renderer.shadowMap.enabled = !slabiji;
@@ -87,6 +91,8 @@ export async function pokreniScenu(opcije = {}) {
   kontrole.maxPolarAngle = Math.PI / 2.05;
   kontrole.enableDamping = true;
   kontrole.dampingFactor = 0.08;
+  kontrole.minDistance = 12;
+  kontrole.maxDistance = 2600;
 
   /* svetlo ateljea: nebo, topla podloga i sunce; senke samo na jačim uređajima */
   scena.add(new THREE.HemisphereLight(0xffffff, 0xb8b2a4, 0.85));
@@ -144,7 +150,9 @@ export async function pokreniScenu(opcije = {}) {
       S.renderOrder = -1; S.userData.senka = true;
       g.add(S);
     }
-    g.position.set(e.pos[0], 0, e.pos[1]);
+    /* građevine stoje mrvicu iznad podloge: koplanarna dna i ivice na y=0
+       dubinski se bore sa tlom i trepere pri rotaciji */
+    g.position.set(e.pos[0], e.tip === 'teren' ? 0 : 0.18, e.pos[1]);
     g.rotation.y = (e.rot_deg || 0) * Math.PI / 180;
     /* ivica u boji dokaza: crtež na beloj zapremini */
     if (e.tip !== 'teren' && !['kolonada_prsten', 'kolonada_dvoredna', 'cilindri_mreza'].includes(e.oblik)) {
@@ -223,7 +231,7 @@ export async function pokreniScenu(opcije = {}) {
       scena.remove(g.obj);
     });
     geometrije.forEach(g => g.dispose()); materijali.forEach(m => m.dispose()); grupe = [];
-    oznake.forEach(o => o.el.remove()); oznake = [];
+    oznake.forEach(o => { o.el.remove(); o.linija.remove(); }); oznake = [];
     for (const e of elementi) {
       const h = e.tip === 'teren' ? 0 : Math.max(rezim === 'rek' ? e.visina_rek_m : e.visina_sacuvana_m, 0.05);
       const obj = oblik(e, h);
@@ -231,9 +239,12 @@ export async function pokreniScenu(opcije = {}) {
       scena.add(obj); grupe.push({ obj, el: e });
       if (e.tip !== 'teren') {
         const d = document.createElement('div');
-        d.className = 'scena-oznaka'; d.textContent = e.naziv;
+        d.className = 'scena-oznaka'; d.textContent = ime(e);
         koren.appendChild(d);
-        oznake.push({ el: d, e, pos: new THREE.Vector3(e.pos[0], h + 3, e.pos[1]), ax: 0, ay: 0, dx: 0, dy: 0, postavljena: false });
+        /* svaka oznaka nosi i svoju pokaznu liniju: zajedno se pomeraju i kriju */
+        const ln = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        linijeEl.appendChild(ln);
+        oznake.push({ el: d, linija: ln, trebaLinija: false, wL: 120, hL: 20, e, pos: new THREE.Vector3(e.pos[0], h + 3, e.pos[1]), ax: 0, ay: 0, dx: 0, dy: 0, postavljena: false });
       }
     }
     prljaviNatpisi = true;
@@ -283,7 +294,7 @@ export async function pokreniScenu(opcije = {}) {
       .sort((a, b) => (b.o.e.id === trazeniKadar) - (a.o.e.id === trazeniKadar)
         || (RANG_TIPA[a.o.e.tip] ?? 9) - (RANG_TIPA[b.o.e.tip] ?? 9)
         || a.v.z - b.v.z);
-    const postavljeni = [], linije = [], smesteni = new Set();
+    const postavljeni = [], smesteni = new Set();
     for (const k of kandidati) {
       const { o, ax, ay } = k;
       const wL = o.el.offsetWidth || 120, hL = o.el.offsetHeight || 20;
@@ -304,31 +315,38 @@ export async function pokreniScenu(opcije = {}) {
       }
       /* sudar poredi centre: p.x/p.y su gornji-levi ugao kandidata */
       postavljeni.push({ x: p.x + wL / 2, y: p.y + hL / 2, w: wL, h: hL });
-      o.ax = ax; o.ay = ay;
+      o.ax = ax; o.ay = ay; o.wL = wL; o.hL = hL;
       o.dx = p.x + wL / 2 - ax; o.dy = p.y + hL / 2 - ay;
       o.postavljena = true;
       smesteni.add(o);
-      /* pokazna linija kad je natpis pomeren sa objekta */
-      const lp = { x: Math.max(p.x, Math.min(ax, p.x + wL)), y: p.y + hL };
-      if (Math.hypot(lp.x - ax, lp.y - ay) > 16)
-        linije.push({ x1: ax, y1: ay, x2: lp.x, y2: lp.y });
+      /* pokazna linija samo kad je natpis stvarno pomeren sa objekta;
+         krajeve joj svakog kadra računa pratiOznake, iz iste projekcije */
+      o.trebaLinija = Math.hypot(o.dx, o.dy) > 16 + hL / 2;
     }
     for (const o of oznake) {
-      o.el.classList.toggle('scena-oznaka-van', !smesteni.has(o) || !oznakeOn);
+      o.el.classList.toggle('scena-oznaka-van', !smesteni.has(o));
     }
     linijeEl.setAttribute('viewBox', `0 0 ${w} ${h}`);
-    linijeEl.innerHTML = linije.map(l =>
-      `<line x1="${l.x1.toFixed(1)}" y1="${l.y1.toFixed(1)}" x2="${l.x2.toFixed(1)}" y2="${l.y2.toFixed(1)}"/>`).join('');
   }
 
-  /* između rasporeda natpisi samo prate projekciju, bez promene vidljivosti */
+  /* između rasporeda natpisi i njihove linije prate projekciju svakog kadra,
+     bez promene vidljivosti — ništa ne može da zaostane i "lebdi" */
   function pratiOznake() {
     const w = koren.clientWidth, h = koren.clientHeight;
     for (const o of oznake) {
+      const aktivna = o.postavljena && oznakeOn && o.trebaLinija;
+      o.linija.style.display = aktivna ? '' : 'none';
       if (!o.postavljena) continue;
       const v = o.pos.clone().project(kamera);
-      const x = (v.x + 1) / 2 * w + o.dx, y = (-v.y + 1) / 2 * h + o.dy;
+      const ax = (v.x + 1) / 2 * w, ay = (-v.y + 1) / 2 * h;
+      const x = ax + o.dx, y = ay + o.dy;
       o.el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) translate(-50%,-50%)`;
+      if (aktivna) {
+        const px = Math.max(x - o.wL / 2, Math.min(ax, x + o.wL / 2));
+        const py = ay < y ? y - o.hL / 2 : y + o.hL / 2;
+        o.linija.setAttribute('x1', ax.toFixed(1)); o.linija.setAttribute('y1', ay.toFixed(1));
+        o.linija.setAttribute('x2', px.toFixed(1)); o.linija.setAttribute('y2', py.toFixed(1));
+      }
     }
   }
 
@@ -446,7 +464,7 @@ export async function pokreniScenu(opcije = {}) {
       return `<p><b>${esc(h2)}</b> — ${esc(H ? H.naslov : '')} <span class="znak d3">${esc(H ? H.status : '')}</span></p>`;
     }).join('');
     infoEl.innerHTML = `<button class="scena-x" type="button" aria-label="×">×</button>
-      <span class="id">${esc(e.id)} · ${esc(e.nivo)}</span><h3>${esc(e.naziv)}</h3>
+      <span class="id">${esc(e.id)} · ${esc(e.nivo)}</span><h3>${esc(ime(e))}</h3>
       <span class="znak ${klasa(e.pouzdanost)}">${esc(e.pouzdanost.replace(/_/g, ' '))}</span>
       <span class="znak ${e.polozaj === 'sematski' ? 'd3' : 'gol'}">${esc(T.polozaj)} ${esc(e.polozaj)}</span>
       <p style="margin-top:10px">${esc(e.napomena)}</p>
@@ -493,7 +511,8 @@ export async function pokreniScenu(opcije = {}) {
     sagradi(); if (!korisnikPomerio) uokviri(true);
   });
   dugme('oznake').addEventListener('click', () => {
-    oznakeOn = !oznakeOn; dugme('oznake').classList.toggle('on', oznakeOn); prljaviNatpisi = true;
+    oznakeOn = !oznakeOn; dugme('oznake').classList.toggle('on', oznakeOn);
+    koren.classList.toggle('scena-bez-oznaka', !oznakeOn); prljaviNatpisi = true;
   });
   dugme('kadar').addEventListener('click', () => {
     trazeniKadar = null; korisnikPomerio = false; infoEl.hidden = true; objekatSelect.value = ''; uokviri(true);
@@ -517,7 +536,18 @@ export async function pokreniScenu(opcije = {}) {
 
   /* ---------- petlja: kontinuirano renderovanje, raspored po smirenju ---------- */
   kontrole.addEventListener('start', () => { korisnikPomerio = true; animacija = null; });
-  kontrole.addEventListener('change', () => { poslednjiPoremecaj = trenutniTren; });
+  /* damping posle puštanja prsta šalje change sa sve sitnijim pomacima:
+     ispod praga ga ne računamo u poremećaj, da se natpisi smire odmah
+     a ne tek kad damping matematički odumre */
+  const zadnje = { poz: new THREE.Vector3(), cilj: new THREE.Vector3(), zum: 1 };
+  kontrole.addEventListener('change', () => {
+    const d = kamera.position.distanceTo(zadnje.poz)
+      + kontrole.target.distanceTo(zadnje.cilj)
+      + Math.abs(kamera.zoom - zadnje.zum) * 300;
+    if (d < 0.25) return;
+    zadnje.poz.copy(kamera.position); zadnje.cilj.copy(kontrole.target); zadnje.zum = kamera.zoom;
+    poslednjiPoremecaj = trenutniTren;
+  });
   function petlja(sada) {
     trenutniTren = sada;
     if (poslednjiPoremecaj < 0) poslednjiPoremecaj = sada;
@@ -544,6 +574,7 @@ export async function pokreniScenu(opcije = {}) {
     const w = koren.clientWidth, h = koren.clientHeight;
     if (!w || !h) return;
     renderer.setSize(w, h);
+    linijeEl.setAttribute('viewBox', `0 0 ${w} ${h}`);
     kamera.aspect = w / h; kamera.updateProjectionMatrix();
     if (korisnikPomerio) postaviProzor(); else uokviri(false);
   }
@@ -580,7 +611,7 @@ export async function pokreniScenu(opcije = {}) {
     h.forEach(x => hipoteze[x.id] = x);
     sagradi();
     objekatSelect.insertAdjacentHTML('beforeend',
-      elementi.filter(e => e.tip !== 'teren').map(e => `<option value="${esc(e.id)}">${esc(e.naziv)}</option>`).join(''));
+      elementi.filter(e => e.tip !== 'teren').map(e => `<option value="${esc(e.id)}">${esc(ime(e))}</option>`).join(''));
     koren.classList.add('scena-spremna');
     koren.querySelector('.scena-poster')?.remove();
     uokviri(false);
@@ -590,7 +621,7 @@ export async function pokreniScenu(opcije = {}) {
     if (izabran) pokazi(izabran);
     const izvan = g.filter(e => e.prikaz === false);
     if (izvanTrazen) {
-      statusEl.innerHTML = `<b>${esc(izvanTrazen.id)}</b> (${esc(izvanTrazen.naziv)}) ${esc(T.nijeUSceni1)}
+      statusEl.innerHTML = `<b>${esc(izvanTrazen.id)}</b> (${esc(ime(izvanTrazen))}) ${esc(T.nijeUSceni1)}
         <a class="veza" href="pokrivenost.html?q=${encodeURIComponent(izvanTrazen.id)}">${esc(T.nijeUSceni2)}</a>`;
     } else {
       statusEl.innerHTML = izvan.length

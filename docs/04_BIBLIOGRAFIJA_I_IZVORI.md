@@ -126,6 +126,14 @@ Svaki izvor u registru Svemira nosi jasnu demarkaciju: bibliografski podatak, š
 - **Read scope:** Pročitan izvorni latinski tekst glave XXVI, 5, 1 u celosti i upoređen sa savremenim kritičkim izdanjem i prevodom.
 - **Verification:** Potvrđen primarni antički izvor (2026-10-23). Povezan sa hronološkim zapisom `HR-04` u `HRONOLOGIJA.jsonl`.
 
+### [MED-14] Vasić, M.; Milošević, G.; Gavrilović Vitas, N.; Crnoglavac, V. (2016)
+- **Naslov:** *Constantine's Villa at Mediana*
+- **Publikacija:** Narodni muzej Niš (englesko zborno izdanje, ilustrovano). Pun PDF u otvorenom repozitorijumu [Arheološkog instituta u Beogradu](https://rai.ai.ac.rs/handle/123456789/1539).
+- **Supports:** Zborna monografija iskopavanja 2000–2011 na engleskom. **Tri horizonta gradnje:** H1 (kraj III – početak IV v.), H2 (~330–378), H3 (~383–441) — razaranje požarom 378. posle Adrianopolja, konačna propast u hunskom naletu ~441. Vila sa peristilom ~6.000 m², orijentacija ka severozapadu; apsidna prijemna dvorana na severu; južni trijem 6 m, prilazni 12 m; tri građevinske faze vile sa planovima i idealnim rekonstrukcijama. Horreum **92×27 m** (SZ–JI, ~150 m zapadno od vile), glavna dvorana sa **dva reda po 11 opečnih stubaca**, *dolia* uz stubove i istočni zid. Ogradni zid kompleksa **4,7 ha**; antikčka kapija 29×2,20 m; ceremonialni prilazni put ~80 m.
+- **Limits:** Muzejsko zborno izdanje (tiraž 500) bez geodetskih koordinata i razmernih tabela; 91 m (Petrović 1994) vs 92 m (ovde) → `KR-06`; krajnja provera pojedinih mera ide u primarne izveštaje iskopavanja.
+- **Read scope:** Pročitana u celosti (ekstrakt punog teksta, 2.549 linija).
+- **Verification:** Potvrđen originalni PDF (2026-10-24); preuzet i arhiviran lokalno. Veza `A-MEDIJANA-07` u `VEZE_IZVORA.jsonl`; horizonti upisani u `HR-02`, `HR-14`, `HR-15`.
+
 ## 3. Integracija u departmanski registar (IZVORI.jsonl)
 
 Ovi izvori se paralelno unose u kanonski registar `skills/svemir-arheologija/references/IZVORI.jsonl` čime je zatvorena ranije identifikovana praznina — nedostatak primarnih balkanskih izvora u univerzitetskoj bazi arheološkog departmana.

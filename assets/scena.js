@@ -45,6 +45,10 @@ export async function pokreniScenu(opcije = {}) {
   const T = REC[opcije.jezik === 'en' ? 'en' : 'sr'];
   const punaStrana = !!opcije.punaStrana;
   const smanjeniPokret = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* slabiji uredjaji (mali ekran ili grub pokazivac): manje piksela, bez senki —
+     to je glavni uzrok trzanja na telefonu, ne broj trouglova u maketi */
+  const slabiji = matchMedia('(max-width: 860px), (pointer: coarse)').matches
+    || (navigator.hardwareConcurrency || 8) <= 4;
 
   /* ---------- boje iz tokena stranice ---------- */
   const cssVar = (ime, pad) => {
@@ -65,9 +69,9 @@ export async function pokreniScenu(opcije = {}) {
   const scena = new THREE.Scene();
   scena.background = new THREE.Color(PAPIR);
   const kamera = new THREE.PerspectiveCamera(50, 1, 0.1, 5000);
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-  renderer.shadowMap.enabled = true;
+  const renderer = new THREE.WebGLRenderer({ antialias: !slabiji, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, slabiji ? 1.5 : 2));
+  renderer.shadowMap.enabled = !slabiji;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.02;
@@ -78,14 +82,16 @@ export async function pokreniScenu(opcije = {}) {
   kontrole.enableDamping = true;
   kontrole.dampingFactor = 0.08;
 
-  /* svetlo ateljea: nebo, topla podloga i sunce sa mekim senkama */
+  /* svetlo ateljea: nebo, topla podloga i sunce; senke samo na jačim uređajima */
   scena.add(new THREE.HemisphereLight(0xffffff, 0xb8b2a4, 0.85));
   const sunce = new THREE.DirectionalLight(0xfff6e8, 1.45);
   sunce.position.set(-160, 240, 140);
-  sunce.castShadow = true;
-  sunce.shadow.mapSize.set(2048, 2048);
-  sunce.shadow.bias = -0.0006;
-  Object.assign(sunce.shadow.camera, { left: -280, right: 280, top: 280, bottom: -280, far: 900 });
+  if (!slabiji) {
+    sunce.castShadow = true;
+    sunce.shadow.mapSize.set(2048, 2048);
+    sunce.shadow.bias = -0.0006;
+    Object.assign(sunce.shadow.camera, { left: -280, right: 280, top: 280, bottom: -280, far: 900 });
+  }
   scena.add(sunce);
 
   /* ---------- bela maketa ---------- */
@@ -105,7 +111,8 @@ export async function pokreniScenu(opcije = {}) {
     const dodaj = (geo, px = 0, pz = 0, ry = 0, py = h / 2) => {
       const M = new THREE.Mesh(geo, m);
       M.position.set(px, py, pz); M.rotation.y = ry;
-      M.castShadow = M.receiveShadow = true; g.add(M); return M;
+      if (!slabiji) M.castShadow = M.receiveShadow = true;
+      g.add(M); return M;
     };
     switch (e.oblik) {
       case 'kutija': dodaj(kutija(D.x, h, D.z)); break;
@@ -146,7 +153,7 @@ export async function pokreniScenu(opcije = {}) {
         break; }
       case 'ravan': {
         const M = new THREE.Mesh(new THREE.PlaneGeometry(D.x, D.z), new THREE.MeshStandardMaterial({ color: TLO, roughness: 1 }));
-        M.rotation.x = -Math.PI / 2; M.receiveShadow = true; g.add(M);
+        M.rotation.x = -Math.PI / 2; if (!slabiji) M.receiveShadow = true; g.add(M);
         const mreza = new THREE.GridHelper(Math.max(D.x, D.z), Math.max(D.x, D.z) / 20, MREZA, MREZA);
         mreza.material.opacity = 0.4; mreza.material.transparent = true;
         mreza.position.y = 0.02; g.add(mreza);
@@ -538,8 +545,13 @@ export async function pokreniScenu(opcije = {}) {
     if (mirno && prljaviNatpisi) { rasporediOznake(); pratiOznake(); prljaviNatpisi = false; }
     koren.classList.toggle('scena-u-pokretu', !mirno);
     renderer.render(scena, kamera);
-    requestAnimationFrame(petlja);
+    if (!document.hidden) requestAnimationFrame(petlja);
+    else { petljaUPauzi = true; }
   }
+  let petljaUPauzi = false;
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && petljaUPauzi) { petljaUPauzi = false; poslednjiPoremecaj = -1; requestAnimationFrame(petlja); }
+  });
 
   function uskladiVelicinu() {
     const w = koren.clientWidth, h = koren.clientHeight;

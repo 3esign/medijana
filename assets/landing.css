@@ -22,10 +22,16 @@
 @media(max-width:900px){#jezik .konvencije,#language .konvencije{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){#jezik .konvencije,#language .konvencije{grid-template-columns:1fr}}
 
-/* ---------- prvi ekran: 3D suite ---------- */
-.hero-suite{position:relative;height:calc(100dvh - var(--h-hdr));min-height:560px;background:var(--g0)}
+/* ---------- prvi ekran: 3D suite preko celog ekrana ----------
+   Zaglavlje se na ovoj stranici izdiže iznad scene umesto da joj oduzima visinu —
+   suite se otvara odmah, preko celog ekrana, a traka za navigaciju samo pluta preko njega. */
+body:has(.hero-suite) .hdr{position:absolute;inset-inline:0;top:0;z-index:40;
+  background:linear-gradient(to bottom,color-mix(in srgb,var(--g0) 82%,transparent),transparent);
+  border-bottom-color:transparent}
+body:has(.hero-suite) .hdr nav a:not(.jezik){background:var(--staklo);border:1px solid transparent}
+.hero-suite{position:relative;height:100dvh;min-height:560px;background:var(--g0)}
 #hero-scena{position:absolute;inset:0}
-.hero-naslov{position:absolute;z-index:8;left:clamp(18px,4vw,56px);top:clamp(18px,4.5vw,60px);
+.hero-naslov{position:absolute;z-index:8;left:clamp(18px,4vw,56px);top:calc(var(--h-hdr) + clamp(10px,3vw,30px));
   width:min(470px,calc(100% - 36px));pointer-events:none}
 .hero-naslov .nadnaslov{font-size:10px;letter-spacing:.12em;line-height:1.7}
 .hero-naslov .display{margin-top:16px;font-size:clamp(52px,6.4vw,92px)}
@@ -37,14 +43,14 @@
   border-bottom:1px solid var(--l2);padding-bottom:3px;transition:var(--pokret)}
 .hero-skok:hover{color:var(--ink);border-bottom-color:var(--ink)}
 
-/* status i dosije u heroju: gore desno, naslov ostaje levo */
-.hero-suite .scena-status{left:auto;right:clamp(12px,2vw,18px);top:clamp(12px,2vw,18px);
+/* status i dosije u heroju: gore desno, ispod plutajućeg zaglavlja; naslov ostaje levo */
+.hero-suite .scena-status{left:auto;right:clamp(12px,2vw,18px);top:calc(var(--h-hdr) + clamp(10px,2vw,16px));
   max-width:min(340px,calc(100% - 24px))}
-.hero-suite .scena-info{top:calc(clamp(12px,2vw,18px) + 54px);max-height:calc(100% - 220px)}
+.hero-suite .scena-info{top:calc(var(--h-hdr) + clamp(10px,2vw,16px) + 54px);max-height:calc(100% - var(--h-hdr) - 220px)}
 
 @media (max-width:860px){
   .hero-suite{min-height:560px}
-  .hero-naslov{left:16px;right:16px;top:14px;width:auto}
+  .hero-naslov{left:16px;right:16px;top:calc(var(--h-hdr) + 10px);width:auto}
   .hero-naslov .display{font-size:clamp(44px,11vw,60px);margin-top:10px}
   .hero-naslov .podnaslov{font-size:19px;margin-top:10px}
   .hero-uvod{font-size:13px;line-height:1.6;margin-top:12px;max-width:none}

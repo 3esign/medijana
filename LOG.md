@@ -108,3 +108,10 @@ Checks: registry and suite validators; 16 page/viewport checks (390 and 1440 px)
 Editorial rule: describe purpose, people, phase and next action; omit self-praise, design manifestos and contrived contrasts. Keep factual limitations. The general rule was added to the Svemir canon. Next: agree the initial building, source plans and review scope with collaborators.
 
 Design review: purpose is the collaboration pilot; source counts remain data-driven; removed slogans and oversized legend swatches; hierarchy is site, pilot/authors, model; no new motion; layout uses type and spacing without effects. Desktop Chromium emulation was checked; physical phones, Safari and screen readers were not tested.
+
+## 2026-10-23 · Kraj treperenja i lebdećih linija (commit cae949a)
+- Pokazna linija je deo natpisa: prati ga svakog kadra, prigušuje se i nestaje zajedno s njim (ranije: crtana samo pri rasporedu, pa lebdela sama tokom pokreta).
+- Dubinsko treperenje: kamera near 0.1→2 / far 5000→4200 (preciznost <1 cm na 500 m), raster dignut i sveden na granice tla, podloga polygonOffset, građevine +0.18 m.
+- Damping ispod praga ne drži scenu 'u pokretu' — natpisi se smire odmah.
+- naziv_en za svih 14 elemenata: EN strana ima engleske natpise, izbor i dosije.
+- Provera: tools/cdp-linije.cjs (mir/prevlačenje/damping/bez oznaka — 0 siročića) prošla lokalno i uživo; cdp-provera 1440/390, blizanac, EN — 0 grešaka, 0 sudara.

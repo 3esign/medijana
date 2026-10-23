@@ -7,6 +7,16 @@
 .autori-pilota{border-top:1px solid var(--l2);padding-top:20px}
 .autori-pilota p{margin-top:14px;line-height:1.8}
 .autori-pilota>a{display:inline-block;margin-top:14px;font-size:13px}
+/* karton podataka o projektu, odmah ispod prvog ekrana */
+.projekat-podaci{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(24px,4vw,56px);
+  border-top:1px solid var(--l1);margin-bottom:28px}
+.projekat-podaci>div{display:grid;grid-template-columns:168px 1fr;gap:16px;align-items:baseline;
+  padding:12px 0;border-bottom:1px solid var(--l1)}
+.projekat-podaci dt{font:500 10.5px/1.6 var(--f-mono);letter-spacing:.09em;text-transform:uppercase;color:var(--ink3)}
+.projekat-podaci dd{font-size:13.5px;line-height:1.55;color:var(--ink)}
+@media (max-width:900px){.projekat-podaci{grid-template-columns:1fr}}
+@media (max-width:560px){.projekat-podaci>div{grid-template-columns:1fr;gap:3px;padding:10px 0}}
+
 #jezik .uzorak,#language .uzorak{height:8px;margin-bottom:12px}
 #jezik .konvencije,#language .konvencije{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media(max-width:900px){#jezik .konvencije,#language .konvencije{grid-template-columns:repeat(2,minmax(0,1fr))}}

@@ -3,19 +3,44 @@
   "upload_type": "dataset",
   "description": "<p>Konsolidacija 90 godina objavljenih istraživanja kasnoantičkog carskog kompleksa Medijana kod Niša (Vasić 1936 — kampanje 2026) u proverljivu bazu znanja i 3D radnu maketu: 10 strojnih registara (JSONL), nivoi analize N0–N6, hipoteze M-H01–M-H10, registar kontradikcija KR-01–KR-05, anotirana bibliografija, GLB maketa generisana iz registra geometrije.</p><p>Metodološki okvir: London Charter (2009) i Seville Principles (2011) — svaki prikazani element nosi izgovoreno poreklo mere i nivo pouzdanosti (A činjenica / B analogija / C hipoteza). Rekonstruisana geometrija je radni model, ne georeferencirani merni dokument; šematski položaj i pretpostavljena visina nisu mera.</p><p>Nalazi i terenska dokumentacija ostaju u vlasništvu nadležnih ustanova; repozitorijum donosi konsolidaciju objavljene literature sa pozivanjem na izvor.</p>",
   "creators": [
-    { "name": "Poturak, Semir", "affiliation": "3esign / Svemir" }
+    {
+      "name": "Končarević, Bojan",
+      "affiliation": "Univerzitet Union – Nikola Tesla · Fakultet za graditeljski menadžment"
+    },
+    {
+      "name": "Poturak, Semir",
+      "affiliation": "Univerzitet Union – Nikola Tesla · Fakultet za graditeljski menadžment"
+    }
   ],
   "keywords": [
-    "Mediana", "Naissus", "Constantine the Great", "late antiquity",
-    "Roman villa", "digital twin", "HBIM", "paradata",
-    "London Charter", "Seville Principles", "CIDOC CRM", "archaeology", "Serbia"
+    "Mediana",
+    "Naissus",
+    "Constantine the Great",
+    "late antiquity",
+    "Roman villa",
+    "digital twin",
+    "HBIM",
+    "paradata",
+    "London Charter",
+    "Seville Principles",
+    "CIDOC CRM",
+    "archaeology",
+    "Serbia"
   ],
   "license": "cc-by-4.0",
   "access_right": "open",
   "language": "srp",
   "version": "0.1-p1",
   "related_identifiers": [
-    { "identifier": "https://github.com/3esign/medijana", "relation": "isSupplementTo", "scheme": "url" },
-    { "identifier": "10.5281/zenodo.23580526", "relation": "isVersionOf", "scheme": "doi" }
+    {
+      "identifier": "https://github.com/3esign/medijana",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "10.5281/zenodo.23580526",
+      "relation": "isVersionOf",
+      "scheme": "doi"
+    }
   ]
 }

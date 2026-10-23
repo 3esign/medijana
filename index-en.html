@@ -14,12 +14,12 @@
 <!--/skelet-->
 <title>Mediana (Naissus) — Digital Archaeological Twin of a Late Antique Imperial Residence</title>
 <!--launch-meta-->
-<meta name="description" content="Digital archaeological twin and forensic spatial-material platform of the Late Antique imperial complex Mediana (Naissus). 90 years of excavations translated into open, verifiable 4D data.">
+<meta name="description" content="A project pilot within the collaboration with the Institute of Archaeology. This initial phase brings together published sources, a working 3D model and questions for joint review.">
 <link rel="canonical" href="https://3esign.github.io/medijana/index-en.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Medijana · digitalni arheološki blizanac">
 <meta property="og:title" content="Mediana (Naissus) — Digital Archaeological Twin of a Late Antique Imperial Residence">
-<meta property="og:description" content="Digital archaeological twin and forensic spatial-material platform of the Late Antique imperial complex Mediana (Naissus). 90 years of excavations translated into open, verifiable 4D data.">
+<meta property="og:description" content="A project pilot within the collaboration with the Institute of Archaeology. This initial phase brings together published sources, a working 3D model and questions for joint review.">
 <meta property="og:url" content="https://3esign.github.io/medijana/index-en.html">
 <meta property="og:image" content="https://3esign.github.io/medijana/assets/blizanac-render.png">
 <meta property="og:image:alt" content="Render 3D radne makete kompleksa Medijana iz registra geometrije">
@@ -75,10 +75,11 @@
   <div class="hero-sadrzaj okvir">
     <div class="nadnaslov">Niš, Serbia · imperial estate · 4th century</div>
     <h1 class="display">Mediana</h1>
-    <p class="podnaslov">A place to explore.<br> A record to question.</p>
-    <p class="uvod">Explore the imperial estate at Mediana through a working spatial model, published sources and open research questions. Every dimension keeps its provenance; the layout remains schematic.</p>
+    <p class="podnaslov">Digital archaeological twin</p>
+    <p class="uvod">A project pilot within the collaboration with the Institute of Archaeology. This initial phase brings together published sources, a working 3D model and questions for joint review.</p>
+    <p class="potpis-pilota"><span>Assist. Prof. Dr Bojan Končarević · Assist. Prof. Dr Semir Poturak</span><span>Union – Nikola Tesla University · Faculty of Construction Management</span></p>
     <div class="akcije">
-      <a class="dugme glavno veliko" href="blizanac.html">Enter the twin<span class="strelica" aria-hidden="true">→</span></a>
+      <a class="dugme glavno veliko" href="blizanac.html">Open 3D model<span class="strelica" aria-hidden="true">→</span></a>
       <a class="dugme veliko" href="#language">How to read the evidence</a>
     </div>
   </div>
@@ -110,41 +111,33 @@
 
 <section class="traka" id="language">
   <div class="okvir">
-    <div class="dve-kolone">
-      <div>
-        <div class="nadnaslov">Visual language</div>
-        <h2 style="margin-top:14px">Colour here is not decoration. Colour is a claim about evidence.</h2>
-      </div>
-      <div>
-        <p class="proza" style="color:var(--ink2)">Archaeological drawing has distinguished the extant from the reconstructed for centuries: standing masonry is drawn solid, conjecture is hatched. This site adopts that convention as its entire visual system — in line with the <b>London Charter (2009)</b> and the <b>Seville Principles (2011)</b>. No colour on these pages, in the map or in the model means “antiquity”; each one states how firmly a claim stands.</p>
-        <p class="sitno razmak-s"><a class="veza" href="docs/09_VIZUELNI_JEZIK.md">Visual language — full rationale (SR)</a></p>
-      </div>
-    </div>
+    <h2>Data in the model</h2>
+    <p class="sitno razmak-s">The labels distinguish published dimensions, derived values and schematic geometry. Positions and heights require separate checks.</p>
 
     <div class="traka-dokaza razmak-l" id="traka-dokaza" role="img" aria-label="Share of evidence classes in the geometry registry"></div>
     <p class="sitno" style="margin-top:8px;color:var(--ink3)" id="traka-note">Share of evidence classes in <a class="veza" href="data/GEOMETRIJA.jsonl">GEOMETRIJA.jsonl</a>.</p>
 
     <div class="konvencije">
-      <div class="konvencija"><div class="uzorak u1"></div><b>Solid — published dimension</b><p>The measurement appears in published literature; we transcribe it, we do not derive it.</p><span class="racun" data-udeo="objavljena_dimenzija">—</span></div>
-      <div class="konvencija"><div class="uzorak u2"></div><b>Tinted — derived</b><p>Computed from a published figure (e.g. from an area), so it carries our arithmetic.</p><span class="racun" data-udeo="izvedeno_iz_povrsine">—</span></div>
-      <div class="konvencija"><div class="uzorak u3"></div><b>Hatched — schematic</b><p>Shape and position are a working assumption until a surveyed plan arrives (phase P2).</p><span class="racun" data-udeo="sematski">—</span></div>
-      <div class="konvencija"><div class="uzorak ux"></div><b>Dotted — contested</b><p>Identity or attribution is disputed; the element stays in the registry but leaves the display.</p><span class="racun" data-udeo="iskljuceno">—</span></div>
+      <div class="konvencija"><div class="uzorak u1"></div><b>Published dimension</b><p>A dimension transcribed from the cited publication.</p><span class="racun" data-udeo="objavljena_dimenzija">—</span></div>
+      <div class="konvencija"><div class="uzorak u2"></div><b>Derived dimension</b><p>A value calculated from a published figure, such as an area.</p><span class="racun" data-udeo="izvedeno_iz_povrsine">—</span></div>
+      <div class="konvencija"><div class="uzorak u3"></div><b>Schematic geometry</b><p>Shape and position are a working assumption until a surveyed plan arrives (phase P2).</p><span class="racun" data-udeo="sematski">—</span></div>
+      <div class="konvencija"><div class="uzorak ux"></div><b>Excluded from view</b><p>Identity or attribution is disputed; the element stays in the registry but leaves the display.</p><span class="racun" data-udeo="iskljuceno">—</span></div>
     </div>
   </div>
 </section>
 
 <section class="traka">
   <div class="okvir">
-    <div class="nadnaslov">The instrument</div>
-    <h2 style="margin-top:14px">Six views, one source of truth</h2>
-    <p class="uvod razmak-s">No page holds its own copy of the data. All of them read the same <code>data/*.jsonl</code> registries, so the public narrative cannot drift away from the scientific state.</p>
+    <div class="nadnaslov">Explore the project</div>
+    <h2 style="margin-top:14px">Model, sources and research questions</h2>
+    <p class="uvod razmak-s">Choose a spatial view, the bibliography or the research records. The working pages are currently in Serbian.</p>
     <div class="resetka razmak-m">
-      <a class="kartica" href="blizanac.html"><span class="kartica-oznaka">3D</span><h3>Digital twin — working model</h3><p>A Three.js scene built live from the geometry registry: toggle between extant remains and reconstruction, click any object for its evidence.</p><span class="znak gol" data-znak="geometrija">— elements</span></a>
+      <a class="kartica" href="blizanac.html"><span class="kartica-oznaka">3D</span><h3>Digital twin — working model</h3><p>Explore the complex and select a building to view its dimensions and sources.</p><span class="znak gol" data-znak="geometrija">— elements</span></a>
       <a class="kartica" href="mapa.html"><span class="kartica-oznaka">2D</span><h3>Map — region and site</h3><p>From the Via Diagonalis and tetrarchic residences to a schematic overlay of the complex on current imagery, with the precision of every coordinate stated.</p><span class="znak gol" data-znak="lokacije">— sites</span></a>
       <a class="kartica" href="istrazivanje.html"><span class="kartica-oznaka">M-H</span><h3>Research — from question to evidence</h3><p>Hypotheses, open questions and contradictions, each with the test that would confirm it and the test that would refute it.</p><span class="znak gol" data-znak="istrazivanje">— records</span></a>
       <a class="kartica" href="pokrivenost.html"><span class="kartica-oznaka">G</span><h3>Coverage — what the model knows</h3><p>A record sheet per object: where its dimensions, position and heights come from, and exactly what is needed to move it into a firmer class.</p><span class="znak gol" data-znak="kartoni">— sheets</span></a>
       <a class="kartica" href="registri.html"><span class="kartica-oznaka">JSONL</span><h3>Registries — machine readable</h3><p>Ten registries in raw form: hypotheses, contradictions, questions, glossary, levels, geometry, sites, chronology, sources, source links.</p><span class="znak gol" data-znak="zapisi">— records</span></a>
-      <a class="kartica" href="izvori.html"><span class="kartica-oznaka">1936–2026</span><h3>Sources and chronology</h3><p>An annotated bibliography in five waves with <i>supports</i>, <i>limits</i> and an honest reading scope — plus the site timeline.</p><span class="znak gol" data-znak="izvori">— records</span></a>
+      <a class="kartica" href="izvori.html"><span class="kartica-oznaka">1936–2026</span><h3>Sources and chronology</h3><p>An annotated bibliography in five waves with <i>supports</i>, <i>limits</i> and the recorded reading scope — plus the site timeline.</p><span class="znak gol" data-znak="izvori">— records</span></a>
     </div>
   </div>
 </section>
@@ -153,15 +146,15 @@
   <div class="okvir dve-kolone">
     <div>
       <div class="nadnaslov">Standards</div>
-      <h2 style="margin-top:14px">Paradata, not decoration</h2>
-      <p class="sitno razmak-s" style="max-width:52ch">Every element is tied to its archaeological source and a confidence level: <b>A</b> fact, <b>B</b> analogy, <b>C</b> hypothesis. The target stack for phase P2 is HBIM with CIDOC-CRM / CRMarchaeo alignment, FAIR paradata and a WebGPU presentation layer.</p>
+      <h2 style="margin-top:14px">Method and documentation</h2>
+      <p class="sitno razmak-s" style="max-width:52ch">The pilot records data provenance and modelling decisions, using the London Charter (2009) and the Seville Principles (2011) as a methodological framework. The documentation distinguishes source data, analogies and hypotheses.</p>
       <p class="razmak-m"><a class="dugme" href="docs/02_DIGITALNI_BLIZANAC_I_STANDARDI.md">Method and standards (SR)<span class="strelica" aria-hidden="true">→</span></a></p>
     </div>
     <div class="polje-granica">
-      <div class="nadnaslov" style="margin-bottom:14px">What this is not — yet</div>
+      <div class="nadnaslov" style="margin-bottom:14px">Current pilot status</div>
       <ul class="popis" style="border:0">
         <li>No new field data: this is a synthesis of published literature and public reports.</li>
-        <li>No formal agreement with the custodian institutions; this is preparation for that conversation, not its outcome.</li>
+        <li>The scope of the next phase and access to field documentation will be agreed within the collaboration.</li>
         <li>No HBIM yet — a schematic working model that functions as a spatial knowledge registry. The pilot with real survey plans is phase P2.</li>
         <li>Neither the model layout nor the map overlay is georeferenced.</li>
         <li>The bibliography is incomplete; every hypothesis is marked <b>UNVERIFIED</b> until tested.</li>
@@ -170,15 +163,20 @@
   </div>
 </section>
 
-<section class="traka">
+<section class="traka" id="saradnja">
   <div class="okvir dve-kolone">
     <div>
       <div class="nadnaslov">Collaboration</div>
-      <h2 style="margin-top:14px">A technology partner, not a competitor</h2>
-      <p class="sitno razmak-s" style="max-width:50ch">Finds, rights and publication remain with the custodian institutions and their researchers. What we bring is infrastructure: field documentation in 3D space, standards-compliant paradata, and a citable publication.</p>
-      <p class="razmak-m"><a class="dugme" href="https://github.com/3esign/medijana">Repository and issue tracker<span class="strelica" aria-hidden="true">→</span></a></p>
+      <h2 style="margin-top:14px">Pilot with the Institute of Archaeology</h2>
+      <p class="sitno razmak-s">The pilot provides a starting point for joint work on the digital documentation of Mediana. The next step is to agree on an initial building, available plans and a review process.</p>
+      <p class="sitno razmak-s">Use and publication of field material will be agreed with the responsible institutions and researchers.</p>
     </div>
-    <blockquote>A tool for managing field documentation, tracking conservation state in 3D space, and publishing to the London Charter standard — raising the citation count and visibility of the researchers involved.</blockquote>
+    <div class="autori-pilota">
+      <div class="nadnaslov">Authors</div>
+      <p>Assist. Prof. Dr Bojan Končarević<br>Assist. Prof. Dr Semir Poturak</p>
+      <p class="sitno">Union – Nikola Tesla University · Faculty of Construction Management</p>
+      <a class="veza" href="mailto:scumutator@gmail.com">scumutator@gmail.com</a>
+    </div>
   </div>
 </section>
 
@@ -188,7 +186,7 @@
   <div class="okvir">
     <div class="redovi">
       <div>
-        <h4>Suite</h4>
+        <h4>Overview</h4>
         <ul>
           <li><a href="blizanac.html">3D twin</a></li>
           <li><a href="mapa.html">Map</a></li>
@@ -209,7 +207,7 @@
         <h4>Documents</h4>
         <ul>
           <li><a href="docs/00_KONCEPT_GITHUB_I_PAGES.md">Repository concept</a></li>
-          <li><a href="docs/09_VIZUELNI_JEZIK.md">Visual language</a></li>
+          <li><a href="docs/09_VIZUELNI_JEZIK.md">Display conventions</a></li>
           <li><a href="index.html">Serbian version</a></li>
           <li><a href="README.md">README</a></li>
         </ul>
@@ -217,8 +215,7 @@
       <div>
         <h4>Project</h4>
         <p style="max-width:34ch;color:var(--ink3);font-size:12.5px;line-height:1.6">
-          Phase P1 — knowledge consolidation. Prepared for collaboration with the Institute of Archaeology, Belgrade, and the National Museum of Niš.<br><br>
-          Semir Poturak · <a href="mailto:scumutator@gmail.com">scumutator@gmail.com</a><br>
+          Pilot within the collaboration with the Institute of Archaeology.<br><br>Assist. Prof. Dr Bojan Končarević · Assist. Prof. Dr Semir Poturak<br>Union – Nikola Tesla University · Faculty of Construction Management<br><br> <a href="mailto:scumutator@gmail.com">scumutator@gmail.com</a><br>
           DOI <a href="https://doi.org/10.5281/zenodo.23580526">10.5281/zenodo.23580526</a><br>
           Code MIT · content CC BY 4.0
         </p>

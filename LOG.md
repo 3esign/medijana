@@ -98,3 +98,13 @@ Sledeće: peti znak konvencije — „mereno na terenu“ — ulazi tek sa geode
 2026-10-23 · Design continuation: replaced the overlapping hero backdrop with a dedicated 3D/plan instrument on both landing pages. Completed projection-based camera framing, object selection and reset, compact mobile controls, on-demand rendering and GPU resource disposal. Removed automatic rotation and the warm terrain tint; improved secondary text contrast. A static image remains until the renderer confirms readiness, including CDN failure. Browser verification: 126 checks across all eight routes, three page widths and five camera formats; three visual review passes. Registries remain unchanged: 115 records, 14 geometry entries. Archaeological source claims were not re-audited; physical mobile devices and Safari were not tested.
 
 Design lesson: fit the visible projected geometry inside the available screen area; a world-space bounding sphere and an iframe load event are insufficient evidence for a usable model preview. Disable the browser cache during verification to avoid measuring an older stylesheet. The next substantive model improvement still requires verified survey geometry.
+
+## 2026-10-23 · Pilot attribution and copy review
+
+Reviewed visible copy across all eight pages. Replaced design slogans with a short data legend and concrete descriptions. The landing pages now introduce the project pilot within the collaboration with the Institute of Archaeology, signed by doc. dr Bojan Končarević and doc. dr Poturak Semir, Union – Nikola Tesla University, Faculty of Construction Management, following Semir's instruction of 23 October. Updated README, institutional overview, current citation file and next-deposit Zenodo metadata. This does not update the previously archived Zenodo release or assert institutional review of the model.
+
+Checks: registry and suite validators; 16 page/viewport checks (390 and 1440 px), no overflow or JavaScript exceptions; Serbian and English landing and legend screenshots reviewed. Fixed anchor offset beneath the sticky header. Archaeological records and geometry were not revalidated in this editorial pass.
+
+Editorial rule: describe purpose, people, phase and next action; omit self-praise, design manifestos and contrived contrasts. Keep factual limitations. The general rule was added to the Svemir canon. Next: agree the initial building, source plans and review scope with collaborators.
+
+Design review: purpose is the collaboration pilot; source counts remain data-driven; removed slogans and oversized legend swatches; hierarchy is site, pilot/authors, model; no new motion; layout uses type and spacing without effects. Desktop Chromium emulation was checked; physical phones, Safari and screen readers were not tested.

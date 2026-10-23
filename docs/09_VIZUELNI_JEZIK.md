@@ -6,25 +6,16 @@
 
 ---
 
-## 1. Teza
+## 1. Namena
 
-> **Boja nije ukras i nije „antika“. Boja je tvrdnja o dokazu.**
+Prikaz pomaže čitanju modela i njegovih podataka. Boje i oznake razlikuju
+poreklo mera; ne potvrđuju tačnost geometrije. Tekst sajta kratko objašnjava
+sadržaj i sledeći korak, bez slogana i obrazlaganja sopstvene estetike.
 
-Prvi izgled sajta koristio je zlato na braon podlozi kao znak starine. To je
-kostim: ništa ne govori o lokalitetu, a sugeriše autoritet koji nemamo.
-Zamenjen je sistemom koji dolazi iz same discipline.
-
-Arheološki crtež vekovima razlikuje **sačuvano** od **rekonstruisanog**:
-zid koji stoji crta se puno, pretpostavljeni zid — šrafurom ili isprekidanom
-linijom. Ta konvencija je ovde uzeta kao **ceo vizuelni sistem**, ne kao
-dekorativni motiv. Veza sa antikom nije u paleti, nego u metodu kojim antika
-do nas uopšte dolazi: merenjem i notacijom.
-
-Posledica: paleta nema nijednu „brend“ boju. Četiri hrome vrednosti u sistemu
-su četiri klase dokaza i ništa drugo. Sve ostalo je neutralna skala podloge i
-mastila.
-
----
+Pilot je početna faza projekta u okviru saradnje sa Arheološkim institutom.
+Potpis: doc. dr Bojan Končarević i doc. dr Poturak Semir, Univerzitet
+Union – Nikola Tesla, Fakultet za graditeljski menadžment (Semirova instrukcija,
+23.10.2026). Obim naredne faze i pristup dokumentaciji ostaju za zajednički dogovor.
 
 ## 2. Konvencija crteža — četiri znaka
 
@@ -45,7 +36,7 @@ Isti četiri znaka važe na sve tri površine:
 - **3D maketa** — boja i prozirnost materijala u `blizanac.html`
 
 Maketa čita boje iz istih CSS promenljivih kao stranice (`--d1`, `--d2`,
-`--d3`, `--g0`), pa paleta fizički ne može da se razdvoji na dve verzije.
+`--d3`, `--g0`), što olakšava usklađivanje palete.
 
 **Granica:** znak govori o poreklu mere, ne o tačnosti. Objavljena dimenzija
 može biti pogrešno objavljena; šematski oblik može biti blizu tačnog. Položaj,
@@ -61,7 +52,7 @@ pamte u `localStorage`, a prvi dolazak prati `prefers-color-scheme`. Nijedna
 tema ne menja značenje znakova; menja se samo nosilac.
 
 **Podloga je merna.** Umesto teksture pergamenta, hairline raster od 48 px
-(`.raster`) — podsećanje da je ceo sadržaj merenje, ne ilustracija.
+(`.raster`) — pomoćna mreža u pozadini prikaza.
 
 **Pisma** (self-hosted, OFL, bez poziva ka trećoj strani — vidi
 [`assets/fonts/LICENSE.md`](../assets/fonts/LICENSE.md)):
@@ -70,7 +61,7 @@ tema ne menja značenje znakova; menja se samo nosilac.
 - **Inter** — podaci, oznake, kontrole, sve brojke (`tabular-nums`).
 - **sistemski mono** — identifikatori (`G-HORREUM`, `M-H09`, `MED-04`) i mere.
 
-Pravilo: **serif govori, sans meri.** Identifikator nikada nije u serifu.
+Identifikatori koriste monospace pismo.
 
 **Radijus 3 px, ne 10.** Crtački, skoro oštar — bliže listu papira nego
 aplikaciji.
@@ -85,7 +76,7 @@ razlikuje od stranice do stranice (ranije su postojala tri različita, a 3D
 prikaz nije imao `<nav>` uopšte).
 
 - **Marka:** kvadrat sonde sa mrežom — jedan kvadrant pun (poznato), jedan
-  šrafiran (pretpostavljeno), dva prazna. Znak projekta je sopstvena teza.
+  šrafiran (pretpostavljeno), dva prazna. Znak se koristi za povratak na naslovnu.
 - **Navigacija:** sedam stranica + jezički par, isti redosled svuda, tačno
   jedan `aria-current`.
 - **Ispod 1040 px:** navigacija se sklapa u fioku sa dugmetom (`aria-expanded`,

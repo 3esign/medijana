@@ -4,7 +4,12 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23580526.svg)](https://doi.org/10.5281/zenodo.23580526)
 
-Repozitorijum konsoliduje ono čime projekat trenutno raspolaže, kao osnova za razgovor o naučno-tehničkoj saradnji sa Arheološkim institutom u Beogradu, Narodnim muzejom u Nišu i Zavodom za zaštitu spomenika kulture Niš.
+Pilot projekta u okviru saradnje sa Arheološkim institutom. Početna faza objedinjuje objavljene izvore, radnu 3D maketu i pitanja za zajedničku stručnu proveru.
+
+**doc. dr Bojan Končarević · doc. dr Poturak Semir**  
+Univerzitet Union – Nikola Tesla · Fakultet za graditeljski menadžment
+
+Project pilot within the collaboration with the Institute of Archaeology. Authors: Assist. Prof. Dr Bojan Končarević · Assist. Prof. Dr Semir Poturak. Union – Nikola Tesla University · Faculty of Construction Management.
 
 ---
 
@@ -63,23 +68,21 @@ Projekat je citabilan preko [`CITATION.cff`](CITATION.cff); nova hipoteza i novi
 Granice su deo metoda i izgovaraju se tačno:
 
 - **Nema novih terenskih podataka.** Sve je sinteza objavljene literature i javnih izveštaja; nijedan nalaz nije naš.
-- **Nema formalnog sporazuma sa institucijama** — ovaj materijal je priprema za taj razgovor, ne njegov rezultat.
+- **Početna faza saradnje.** Obim naredne faze, pristup dokumentaciji i prava prikaza dogovaraju se sa saradnicima.
 - **HBIM još ne postoji; 3D maketa nije rekonstrukcija.** Radna maketa (`blizanac.html`) je prostorni registar znanja sa šematskim rasporedom — bez georeferenciranja, bez arhitektonskog detalja. HBIM pilot (stibadijum sa mozaikom Meduze) ostaje faza P2.
 - **Mapa nije geodetski snimak.** Overlay lokaliteta je isti šematski raspored položen preko satelitskog snimka (sidro vizuelno poravnato sa zaštitnom konstrukcijom); koordinate šire mape su očitane sa javnih karata, a za Šarkamen i Caričin grad čekaju referencu.
 - **Katalog literature je nepotpun** — najveća praznina su izvori na srpskom, nemačkom i francuskom (pitanje M-Q13).
 - Sve hipoteze M-H01–M-H10 nose status **NEPROVERENO**.
 
-## Ponuda saradnje — tehnološki partner, ne konkurent
+## Saradnja i naredna faza
 
-Projekat ne traži dozvole za iskopavanje i ne pretenduje na tumačenje nalaza. Donosi inženjerski sloj:
+Pilot objedinjuje literaturu, šematski model i istraživačka pitanja. U okviru
+saradnje sa Arheološkim institutom slede dogovor o prvom objektu, pribavljanje
+planova i stručna provera. HBIM, praćenje konzervatorskog stanja i povezivanje
+sa institucionalnim bazama predstavljaju mogućnosti daljeg razvoja.
 
-- alat za upravljanje terenskom dokumentacijom i praćenje konzervatorskog stanja u 3D prostoru;
-- parametarski HBIM model vezan za bazu dokaza, sa paradata slojem po London Charter standardu;
-- otvoren WebGPU prikaz koji radi u pregledaču bez instalacije softvera;
-- CIDOC CRM / CRMarchaeo semantika i FAIR objava sa trajnim identifikatorom;
-- tehnološki deo prijava za domaće i evropske fondove.
-
-Nalazi, terenska dokumentacija i naučna interpretacija ostaju kod nadležnih ustanova i istraživača.
+Korišćenje i objavljivanje terenske građe dogovaraju se sa nadležnim ustanovama
+i istraživačima.
 
 ## Faze
 
@@ -117,7 +120,7 @@ Kontrolna lista objave: [`docs/08_LAUNCH.md`](docs/08_LAUNCH.md).
 
 ## Istraživački sto · 22.10.2026.
 
-`istrazivanje.html` povezuje hipoteze, kontradikcije i otvorena pitanja. Pretraga i filter N0–N6 čuvaju se u URL-u; izbor se izvozi u JSON ili štampa. Veze na 3D otvaraju odgovarajući objekat i njegov opis. Stranica sadrži predlog minimalnog paketa za razgovor sa Institutom i preuzimanje GLB makete; saradnja nije predstavljena kao ugovorena.
+`istrazivanje.html` povezuje hipoteze, kontradikcije i otvorena pitanja. Pretraga i filter N0–N6 čuvaju se u URL-u; izbor se izvozi u JSON ili štampa. Veze na 3D otvaraju odgovarajući objekat i njegov opis. Stranica sadrži predlog minimalnog paketa za razgovor sa Institutom i preuzimanje GLB makete; obim sledeće faze ostaje za dogovor sa saradnicima.
 
 Oznake A-MEDIJANA i MED nisu automatski izjednačene. Raniji opisi pročitanosti nisu nova potvrda pristupa originalu. A-MEDIJANA-03 ima prijavljenu neusaglašenost iz ranijeg istraživanja; izvlačenje mera oktogona čeka proveru originalne publikacije.
 
@@ -171,10 +174,9 @@ Suite je prešao na jedan dizajn-sistem: [`assets/medijana.css`](assets/medijana
 [`assets/suite.js`](assets/suite.js), sa zaglavljem koje se generiše iz
 [`tools/uskladi-skelet.cjs`](tools/uskladi-skelet.cjs) i zato je identično na svih devet stranica.
 
-Teza sistema: **boja nije ukras i nije „antika“ — boja je tvrdnja o dokazu.** Raniji
-zlatno-braon „antički“ sloj zamenjen je konvencijom arheološkog crteža: puno = objavljena
-mera, tonirano = izvedeno, šrafirano = šematsko, tačkasto = sporno. Isti znaci važe na
-stranicama, mapi i u 3D maketi, a maketa čita boje iz istih CSS promenljivih kao stranice.
+Oznake razlikuju objavljene mere, izvedene vrednosti, šematsku geometriju i
+elemente izvan prikaza. Položaj i visina proveravaju se odvojeno. Boje 3D
+makete preuzimaju se iz zajedničkih CSS promenljivih.
 
 Uz to: dve teme (`teren` tamna / `arhiv` svetla, pamte se i prate `prefers-color-scheme`,
 mogu se deliti i kroz `?tema=`), self-hosted pisma (Inter + Source Serif 4, OFL —

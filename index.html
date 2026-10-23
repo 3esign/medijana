@@ -3,12 +3,12 @@
 <head>
 <title>Medijana — Vila Konstantina kod Niša · Digitalni arheološki blizanac</title>
 <!--launch-meta-->
-<meta name="description" content="Digitalni arheološki blizanac kasnoantičkog carskog kompleksa Medijana (Naissus). Naučna forenzika, London Charter, HBIM/WebGPU.">
+<meta name="description" content="Pilot projekta u okviru saradnje sa Arheološkim institutom. U ovoj početnoj fazi povezujemo objavljene izvore, radnu 3D maketu i pitanja za zajedničku proveru.">
 <link rel="canonical" href="https://3esign.github.io/medijana/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Medijana · digitalni arheološki blizanac">
 <meta property="og:title" content="Medijana — Vila Konstantina kod Niša · Digitalni arheološki blizanac">
-<meta property="og:description" content="Digitalni arheološki blizanac kasnoantičkog carskog kompleksa Medijana (Naissus). Naučna forenzika, London Charter, HBIM/WebGPU.">
+<meta property="og:description" content="Pilot projekta u okviru saradnje sa Arheološkim institutom. U ovoj početnoj fazi povezujemo objavljene izvore, radnu 3D maketu i pitanja za zajedničku proveru.">
 <meta property="og:url" content="https://3esign.github.io/medijana/">
 <meta property="og:image" content="https://3esign.github.io/medijana/assets/blizanac-render.png">
 <meta property="og:image:alt" content="Render 3D radne makete kompleksa Medijana iz registra geometrije">
@@ -99,10 +99,11 @@
   <div class="hero-sadrzaj okvir">
     <div class="nadnaslov">Niš, Srbija · carski kompleks · IV vek</div>
     <h1 class="display">Medijana</h1>
-    <p class="podnaslov">Prostor za istraživanje.<br> Znanje otvoreno proveri.</p>
-    <p class="uvod">Istraži carski kompleks Medijane kroz prostornu maketu, objavljene izvore i otvorena pitanja. Svaka mera čuva svoje poreklo; raspored ostaje šematski.</p>
+    <p class="podnaslov">Digitalni arheološki blizanac</p>
+    <p class="uvod">Pilot projekta u okviru saradnje sa Arheološkim institutom. U ovoj početnoj fazi povezujemo objavljene izvore, radnu 3D maketu i pitanja za zajedničku proveru.</p>
+    <p class="potpis-pilota"><span>doc. dr Bojan Končarević · doc. dr Poturak Semir</span><span>Univerzitet Union – Nikola Tesla · Fakultet za graditeljski menadžment</span></p>
     <div class="akcije">
-      <a class="dugme glavno veliko" href="blizanac.html">Uđi u blizanac<span class="strelica" aria-hidden="true">→</span></a>
+      <a class="dugme glavno veliko" href="blizanac.html">Otvori 3D model<span class="strelica" aria-hidden="true">→</span></a>
       <a class="dugme veliko" href="#jezik">Odakle potiču podaci</a>
     </div>
   </div>
@@ -134,38 +135,30 @@
 
 <section class="traka" id="jezik">
   <div class="okvir">
-    <div class="dve-kolone">
-      <div>
-        <div class="nadnaslov">Vizuelni jezik</div>
-        <h2 style="margin-top:14px">Boja ovde nije ukras. Boja je tvrdnja o dokazu.</h2>
-      </div>
-      <div>
-        <p class="proza" style="color:var(--ink2)">Arheološki crtež vekovima razlikuje sačuvano od rekonstruisanog: zid koji stoji crta se puno, zid koji pretpostavljamo — šrafurom. Ovaj sajt uzima tu konvenciju kao ceo svoj vizuelni sistem. Nijedna boja na stranicama, mapi i maketi ne znači „antiku“; svaka znači koliko tvrdnja iza nje stoji.</p>
-        <p class="sitno razmak-s"><a class="veza" href="docs/09_VIZUELNI_JEZIK.md">Vizuelni jezik — puna odluka i obrazloženje</a></p>
-      </div>
-    </div>
+    <h2>Podaci u modelu</h2>
+    <p class="sitno razmak-s">Oznake razlikuju objavljene mere, izvedene vrednosti i šematsku geometriju. Položaji i visine proveravaju se zasebno.</p>
 
     <div class="traka-dokaza razmak-l" id="traka-dokaza" role="img" aria-label="Udeo klasa dokaza u registru geometrije"></div>
     <p class="sitno" style="margin-top:8px;color:var(--ink3)" id="traka-note">Udeo klasa dokaza u <a class="veza" href="data/GEOMETRIJA.jsonl">GEOMETRIJA.jsonl</a>.</p>
 
     <div class="konvencije">
-      <div class="konvencija"><div class="uzorak u1"></div><b>Puno — objavljena mera</b><p>Dimenzija stoji u objavljenoj literaturi; mi je prenosimo, ne izvodimo.</p><span class="racun" data-udeo="objavljena_dimenzija">—</span></div>
-      <div class="konvencija"><div class="uzorak u2"></div><b>Tonirano — izvedeno</b><p>Mera je izračunata iz objavljenog podatka (npr. iz površine), pa nosi našu računicu.</p><span class="racun" data-udeo="izvedeno_iz_povrsine">—</span></div>
-      <div class="konvencija"><div class="uzorak u3"></div><b>Šrafirano — šematsko</b><p>Oblik i položaj su radna pretpostavka dok ne stigne geodetski plan (faza P2).</p><span class="racun" data-udeo="sematski">—</span></div>
-      <div class="konvencija"><div class="uzorak ux"></div><b>Tačkasto — sporno</b><p>Identitet ili pripadnost su osporeni; element ostaje u registru, ali izlazi iz prikaza.</p><span class="racun" data-udeo="iskljuceno">—</span></div>
+      <div class="konvencija"><div class="uzorak u1"></div><b>Objavljena mera</b><p>Mera preneta iz navedene publikacije.</p><span class="racun" data-udeo="objavljena_dimenzija">—</span></div>
+      <div class="konvencija"><div class="uzorak u2"></div><b>Izvedena mera</b><p>Vrednost izračunata iz objavljenog podatka, na primer površine.</p><span class="racun" data-udeo="izvedeno_iz_povrsine">—</span></div>
+      <div class="konvencija"><div class="uzorak u3"></div><b>Šematska geometrija</b><p>Radna geometrija koja čeka proveru prema planu.</p><span class="racun" data-udeo="sematski">—</span></div>
+      <div class="konvencija"><div class="uzorak ux"></div><b>Izvan prikaza</b><p>Identitet ili pripadnost su osporeni; element ostaje u registru, ali izlazi iz prikaza.</p><span class="racun" data-udeo="iskljuceno">—</span></div>
     </div>
   </div>
 </section>
 
 <section class="traka">
   <div class="okvir">
-    <div class="nadnaslov">Instrument</div>
-    <h2 style="margin-top:14px">Šest pogleda na isti izvor istine</h2>
-    <p class="uvod razmak-s">Nijedna stranica ne drži sopstvenu kopiju podataka. Sve čitaju iste <code>data/*.jsonl</code> registre, pa javna priča ne može da odluta od naučnog stanja.</p>
+    <div class="nadnaslov">Pregled sadržaja</div>
+    <h2 style="margin-top:14px">Model, izvori i istraživačka pitanja</h2>
+    <p class="uvod razmak-s">Odaberite prostorni prikaz, pregled literature ili istraživačke zapise.</p>
     <div class="resetka razmak-m">
       <a class="kartica" href="blizanac.html">
         <span class="kartica-oznaka">3D</span><h3>Blizanac — radna maketa</h3>
-        <p>Three.js scena građena uživo iz registra geometrije: preklop sačuvanog stanja i rekonstrukcije, klik na objekat otvara njegov dokaz.</p>
+        <p>Prostorni pregled kompleksa. Izbor objekta otvara podatke o njegovim merama i izvorima.</p>
         <span class="znak gol" data-znak="geometrija">— elemenata</span>
       </a>
       <a class="kartica" href="mapa.html">
@@ -190,7 +183,7 @@
       </a>
       <a class="kartica" href="izvori.html">
         <span class="kartica-oznaka">1936–2026</span><h3>Izvori i hronologija</h3>
-        <p>Anotirana bibliografija u pet talasa, sa <i>supports</i>, <i>limits</i> i poštenim obimom čitanja — plus vremenska osa lokaliteta.</p>
+        <p>Bibliografija sa beleškama o sadržaju i obimu provere, uz hronologiju lokaliteta.</p>
         <span class="znak gol" data-znak="izvori">— jedinica</span>
       </a>
     </div>
@@ -205,7 +198,7 @@
         <h2 style="margin-top:14px">Četiri stuba dokaza, sedam nivoa posmatranja</h2>
       </div>
       <div>
-        <p class="proza" style="color:var(--ink2)">Umesto zatvorene animacije bez dokaza: svaki element modela nosi arheološki izvor i nivo pouzdanosti po Londonskoj povelji (2009) i Principima iz Sevilje (2011) — <b>A</b> činjenica, <b>B</b> analogija, <b>C</b> hipoteza.</p>
+        <p class="proza" style="color:var(--ink2)">Rad prati poreklo podataka i odluke o modelovanju, uz Londonsku povelju (2009) i Principe iz Sevilje (2011) kao metodološki okvir. Dokumentacija razdvaja podatke iz izvora, analogije i hipoteze.</p>
       </div>
     </div>
     <div class="stubovi">
@@ -233,13 +226,13 @@
     <div class="dve-kolone">
       <div>
         <div class="nadnaslov">Granice</div>
-        <h2 style="margin-top:14px">Šta ovaj projekat još nije</h2>
-        <p class="sitno razmak-s" style="max-width:46ch">Ovo nije sitni otisak na dnu strane. Šrafura znači isto ovde i na maketi: pretpostavka koja čeka dokaz.</p>
+        <h2 style="margin-top:14px">Trenutno stanje pilota</h2>
+        <p class="sitno razmak-s" style="max-width:46ch">Pregled dostupnog materijala i otvorenih zadataka.</p>
       </div>
       <div class="polje-granica">
         <ul class="popis" style="border:0">
           <li>Nema novih terenskih podataka — sve je sinteza objavljene literature i javnih izveštaja.</li>
-          <li>Nema formalnog sporazuma sa institucijama; ovo je priprema za taj razgovor, ne njegov rezultat.</li>
+          <li>Obim naredne faze i pristup terenskoj dokumentaciji predmet su dogovora u okviru saradnje.</li>
           <li>HBIM još ne postoji — postoji šematska radna maketa kao prostorni registar znanja. Pilot sa stvarnim planovima je faza P2.</li>
           <li>Raspored na maketi i overlay na mapi nisu georeferencirani.</li>
           <li>Katalog literature je nepotpun; sve hipoteze nose status <b>NEPROVERENO</b> dok se ne testiraju.</li>
@@ -249,15 +242,20 @@
   </div>
 </section>
 
-<section class="traka">
+<section class="traka" id="saradnja">
   <div class="okvir dve-kolone">
     <div>
       <div class="nadnaslov">Saradnja</div>
-      <h2 style="margin-top:14px">Tehnološki partner, ne konkurent</h2>
-      <p class="sitno razmak-s" style="max-width:48ch">Nalazi, prava i objavljivanje ostaju kod nadležnih ustanova i istraživača. Ono što donosimo je infrastruktura: dokumentacija u 3D prostoru, paradata po standardu i citabilna publikacija.</p>
-      <p class="razmak-m"><a class="dugme" href="docs/03_INSTITUCIONALNI_OKVIR_I_AKCIONI_PLAN.md">Institucionalni okvir i plan P1–P4<span class="strelica" aria-hidden="true">→</span></a></p>
+      <h2 style="margin-top:14px">Pilot sa Arheološkim institutom</h2>
+      <p class="sitno razmak-s">Pilot je početak zajedničkog rada na digitalnoj dokumentaciji Medijane. Sledeći korak je dogovor o prvom objektu, dostupnim planovima i načinu stručne provere.</p>
+      <p class="sitno razmak-s">Korišćenje i objavljivanje terenske građe dogovaraju se sa nadležnim ustanovama i istraživačima.</p>
     </div>
-    <blockquote>Alat za upravljanje terenskom dokumentacijom, praćenje konzervatorskog stanja u 3D prostoru i naučna publikacija po London Charter standardu — koja podiže citiranost i vidljivost istraživača.</blockquote>
+    <div class="autori-pilota">
+      <div class="nadnaslov">Autori</div>
+      <p>doc. dr Bojan Končarević<br>doc. dr Poturak Semir</p>
+      <p class="sitno">Univerzitet Union – Nikola Tesla · Fakultet za graditeljski menadžment</p>
+      <a class="veza" href="mailto:scumutator@gmail.com">scumutator@gmail.com</a>
+    </div>
   </div>
 </section>
 
@@ -267,7 +265,7 @@
   <div class="okvir">
     <div class="redovi">
       <div>
-        <h4>Suite</h4>
+        <h4>Pregled</h4>
         <ul>
           <li><a href="blizanac.html">Blizanac 3D</a></li>
           <li><a href="mapa.html">Mapa</a></li>
@@ -289,15 +287,14 @@
         <ul>
           <li><a href="docs/00_KONCEPT_GITHUB_I_PAGES.md">Koncept repozitorijuma</a></li>
           <li><a href="docs/02_DIGITALNI_BLIZANAC_I_STANDARDI.md">Standardi i paradata</a></li>
-          <li><a href="docs/09_VIZUELNI_JEZIK.md">Vizuelni jezik</a></li>
+          <li><a href="docs/09_VIZUELNI_JEZIK.md">Oznake i prikaz</a></li>
           <li><a href="README.md">README</a></li>
         </ul>
       </div>
       <div>
         <h4>Projekat</h4>
         <p style="max-width:34ch;color:var(--ink3);font-size:12.5px;line-height:1.6">
-          Faza P1 — konsolidacija znanja. Priprema za saradnju sa Arheološkim institutom u Beogradu i Narodnim muzejom u Nišu.<br><br>
-          Semir Poturak · <a href="mailto:scumutator@gmail.com">scumutator@gmail.com</a><br>
+          Pilot projekta u okviru saradnje sa Arheološkim institutom.<br><br>doc. dr Bojan Končarević · doc. dr Poturak Semir<br>Univerzitet Union – Nikola Tesla · Fakultet za graditeljski menadžment<br><br> <a href="mailto:scumutator@gmail.com">scumutator@gmail.com</a><br>
           DOI <a href="https://doi.org/10.5281/zenodo.23580526">10.5281/zenodo.23580526</a><br>
           Kôd MIT · sadržaj CC BY 4.0
         </p>

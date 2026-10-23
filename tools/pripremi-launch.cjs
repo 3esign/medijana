@@ -13,14 +13,14 @@ const OG_IMAGE = BASE + '/assets/blizanac-render.png';
 const SITE = 'Medijana · digitalni arheološki blizanac';
 
 const pages = {
-  'index.html': 'Digitalni arheološki blizanac kasnoantičkog carskog kompleksa Medijana (Naissus). Naučna forenzika, London Charter, HBIM/WebGPU.',
+  'index.html': 'Pilot projekta u okviru saradnje sa Arheološkim institutom. U ovoj početnoj fazi povezujemo objavljene izvore, radnu 3D maketu i pitanja za zajedničku proveru.',
   'blizanac.html': 'Prva 3D radna maketa kompleksa Medijana, generisana uživo iz data/GEOMETRIJA.jsonl; boja prati poreklo mere, ne pretpostavljeni izgled.',
   'mapa.html': 'Šira mapa povezanih kasnoantičkih lokacija (Via Diagonalis, tetrarhijske rezidencije) i šematski raspored lokaliteta Medijana.',
   'istrazivanje.html': 'Radna sveska projekta Medijana: hipoteze M-H01–M-H10, otvorena pitanja i registar kontradikcija, sa planom provere za svaki zapis.',
   'pokrivenost.html': 'Kartoni geometrijskih elemenata Medijane: poreklo svake mere, bibliografska veza i konkretan sledeći korak ka pouzdanijoj geometriji.',
   'izvori.html': 'Anotirana bibliografija Medijane (1936–2026) i hronologija lokaliteta od Konstantinovog doba do tekućih kampanja.',
-  'index-en.html': 'Digital archaeological twin and forensic spatial-material platform of the Late Antique imperial complex Mediana (Naissus). 90 years of excavations translated into open, verifiable 4D data.',
-  'registri.html': 'Strojni registri projekta Medijana renderovani uživo iz data/*.jsonl — jedan izvor istine za stranice, 3D maketu i mapu.',
+  'index-en.html': 'A project pilot within the collaboration with the Institute of Archaeology. This initial phase brings together published sources, a working 3D model and questions for joint review.',
+  'registri.html': 'Strukturisani podaci projekta Medijana: objekti, literatura, hipoteze i istraživačka pitanja.',
 };
 
 const OPEN = '<!--launch-meta-->', CLOSE = '<!--/launch-meta-->';

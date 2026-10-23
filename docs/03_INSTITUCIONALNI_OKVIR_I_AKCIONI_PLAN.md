@@ -44,17 +44,20 @@ Za uspeh projekta ključno je precizno razumevanje nadležnosti i uloga postoje�
 
 ---
 
-## 2. Pozicioniranje Svemira i strategija saradnje
+## 2. Pilot saradnje
 
-### Naša doktrina: „Tehnološki partner, a ne konkurent“
-- **Šta nismo:** Mi nismo arheološki kopači koji traže dozvole za iskopavanje, niti pretendujemo na monopol nad tumačenjem nalaza.
-- **Šta jesmo:** Donosimo vrhunski inženjerski i digitalni kapacitet:
-  - Izradu parametarskog HBIM modela koji povezuje geometriju sa bazom podataka.
-  - Implementaciju **Londonske povelje** i transparentnih paradata slojeva.
-  - Razvoj WebGPU interfejsa koji radi u svakom veb-pregledaču bez instalacije softvera.
-  - Pripremu i pisanje tehnološkog dela aplikacija za međunarodne fondove (EU Horizon, Creative Europe).
+Pilot projekta u okviru saradnje sa Arheološkim institutom predstavlja
+početni pregled objavljenih izvora, radne 3D makete i istraživačkih pitanja.
 
-*Pristup prvom kontaktu i pregovaračka priprema vode se izvan javnog repozitorijuma (`docs/private/`, nije deo objave).*
+**doc. dr Bojan Končarević · doc. dr Poturak Semir**  
+Univerzitet Union – Nikola Tesla · Fakultet za graditeljski menadžment
+
+Sledeća faza podrazumeva dogovor o objektu, dostupnim planovima, pravima
+korišćenja i stručnoj proveri. Parametarski HBIM i povezivanje geometrije sa
+bazom dokumentacije planirani su pravci razvoja. Sadašnji prikaz je šematski.
+
+Ovaj opis prati Semirovu instrukciju od 23.10.2026; ne predstavlja tekst ugovora
+niti potvrdu da je ustanova recenzirala postojeći model.
 
 ---
 

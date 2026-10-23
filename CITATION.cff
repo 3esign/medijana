@@ -3,8 +3,12 @@ message: "Ako koristite ovaj materijal, citirajte ga ovako / If you use this mat
 title: "Medijana (Naissus) — digitalni arheološki blizanac: forenzička konsolidacija znanja"
 type: dataset
 authors:
+  - family-names: Končarević
+    given-names: Bojan
+    affiliation: "Univerzitet Union – Nikola Tesla · Fakultet za graditeljski menadžment"
   - family-names: Poturak
     given-names: Semir
+    affiliation: "Univerzitet Union – Nikola Tesla · Fakultet za graditeljski menadžment"
     email: scumutator@gmail.com
 abstract: >-
   Konsolidacija 90 godina objavljenih istraživanja kasnoantičkog carskog

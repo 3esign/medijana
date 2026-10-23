@@ -14,9 +14,11 @@ const REC = {
     rek: 'Rekonstrukcija', sac: 'Sačuvano stanje', oznake: 'Oznake', legenda: 'Legenda',
     /* kratka imena za usku traku na telefonu — isto znacenje, manje mesta */
     ceoK: 'Ceo', osnovaK: 'Osnova', rekK: 'Rekonstr.', sacK: 'Sačuvano', oznakeK: 'Oznake', legendaK: 'Legenda',
-    legendaNaslov: 'Poštena maketa', legendaUvod: 'Radna maketa sa šematskim rasporedom. Ivica nosi poreklo mera:',
-    p1: 'objavljena dimenzija', p2: 'izvedeno iz objavljene površine', p3: 'šematski — čeka plan (P2)',
-    legendaKraj: 'Klik na objekat otvara njegov dokaz i granice. Međusobni raspored je šematski i nije georeferenciran.',
+    legendaNaslov: 'Poštena maketa',
+    lgPoreklo: 'Poreklo mere — ivica', lgGradja: 'Zapremina',
+    p1: 'objavljena dimenzija', p2: 'iz objavljene površine', p3: 'šematski — čeka plan (P2)',
+    k1: 'belo — rekonstruisana zapremina', k2: 'kamen — sačuvano zidanje', k3: 'duh — rekonstrukcija nad sačuvanim',
+    legendaKraj: 'Klik na objekat otvara dokaz. Raster tla 20 m. Raspored je šematski, nije georeferenciran.',
     ucitavanje: 'učitavanje geometrije…', sacuvano: 'Sačuvano:', rekU: 'u maketi rekonstruisano:',
     vezane: 'Vezane hipoteze:', izvori: 'Izvori:', karton: 'karton', bibliografija: 'bibliografija',
     polozaj: 'položaj:', izvanPrikaza: 'Izvan prikaza zbog spornog identiteta:', vidiPokrivenost: 'Vidi Pokrivenost.',
@@ -29,9 +31,11 @@ const REC = {
     ceo: 'Whole complex', osnova: 'Plan', izaberi: 'Select an object…',
     rek: 'Reconstruction', sac: 'Preserved state', oznake: 'Labels', legenda: 'Key',
     ceoK: 'Whole', osnovaK: 'Plan', rekK: 'Recon.', sacK: 'Preserved', oznakeK: 'Labels', legendaK: 'Key',
-    legendaNaslov: 'An honest model', legendaUvod: 'A working model with a schematic layout. The edge carries the origin of each dimension:',
-    p1: 'published dimension', p2: 'derived from a published area', p3: 'schematic — awaiting plans (P2)',
-    legendaKraj: 'Click an object to open its evidence and limits. The mutual layout is schematic and not georeferenced.',
+    legendaNaslov: 'An honest model',
+    lgPoreklo: 'Origin of measure — edge', lgGradja: 'Volume',
+    p1: 'published dimension', p2: 'from a published area', p3: 'schematic — awaiting plans (P2)',
+    k1: 'white — reconstructed volume', k2: 'stone — preserved masonry', k3: 'ghost — reconstruction over remains',
+    legendaKraj: 'Click an object for its evidence. Ground grid 20 m. Layout is schematic, not georeferenced.',
     ucitavanje: 'loading geometry…', sacuvano: 'Preserved:', rekU: 'reconstructed in the model:',
     vezane: 'Linked hypotheses:', izvori: 'Sources:', karton: 'record card', bibliografija: 'bibliography',
     polozaj: 'position:', izvanPrikaza: 'Excluded from view due to disputed identity:', vidiPokrivenost: 'See Coverage.',
@@ -107,13 +111,17 @@ export async function pokreniScenu(opcije = {}) {
   scena.add(sunce);
 
   /* ---------- bela maketa ---------- */
+  /* dve građe, jedna konvencija arheoloških maketa:
+     belo = rekonstruisana zapremina, kamen = stvarno sačuvano zidanje */
   const BELA = new THREE.Color('#f8f6f1');
-  const materijal = e => {
-    const c = BELA.clone();
-    if (BOJE_DOKAZA[e.pouzdanost]) c.lerp(new THREE.Color(BOJE_DOKAZA[e.pouzdanost]), 0.10);
+  const KAMEN = new THREE.Color('#c8bfab');
+  const materijal = (e, tip) => {
+    const c = (tip === 'kamen' ? KAMEN : BELA).clone();
+    if (BOJE_DOKAZA[e.pouzdanost]) c.lerp(new THREE.Color(BOJE_DOKAZA[e.pouzdanost]), tip === 'kamen' ? 0.07 : 0.10);
+    const sematski = e.pouzdanost === 'sematski';
     return new THREE.MeshStandardMaterial({
-      color: c, roughness: 0.94, metalness: 0,
-      transparent: e.pouzdanost === 'sematski', opacity: e.pouzdanost === 'sematski' ? 0.55 : 1,
+      color: c, roughness: tip === 'kamen' ? 1 : 0.94, metalness: 0,
+      transparent: sematski, opacity: sematski ? (tip === 'kamen' ? 0.7 : 0.55) : 1,
     });
   };
   const kutija = (x, y, z) => new THREE.BoxGeometry(x, y, z);
@@ -128,19 +136,35 @@ export async function pokreniScenu(opcije = {}) {
     return new THREE.CanvasTexture(c);
   })();
 
-  function oblik(e, h) {
-    const g = new THREE.Group(), m = materijal(e), D = e.dim;
+  /* v (varijanta): tip 'bela'|'kamen', ivice, senka, duh (samo isprekidane
+     ivice rekonstruisane zapremine nad sačuvanim), skala (sokl viri 2%) */
+  function oblik(e, h, v = {}) {
+    const g = new THREE.Group(), m = materijal(e, v.tip), D = e.dim;
     const dodaj = (geo, px = 0, pz = 0, ry = 0, py = h / 2) => {
       const M = new THREE.Mesh(geo, m);
       M.position.set(px, py, pz); M.rotation.y = ry;
-      if (!slabiji) M.castShadow = M.receiveShadow = true;
+      if (!slabiji && !v.duh) M.castShadow = M.receiveShadow = true;
       g.add(M); return M;
     };
     const greske = proveriZapis(e);
     if (greske.length) console.warn(`GEOMETRIJA ${e.id}: ${greske.join('; ')}`);
     OBLICI[e.oblik]?.gradi({ THREE, dodaj, kutija, D, h, g, TLO, PAPIR, MREZA, slabiji });
+    const boja = new THREE.Color(BOJE_DOKAZA[e.pouzdanost] || '#6c6a65');
+    if (v.duh) {
+      /* duh: zapremina postaje tanak isprekidan crtež, bez ispune —
+         nad kamenim ostacima pokazuje šta je u maketi rekonstruisano */
+      const lm = new THREE.LineDashedMaterial({ color: boja, dashSize: 1.5, gapSize: 1.1, transparent: true, opacity: 0.32 });
+      for (const mesh of [...g.children]) {
+        if (!mesh.isMesh) continue;
+        const L = new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry), lm);
+        L.position.copy(mesh.position); L.rotation.copy(mesh.rotation);
+        L.computeLineDistances();
+        g.add(L); g.remove(mesh); mesh.geometry.dispose();
+      }
+      m.dispose();
+    }
     /* mrlja ispod svake građevine, iz lokalnog obima grupe */
-    if (e.tip !== 'teren' && e.oblik !== 'ravan' && g.children.length) {
+    if (v.senka && e.oblik !== 'ravan' && g.children.length) {
       const box = new THREE.Box3().setFromObject(g);
       const sx = (box.max.x - box.min.x) * 1.35, sz = (box.max.z - box.min.z) * 1.35;
       const S = new THREE.Mesh(new THREE.PlaneGeometry(sx, sz),
@@ -154,12 +178,12 @@ export async function pokreniScenu(opcije = {}) {
        dubinski se bore sa tlom i trepere pri rotaciji */
     g.position.set(e.pos[0], e.tip === 'teren' ? 0 : 0.18, e.pos[1]);
     g.rotation.y = (e.rot_deg || 0) * Math.PI / 180;
-    /* ivica u boji dokaza: crtež na beloj zapremini */
-    if (e.tip !== 'teren' && !['kolonada_prsten', 'kolonada_dvoredna', 'cilindri_mreza'].includes(e.oblik)) {
+    if (v.skala) g.scale.set(v.skala, 1, v.skala);
+    /* ivica u boji dokaza: crtež na zapremini */
+    if (v.ivice && !v.duh && !['kolonada_prsten', 'kolonada_dvoredna', 'cilindri_mreza'].includes(e.oblik)) {
       for (const mesh of [...g.children]) {
         if (!mesh.isMesh) continue;
         const edges = new THREE.EdgesGeometry(mesh.geometry);
-        const boja = new THREE.Color(BOJE_DOKAZA[e.pouzdanost] || '#6c6a65');
         const lineMat = e.pouzdanost === 'sematski'
           ? new THREE.LineDashedMaterial({ color: boja, dashSize: 1.2, gapSize: 0.8, transparent: true, opacity: 0.85 })
           : new THREE.LineBasicMaterial({ color: boja, transparent: true, opacity: 0.95 });
@@ -181,18 +205,30 @@ export async function pokreniScenu(opcije = {}) {
         <button type="button" data-radnja="plan" aria-pressed="false"><span class="dugo">${esc(T.osnova)}</span><span class="kratko">${esc(T.osnovaK)}</span></button>
         <select class="scena-objekat" aria-label="${esc(T.izaberi)}"><option value="">${esc(T.izaberi)}</option></select>
       </div>
-      <button type="button" data-radnja="rek" class="on"><span class="dugo">${esc(T.rek)}</span><span class="kratko">${esc(T.rekK)}</span></button>
-      <button type="button" data-radnja="sac"><span class="dugo">${esc(T.sac)}</span><span class="kratko">${esc(T.sacK)}</span></button>
+      <span class="scena-seg">
+        <button type="button" data-radnja="rek" class="on"><span class="dugo">${esc(T.rek)}</span><span class="kratko">${esc(T.rekK)}</span></button>
+        <button type="button" data-radnja="sac"><span class="dugo">${esc(T.sac)}</span><span class="kratko">${esc(T.sacK)}</span></button>
+      </span>
       <button type="button" data-radnja="oznake" class="on"><span class="dugo">${esc(T.oznake)}</span><span class="kratko">${esc(T.oznakeK)}</span></button>
       <button type="button" data-radnja="legenda" aria-expanded="false" aria-controls="scena-legenda"><span class="dugo">${esc(T.legenda)}</span><span class="kratko">${esc(T.legendaK)}</span></button>
       ${punaStrana ? '<a class="scena-glb" href="modeli/medijana.glb" download>GLB</a>' : ''}
     </div>
     <aside class="scena-legenda" id="scena-legenda" hidden>
       <h2>${esc(T.legendaNaslov)}</h2>
-      <p>${esc(T.legendaUvod)}</p>
-      <div class="scena-stavka"><span class="scena-uz scena-u1"></span>${esc(T.p1)}</div>
-      <div class="scena-stavka"><span class="scena-uz scena-u2"></span>${esc(T.p2)}</div>
-      <div class="scena-stavka"><span class="scena-uz scena-u3"></span>${esc(T.p3)}</div>
+      <div class="scena-leg-kolone">
+        <div>
+          <div class="scena-leg-grupa">${esc(T.lgPoreklo)}</div>
+          <div class="scena-stavka"><span class="scena-uz scena-u1"></span>${esc(T.p1)}</div>
+          <div class="scena-stavka"><span class="scena-uz scena-u2"></span>${esc(T.p2)}</div>
+          <div class="scena-stavka"><span class="scena-uz scena-u3"></span>${esc(T.p3)}</div>
+        </div>
+        <div>
+          <div class="scena-leg-grupa">${esc(T.lgGradja)}</div>
+          <div class="scena-stavka"><span class="scena-uz scena-ub"></span>${esc(T.k1)}</div>
+          <div class="scena-stavka"><span class="scena-uz scena-uk"></span>${esc(T.k2)}</div>
+          <div class="scena-stavka"><span class="scena-uz scena-ud"></span>${esc(T.k3)}</div>
+        </div>
+      </div>
       <div class="scena-legenda-kraj">${esc(T.legendaKraj)} <a class="veza" href="data/GEOMETRIJA.jsonl">GEOMETRIJA.jsonl</a></div>
     </aside>
     <div class="scena-info" hidden></div>
@@ -233,11 +269,27 @@ export async function pokreniScenu(opcije = {}) {
     geometrije.forEach(g => g.dispose()); materijali.forEach(m => m.dispose()); grupe = [];
     oznake.forEach(o => { o.el.remove(); o.linija.remove(); }); oznake = [];
     for (const e of elementi) {
-      const h = e.tip === 'teren' ? 0 : Math.max(rezim === 'rek' ? e.visina_rek_m : e.visina_sacuvana_m, 0.05);
-      const obj = oblik(e, h);
+      const teren = e.tip === 'teren';
+      const hRek = Math.max(e.visina_rek_m || 0, 0.05), hSac = Math.max(e.visina_sacuvana_m || 0, 0.05);
+      const h = teren ? 0 : (rezim === 'rek' ? hRek : hSac);
+      const obj = oblik(e, h, { tip: rezim === 'sac' && !teren ? 'kamen' : 'bela', ivice: !teren, senka: !teren });
       obj.traverse(o => { o.userData.el = e; });
       scena.add(obj); grupe.push({ obj, el: e });
-      if (e.tip !== 'teren') {
+      /* oblici kojima gradi() ne sluša h (dolije) nemaju šta da dele na slojeve */
+      const slojevito = !teren && hRek - hSac > 0.3 && e.oblik !== 'cilindri_mreza';
+      if (slojevito && rezim === 'rek' && e.pouzdanost !== 'sematski' && e.visina_sacuvana_m > 0.2) {
+        /* kameni sokl: stvarno sačuvana visina viri 2% iz bele zapremine */
+        const sokl = oblik(e, hSac, { tip: 'kamen', skala: 1.02 });
+        sokl.traverse(o => { o.userData.el = e; });
+        scena.add(sokl); grupe.push({ obj: sokl, el: e });
+      }
+      if (slojevito && rezim === 'sac') {
+        /* duh rekonstruisane zapremine nad ostacima; bez userData.el,
+           pa klik prolazi kroz njega do stvarnih zapremina */
+        const duh = oblik(e, hRek, { duh: true });
+        scena.add(duh); grupe.push({ obj: duh, el: e });
+      }
+      if (!teren) {
         const d = document.createElement('div');
         d.className = 'scena-oznaka'; d.textContent = ime(e);
         koren.appendChild(d);
@@ -367,9 +419,10 @@ export async function pokreniScenu(opcije = {}) {
     for (const g of grupe) {
       if (g.el.tip === 'teren' || (trazeniKadar && g.el.id !== trazeniKadar)) continue;
       g.obj.updateWorldMatrix(true, true);
-      /* kontaktne senke ne ulaze u kadar: šire su od objekta */
+      /* kontaktne senke ne ulaze u kadar: šire su od objekta;
+         duh-linije ulaze, da rekonstruisana zapremina ne izlazi iz kadra */
       const box = new THREE.Box3();
-      g.obj.traverse(o => { if (o.isMesh && !o.userData.senka) box.expandByObject(o); });
+      g.obj.traverse(o => { if ((o.isMesh || o.isLine) && !o.userData.senka) box.expandByObject(o); });
       for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z])
         points.push(new THREE.Vector3(x, y, z));
     }

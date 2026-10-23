@@ -115,3 +115,10 @@ Design review: purpose is the collaboration pilot; source counts remain data-dri
 - Damping ispod praga ne drži scenu 'u pokretu' — natpisi se smire odmah.
 - naziv_en za svih 14 elemenata: EN strana ima engleske natpise, izbor i dosije.
 - Provera: tools/cdp-linije.cjs (mir/prevlačenje/damping/bez oznaka — 0 siročića) prošla lokalno i uživo; cdp-provera 1440/390, blizanac, EN — 0 grešaka, 0 sudara.
+
+## 2026-10-23 — Dve građe makete i kompaktna legenda
+- Konvencija arheoloških maketa u 3D: belo = rekonstruisana zapremina, kamen = stvarno sačuvano zidanje. U Rekonstrukciji sačuvana visina viri kao kameni sokl (2%); u Sačuvanom stanju nad kamenim ostacima stoji isprekidani „duh" rekonstruisane zapremine (bez ispune, klik prolazi kroz njega).
+- Razlika režima je sada vidljiva na prvi pogled; duh ulazi u kadriranje da ne bude odsečen.
+- Legenda prerađena: dve kolone (Poreklo mere / Zapremina), 22% visine ekrana na desktopu i 21% na telefonu (ranije praktično ceo ekran); tekstovi skraćeni, dodat raster tla 20 m.
+- Rek/Sačuvano kao segmentni prekidač u HUD-u.
+- Provere: proveri-registre (115 zapisa, shapeCheck 13), proveri-suite (8 strana), cdp-provera index/blizanac/EN na 1440 i 390 (0 grešaka, 0 sudara, 0 van okvira), cdp-linije (0 siročića), snimci oba režima + legenda pregledani okom.

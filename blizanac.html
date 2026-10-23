@@ -4,22 +4,21 @@
 <!--skelet-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<script>try{var u=new URLSearchParams(location.search).get('tema'),t=u||localStorage.getItem('medijana-tema');document.documentElement.dataset.tema=t==='arhiv'||t==='teren'?t:(matchMedia('(prefers-color-scheme: light)').matches?'arhiv':'teren')}catch(e){document.documentElement.dataset.tema='teren'}</script>
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/sourceserif4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#0c0c0b">
+<meta name="theme-color" content="#f3f1ec">
 <link rel="stylesheet" href="assets/medijana.css">
 <script src="assets/suite.js" defer></script>
 <!--/skelet-->
 <title>Medijana · Digitalni blizanac — 3D radna maketa</title>
 <!--launch-meta-->
-<meta name="description" content="Prva 3D radna maketa kompleksa Medijana, generisana uživo iz data/GEOMETRIJA.jsonl; boja prati poreklo mere, ne pretpostavljeni izgled.">
+<meta name="description" content="Prva 3D radna maketa kompleksa Medijana, generisana uživo iz data/GEOMETRIJA.jsonl; boja ivice prati poreklo mere, ne pretpostavljeni izgled.">
 <link rel="canonical" href="https://3esign.github.io/medijana/blizanac.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Medijana · digitalni arheološki blizanac">
 <meta property="og:title" content="Medijana · Digitalni blizanac — 3D radna maketa">
-<meta property="og:description" content="Prva 3D radna maketa kompleksa Medijana, generisana uživo iz data/GEOMETRIJA.jsonl; boja prati poreklo mere, ne pretpostavljeni izgled.">
+<meta property="og:description" content="Prva 3D radna maketa kompleksa Medijana, generisana uživo iz data/GEOMETRIJA.jsonl; boja ivice prati poreklo mere, ne pretpostavljeni izgled.">
 <meta property="og:url" content="https://3esign.github.io/medijana/blizanac.html">
 <meta property="og:image" content="https://3esign.github.io/medijana/assets/blizanac-render.png">
 <meta property="og:image:alt" content="Render 3D radne makete kompleksa Medijana iz registra geometrije">
@@ -30,75 +29,8 @@
 <!--/launch-meta-->
 <style>
   html,body{height:100%;overflow:hidden}
-  #scena{position:fixed;inset:0;z-index:0}
-  #scena canvas{display:block}
-  .hdr{position:fixed;left:0;right:0;top:0}
-  .sloj{position:fixed;z-index:50}
-
-  /* kontrole: donja leva traka */
-  #kontrole{left:clamp(10px,2vw,18px);bottom:clamp(10px,2vw,18px);display:flex;gap:7px;flex-wrap:wrap;max-width:min(560px,calc(100vw - 20px))}
-  #kontrole button{background:var(--staklo);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
-    border-color:var(--l2);padding:9px 14px;font-size:12.5px;min-height:36px}
-  #kontrole .red-kontrole{display:flex;gap:6px;flex-wrap:wrap;width:100%}
-  #kontrole select{max-width:230px;min-width:0;font-size:12px;padding:8px;background:var(--g1);border:1px solid var(--l2);border-radius:var(--r);color:var(--ink)}
-  #kontrole button,#kontrole a{min-height:40px}
-  #kontrole button.on{background:var(--ink);color:var(--g0);border-color:var(--ink)}
-
-  /* legenda: donja desna ploca, na uskom ekranu sklopiva */
-  #legenda{right:clamp(10px,2vw,18px);bottom:clamp(10px,2vw,18px);width:min(300px,calc(100vw - 20px));
-    background:var(--staklo);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
-    border:1px solid var(--l2);border-radius:var(--r);padding:15px 17px;box-shadow:var(--senka)}
-  #legenda h2{font:600 10.5px/1 var(--f-sans);letter-spacing:.15em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
-  #legenda p{font-size:12.5px;line-height:1.5;color:var(--ink2);max-width:none}
-  #legenda .stavka{display:flex;gap:10px;align-items:center;margin-top:9px;font-size:12.5px;color:var(--ink2)}
-  #legenda .uz{width:16px;height:16px;flex:none;border:1px solid var(--l2);border-radius:2px}
-  #legenda .u1{background:var(--d1)}
-  #legenda .u2{background:color-mix(in srgb,var(--d2) 60%,transparent)}
-  #legenda .u3{border-style:dashed;border-color:color-mix(in srgb,var(--d3) 55%,transparent);
-    background-image:repeating-linear-gradient(45deg,color-mix(in srgb,var(--d3) 60%,transparent) 0 2px,transparent 2px 6px)}
-  #legenda .kraj{margin-top:12px;padding-top:11px;border-top:1px solid var(--l1);font-size:12px;color:var(--ink3)}
-  #legenda-dugme{display:inline-flex}
-  #legenda[hidden]{display:none}
-
-  /* dosije objekta */
-  #info{right:clamp(10px,2vw,18px);top:calc(var(--h-hdr) + 12px);width:min(360px,calc(100vw - 20px));
-    background:var(--staklo);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
-    border:1px solid var(--l2);border-radius:var(--r);padding:17px 19px;display:none;
-    max-height:calc(100dvh - var(--h-hdr) - 150px);overflow:auto;box-shadow:var(--senka)}
-  #info h3{font-size:18px;margin:8px 0 10px}
-  #info p{font-size:13px;line-height:1.55;color:var(--ink2);margin-bottom:8px;max-width:none}
-  #info p b{color:var(--ink);font-weight:600}
-  #info .znak{margin:0 5px 6px 0}
-  #info .x{float:right;background:none;border:0;color:var(--ink3);font-size:18px;line-height:1;cursor:pointer;padding:2px 4px;min-height:0}
-  #info .x:hover{color:var(--ink);background:none}
-  #info a{color:var(--ink);border-bottom:1px solid var(--l2);text-decoration:none}
-
-  /* poruke */
-  #status{left:clamp(10px,2vw,18px);top:calc(var(--h-hdr) + 12px);max-width:min(380px,calc(100vw - 20px));
-    font-size:12px;line-height:1.5;color:var(--ink3);background:var(--staklo);
-    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
-    border:1px solid var(--l1);border-left:2px solid var(--dx);border-radius:var(--r);padding:9px 13px}
-  #status:empty{display:none}
-  #oznaka{position:fixed;z-index:40;padding:2px 8px;font:500 11px/1.5 var(--f-sans);color:var(--ink);
-    background:var(--staklo);border:1px solid var(--l1);border-radius:3px;pointer-events:none;display:none}
-  .oznaka-3d{position:fixed;z-index:30;padding:2px 7px;font:500 11px/1.5 var(--f-sans);
-    color:var(--ink2);background:var(--staklo);border-radius:3px;pointer-events:none;white-space:nowrap;
-    transform:translate(-50%,-50%)}
-
-  @media (max-width:860px){
-    #kontrole{max-width:calc(100vw - 20px);gap:5px}
-    #kontrole button{font-size:11px;padding:8px 9px;min-height:44px}
-    #kontrole .red-kontrole{flex-wrap:nowrap;gap:5px}
-    #kontrole select{flex:1;width:90px;min-height:44px;padding:6px;font-size:11px}
-    #kontrole>a{display:none}
-    #legenda{width:min(320px,calc(100vw - 20px));bottom:var(--alat-dno,112px)}
-    #legenda[hidden]{display:none}
-    #legenda-dugme{display:inline-flex}
-    #info{top:auto;bottom:var(--alat-dno,112px);left:clamp(10px,2vw,18px);right:clamp(10px,2vw,18px);width:auto;
-      max-height:min(44dvh,400px)}
-    #status{max-width:calc(100vw - 20px);font-size:11.5px}
-  }
-  body[data-embed="1"] .sloj,body[data-embed="1"] .hdr,body[data-embed="1"] .skip{display:none!important}
+  main{position:fixed;inset:0}
+  #scena{position:absolute;inset:0}
 </style>
 </head>
 <body>
@@ -125,47 +57,12 @@
 </header>
 <!--/hdr-->
 <main id="sadrzaj">
-  <div id="scena"></div>
-  <div id="rezervni-prikaz" class="sloj" style="inset:160px 20px auto;max-width:600px;margin:auto;text-align:center">
-    <img src="assets/blizanac-render.png" alt="Statični render šematske makete" style="width:100%;max-height:45vh;object-fit:contain">
-    <p id="rezervna-poruka">Učitavanje 3D pregleda. <a href="pokrivenost.html">Objekti i dokazi</a> dostupni su i bez 3D prikaza.</p>
+  <div id="scena" class="scena scena-pod-zaglavljem">
+    <img class="scena-poster" src="assets/blizanac-render.png" alt="">
   </div>
   <h1 class="vizuelno-skriveno">Medijana — 3D radna maketa iz registra geometrije</h1>
-  <div class="sloj" id="status">učitavanje geometrije…</div>
-
-  <div class="sloj" id="kontrole">
-    <div class="red-kontrole">
-      <button id="btnKadar" type="button">Ceo kompleks</button>
-      <button id="btnPlan" type="button" aria-pressed="false">Osnova</button>
-      <select id="objekat" aria-label="Izaberi objekat"><option value="">Izaberi objekat…</option></select>
-    </div>
-    <button id="btnRez" type="button" class="on">Rekonstrukcija</button>
-    <button id="btnSac" type="button">Sačuvano stanje</button>
-    <button id="btnOzn" type="button" class="on">Oznake</button>
-    <button id="legenda-dugme" type="button" aria-expanded="true" aria-controls="legenda">Legenda</button>
-    <a class="dugme" href="modeli/medijana.glb" download style="background:var(--staklo)">GLB</a>
-  </div>
-
-  <aside class="sloj" id="legenda">
-    <h2>Poštena maketa</h2>
-    <p>Radna maketa sa šematskim rasporedom. Oznake prikazuju poreklo mera:</p>
-    <div class="stavka"><span class="uz u1"></span>objavljena dimenzija</div>
-    <div class="stavka"><span class="uz u2"></span>izvedeno iz objavljene površine</div>
-    <div class="stavka"><span class="uz u3"></span>šematski — čeka plan (P2)</div>
-    <div class="kraj">Klik na objekat otvara njegov dokaz i granice. Međusobni raspored je šematski i nije georeferenciran. Izvor: <a class="veza" href="data/GEOMETRIJA.jsonl">GEOMETRIJA.jsonl</a></div>
-  </aside>
-
-  <div class="sloj" id="info"></div>
-  <div id="oznaka"></div>
 </main>
 
-<script>
-setTimeout(function(){
-  if(document.body.dataset.scene==='ready')return;
-  document.getElementById('rezervna-poruka').innerHTML='3D prikaz trenutno nije dostupan. <a href="pokrivenost.html">Otvori objekte i dokaze</a> ili osveži stranicu za novi pokušaj.';
-  document.getElementById('status').textContent='Prikazan je rezervni statični render.';
-},12000);
-</script>
 <script type="importmap">
 {"imports":{
   "three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
@@ -173,335 +70,15 @@ setTimeout(function(){
 }}
 </script>
 <script type="module">
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
-const upit = new URLSearchParams(location.search);
-const ugradjeno = upit.has('embed');
-if (ugradjeno) document.body.dataset.embed = '1';
-
-/* boje scene dolaze iz istog sistema kao stranice (--g0, --d1, --d2, --d3) */
-const css = (ime, pad) => {
-  const v = getComputedStyle(document.documentElement).getPropertyValue(ime).trim();
-  return v ? new THREE.Color(v) : new THREE.Color(pad);
-};
-const paleta = () => ({
-  pozadina: css(ugradjeno ? '--g1' : '--g0', '#0c0c0b'),
-  objavljena_dimenzija: css('--d1', '#8fba8c'),
-  izvedeno_iz_povrsine: css('--d2', '#d7a24a'),
-  sematski: css('--d3', '#cf7049'),
-  teren: document.documentElement.dataset.tema === 'arhiv' ? new THREE.Color('#eceae3') : new THREE.Color('#141513'),
-  mreza: document.documentElement.dataset.tema === 'arhiv' ? 0xc2c4bc : 0x363a34
+import { pokreniScenu } from './assets/scena.js';
+const p = new URLSearchParams(location.search);
+pokreniScenu({
+  koren: document.getElementById('scena'),
+  jezik: 'sr',
+  punaStrana: true,
+  element: p.get('element'),
+  dijag: p.has('dijag'),
 });
-let BOJE = paleta();
-const PROVID = { objavljena_dimenzija:1.0, izvedeno_iz_povrsine:.88, sematski:.55 };
-
-const scena = new THREE.Scene();
-const kamera = new THREE.PerspectiveCamera(50, innerWidth/innerHeight, 0.5, 2000);
-kamera.position.set(150, 160, 230);
-const renderer = new THREE.WebGLRenderer({antialias:true});
-renderer.setSize(innerWidth, innerHeight);
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-renderer.shadowMap.enabled = true;
-document.getElementById('scena').appendChild(renderer.domElement);
-const kontrole = new OrbitControls(kamera, renderer.domElement);
-kontrole.target.set(0,0,20); kontrole.maxPolarAngle = Math.PI/2.05; kontrole.enableDamping = true;
-if (ugradjeno) kontrole.enabled = false;
-
-const ambijent = new THREE.AmbientLight(0xffffff, .55);
-scena.add(ambijent);
-const sunce = new THREE.DirectionalLight(0xffffff, 1.6);
-sunce.position.set(-180, 220, 120); sunce.castShadow = true;
-sunce.shadow.mapSize.set(2048,2048);
-const d=260; Object.assign(sunce.shadow.camera,{left:-d,right:d,top:d,bottom:-d,far:800});
-scena.add(sunce);
-
-function primeniPaletu(){
-  BOJE = paleta();
-  scena.background = BOJE.pozadina;
-  scena.fog = null;
-  ambijent.intensity = document.documentElement.dataset.tema === 'arhiv' ? .85 : .55;
-}
-primeniPaletu();
-
-function materijal(el){
-  return new THREE.MeshStandardMaterial({
-    color:BOJE[el.pouzdanost] ?? new THREE.Color('#8d8a84'), roughness:.85, metalness:0,
-    transparent:(PROVID[el.pouzdanost]??1)<1, opacity:PROVID[el.pouzdanost]??1
-  });
-}
-const kutija=(x,y,z)=>new THREE.BoxGeometry(x,y,z);
-
-// geometrija za jedan element, na visini h (metri), y=pod na 0
-function oblik(el, h){
-  const g = new THREE.Group(), D = el.dim, m = materijal(el);
-  const dodaj = (geo,px=0,pz=0,ry=0,py=h/2)=>{const M=new THREE.Mesh(geo,m);M.position.set(px,py,pz);M.rotation.y=ry;M.castShadow=M.receiveShadow=true;g.add(M);return M;};
-  switch(el.oblik){
-    case 'kutija': dodaj(kutija(D.x,h,D.z)); break;
-    case 'prsten': {
-      const tx=(D.spolja_x-D.unutra_x)/2, tz=(D.spolja_z-D.unutra_z)/2;
-      dodaj(kutija(D.spolja_x,h,tz),0,-(D.unutra_z+tz)/2);
-      dodaj(kutija(D.spolja_x,h,tz),0, (D.unutra_z+tz)/2);
-      dodaj(kutija(tx,h,D.unutra_z),-(D.unutra_x+tx)/2,0);
-      dodaj(kutija(tx,h,D.unutra_z), (D.unutra_x+tx)/2,0);
-      break; }
-    case 'kolonada_prsten': {
-      const vs=Math.min(h,D.visina_stuba_m), geo=new THREE.CylinderGeometry(D.precnik_stuba_m/2,D.precnik_stuba_m/2,vs,10);
-      const hx=D.x/2-1, hz=D.z/2-1, korak=D.razmak_m;
-      for(let x=-hx;x<=hx;x+=korak){dodaj(geo.clone(),x,-hz,0,vs/2);dodaj(geo.clone(),x,hz,0,vs/2);}
-      for(let z=-hz+korak;z<=hz-korak;z+=korak){dodaj(geo.clone(),-hx,z,0,vs/2);dodaj(geo.clone(),hx,z,0,vs/2);}
-      break; }
-    case 'kolonada_dvoredna': {
-      const vs=Math.min(h, D.visina_m||h);
-      const geo=new THREE.CylinderGeometry(D.precnik_m/2, D.precnik_m/2, vs, 12);
-      const dx=D.duzina_x, rx=D.razmak_x, rz=D.razmak_z;
-      const n_stub=Math.floor(dx/rx)+1;
-      const x_poc=-dx/2;
-      for(const z_off of [-rz/2, rz/2]){
-        for(let i=0; i<n_stub; i++){
-          dodaj(geo.clone(), x_poc + i*rx, z_off, 0, vs/2);
-        }
-      }
-      break; }
-    case 'apsida': {
-      dodaj(kutija(D.dubina,h,D.r*2), -D.dubina/2, 0);
-      const geo=new THREE.CylinderGeometry(D.r,D.r,h,24,1,false,0,Math.PI);
-      dodaj(geo,0,0,Math.PI/2);
-      break; }
-    case 'oktogon': dodaj(new THREE.CylinderGeometry(D.r,D.r,h,8)); break;
-    case 'bazilika': {
-      dodaj(kutija(D.x,h,D.z));
-      dodaj(new THREE.CylinderGeometry(D.r_apside,D.r_apside,h,24,1,false,0,Math.PI), D.x/2, 0, -Math.PI/2);
-      break; }
-    case 'cilindri_mreza': {
-      const geo=new THREE.CylinderGeometry(D.precnik_m/2,D.precnik_m/2,D.visina_m,14);
-      const kx=(D.po_redu-1)*3.2, kz=(D.redova-1)*4.5;
-      for(let r=0;r<D.redova;r++)for(let c=0;c<D.po_redu;c++)
-        dodaj(geo.clone(), -kx/2+c*3.2, -kz/2+r*4.5, 0, D.visina_m/2-0.8); // ukopane: delom pod zemljom
-      break; }
-    case 'ravan': {
-      const M=new THREE.Mesh(new THREE.PlaneGeometry(D.x,D.z),
-        new THREE.MeshBasicMaterial({color:BOJE.teren}));
-      M.rotation.x=-Math.PI/2; M.receiveShadow=true; g.add(M);
-      const mreza=new THREE.GridHelper(Math.max(D.x,D.z),Math.max(D.x,D.z)/20,BOJE.mreza,BOJE.mreza);
-      mreza.material.opacity=.5; mreza.material.transparent=true;
-      mreza.position.y=.02; g.add(mreza);
-      break; }
-  }
-  g.position.set(el.pos[0], 0, el.pos[1]);
-  g.rotation.y = (el.rot_deg||0)*Math.PI/180;
-  // Fine contours make the schematic geometry legible without inventing detail.
-  if(el.tip!=='teren'&&!['kolonada_prsten','kolonada_dvoredna','cilindri_mreza'].includes(el.oblik)){
-    for(const mesh of [...g.children]){
-      if(!mesh.isMesh)continue;
-      const edges=new THREE.EdgesGeometry(mesh.geometry);
-      const lineMat=el.pouzdanost==='sematski'
-        ?new THREE.LineDashedMaterial({color:BOJE[el.pouzdanost],dashSize:1.2,gapSize:.8,transparent:true,opacity:.65})
-        :new THREE.LineBasicMaterial({color:BOJE[el.pouzdanost],transparent:true,opacity:.55});
-      const lines=new THREE.LineSegments(edges,lineMat);lines.computeLineDistances();mesh.add(lines);
-    }
-  }
-  return g;
-}
-
-let elementi=[], hipoteze={}, grupe=[], rezim='rek', oznakeOn=true, oznake=[];
-async function jsonl(p){const t=await (await fetch(p)).text();return t.split('\n').filter(l=>l.trim()).map(l=>JSON.parse(l));}
-
-function sagradi(){
-  const materijali=new Set(), geometrije=new Set();
-  grupe.forEach(g=>{g.obj.traverse(o=>{if(o.geometry)geometrije.add(o.geometry);if(o.material)(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>materijali.add(m));});scena.remove(g.obj);});
-  geometrije.forEach(g=>g.dispose());materijali.forEach(m=>m.dispose());grupe=[];
-  oznake.forEach(o=>o.el.remove()); oznake=[];
-  for(const el of elementi){
-    const h = el.tip==='teren'?0 : Math.max(rezim==='rek'?el.visina_rek_m:el.visina_sacuvana_m, .05);
-    const obj = oblik(el, h);
-    obj.traverse(o=>{o.userData.el=el;});
-    scena.add(obj); grupe.push({obj, el});
-    if(el.tip!=='teren' && !ugradjeno){
-      const d=document.createElement('div');
-      d.className='oznaka-3d'; d.textContent=el.naziv;
-      document.body.appendChild(d);
-      oznake.push({el:d, pos:new THREE.Vector3(el.pos[0],h+3,el.pos[1])});
-    }
-  }
-}
-function azurirajOznake(){
-  const gore = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--h-hdr')) + 16;
-  const postavljene = [];
-  // bliži objekat ima prednost; oznaka koja bi pala preko već postavljene se izostavlja
-  const kandidati = oznake.map(o=>{
-    const v=o.pos.clone().project(kamera);
-    return {o, v, x:(v.x+1)/2*innerWidth, y:(-v.y+1)/2*innerHeight};
-  }).sort((a,b)=>a.v.z-b.v.z);
-  for(const k of kandidati){
-    const {o,v,x,y}=k;
-    const w=o.el.offsetWidth||120, h=o.el.offsetHeight||18;
-    let vidljivo = oznakeOn && v.z<1 && y>gore && y<innerHeight-72 && x>w/2+8 && x<innerWidth-w/2-8;
-    if(vidljivo) vidljivo = !postavljene.some(p=>
-      Math.abs(p.x-x) < (p.w+w)/2+6 && Math.abs(p.y-y) < (p.h+h)/2+4);
-    o.el.style.display=vidljivo?'block':'none';
-    if(vidljivo){o.el.style.left=x+'px'; o.el.style.top=y+'px'; postavljene.push({x,y,w,h});}
-  }
-}
-
-const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const klasa=p=>p==='objavljena_dimenzija'?'d1':p==='izvedeno_iz_povrsine'?'d2':p==='sematski'?'d3':'dx';
-function pokazi(el){
-  const i=document.getElementById('info');
-  const hip=(el.hipoteze||[]).map(h=>{const H=hipoteze[h];return `<p><b>${esc(h)}</b> — ${esc(H?H.naslov:'')} <span class="znak d3">${esc(H?H.status:'')}</span></p>`;}).join('');
-  i.innerHTML=`<button class="x" type="button" aria-label="Zatvori">×</button>
-    <span class="id">${esc(el.id)} · ${esc(el.nivo)}</span><h3>${esc(el.naziv)}</h3>
-    <span class="znak ${klasa(el.pouzdanost)}">${esc(el.pouzdanost.replace(/_/g,' '))}</span>
-    <span class="znak ${el.polozaj==='sematski'?'d3':'gol'}">položaj: ${esc(el.polozaj)}</span>
-    <p style="margin-top:10px">${esc(el.napomena)}</p>
-    <p><b>Sačuvano:</b> ${el.visina_sacuvana_m} m · <b>u maketi rekonstruisano:</b> ${el.visina_rek_m} m (šematski)</p>
-    ${hip?'<p><b>Vezane hipoteze:</b></p>'+hip:''}
-    <p><b>Izvori:</b> ${(el.izvori||[]).map(esc).join(', ')} · <a href="pokrivenost.html?q=${encodeURIComponent(el.id)}">karton</a> · <a href="docs/04_BIBLIOGRAFIJA_I_IZVORI.md">bibliografija</a></p>`;
-  i.querySelector('.x').addEventListener('click',()=>{i.style.display='none';trazeniKadar=null;korisnikPomerio=false;document.getElementById('objekat').value='';uokviri();document.getElementById('objekat').focus();});
-  i.style.display='block';
-  document.getElementById('objekat').value=el.id;trazeniKadar=el.id;korisnikPomerio=false;legendaStanje(false);uokviri();
-}
-const ray=new THREE.Raycaster(), mis=new THREE.Vector2();
-let pocetakKlika=null;
-renderer.domElement.addEventListener('pointerdown',e=>{pocetakKlika=[e.clientX,e.clientY]});
-renderer.domElement.addEventListener('click',e=>{
-  if(pocetakKlika&&Math.hypot(e.clientX-pocetakKlika[0],e.clientY-pocetakKlika[1])>6)return;
-  mis.set(e.clientX/innerWidth*2-1, -(e.clientY/innerHeight)*2+1);
-  ray.setFromCamera(mis,kamera);
-  const hit=ray.intersectObjects(scena.children,true).find(h=>h.object.userData.el && h.object.userData.el.tip!=='teren');
-  if(hit) pokazi(hit.object.userData.el);
-});
-
-const b=(id,f)=>document.getElementById(id).addEventListener('click',f);
-b('btnRez',()=>{rezim='rek';btnRez.classList.add('on');btnSac.classList.remove('on');sagradi();if(!korisnikPomerio)uokviri();crtaj();});
-b('btnSac',()=>{rezim='sac';btnSac.classList.add('on');btnRez.classList.remove('on');sagradi();if(!korisnikPomerio)uokviri();crtaj();});
-b('btnOzn',()=>{oznakeOn=!oznakeOn;btnOzn.classList.toggle('on',oznakeOn);crtaj();});
-const legenda=document.getElementById('legenda'), legDug=document.getElementById('legenda-dugme');
-function legendaStanje(otvorena){
-  legenda.hidden=!otvorena;
-  legDug.setAttribute('aria-expanded',String(otvorena));
-  legDug.classList.toggle('on',otvorena);
-}
-legDug.addEventListener('click',()=>legendaStanje(legenda.hidden));
-legendaStanje(false);
-
-// promena teme menja i scenu: isti sistem, ne druga paleta
-new MutationObserver(()=>{primeniPaletu();sagradi();crtaj();})
-  .observe(document.documentElement,{attributes:true,attributeFilter:['data-tema']});
-
-/* Fit the projected object bounds inside the actual usable viewport. Ground is
-   context, not part of the fit. Solve the perspective inequalities directly. */
-const SMER = new THREE.Vector3(150,160,210).normalize();
-const ODGOZGO = new THREE.Vector3(0,1,.0001).normalize();
-let pogledPlan=false, korisnikPomerio=false, trazeniKadar=null, pomakKadra={x:0,y:0};
-kontrole.addEventListener('start',()=>{korisnikPomerio=true;});
-function prozor(){
-  if(ugradjeno) return {x0:.07,x1:.93,y0:.08,y1:.92};
-  const panel=document.getElementById('info');
-  const panelOtvoren=panel.style.display==='block';
-  const dole=document.getElementById('kontrole').getBoundingClientRect();
-  document.documentElement.style.setProperty('--alat-dno',(innerHeight-dole.top+12)+'px');
-  const top=Math.max(145,document.getElementById('status').getBoundingClientRect().bottom+18);
-  return {x0:.06,x1:panelOtvoren&&innerWidth>860?Math.max(.45,(panel.getBoundingClientRect().left-24)/innerWidth):.94,
-    y0:Math.min(.30,top/innerHeight),y1:panelOtvoren&&innerWidth<=860?Math.max(.40,(panel.getBoundingClientRect().top-18)/innerHeight):Math.max(.45,(dole.top-24)/innerHeight)};
-}
-function postaviProzor(){
-  const o=prozor(),w=innerWidth,h=innerHeight;
-  kamera.setViewOffset(w*(o.x1-o.x0),h*(o.y1-o.y0),(-o.x0-pomakKadra.x)*w,(-o.y0-pomakKadra.y)*h,w,h);
-  kamera.updateProjectionMatrix();
-}
-function tackeKadra(){
-  const points=[];
-  for(const g of grupe){
-    if(g.el.tip==='teren'||(trazeniKadar&&g.el.id!==trazeniKadar))continue;
-    g.obj.updateWorldMatrix(true,true);
-    const box=new THREE.Box3().setFromObject(g.obj);
-    for(const x of [box.min.x,box.max.x])for(const y of [box.min.y,box.max.y])for(const z of [box.min.z,box.max.z])points.push(new THREE.Vector3(x,y,z));
-  }
-  return points;
-}
-function uokviri(){
-  const points=tackeKadra();if(!points.length)return;
-  kamera.zoom=1;pomakKadra={x:0,y:0};
-  const c=new THREE.Box3().setFromPoints(points).getCenter(new THREE.Vector3());
-  const dir=pogledPlan?ODGOZGO:SMER;
-  kamera.position.copy(c).add(dir);kamera.lookAt(c);kamera.updateMatrixWorld(true);
-  const right=new THREE.Vector3().setFromMatrixColumn(kamera.matrixWorld,0);
-  const up=new THREE.Vector3().setFromMatrixColumn(kamera.matrixWorld,1);
-  const o=prozor(),tanY=Math.tan(THREE.MathUtils.degToRad(kamera.fov)/2);
-  const tanX=tanY*innerWidth*(o.x1-o.x0)/(innerHeight*(o.y1-o.y0));
-  let distance=1;
-  for(const p of points){const v=p.clone().sub(c),depth=v.dot(dir);
-    distance=Math.max(distance,depth+Math.abs(v.dot(right))/tanX,depth+Math.abs(v.dot(up))/tanY);}
-  distance*=1.09;
-  // Clear residual damping before applying a new authored view.
-  const damping=kontrole.enableDamping;kontrole.enableDamping=false;kontrole.update();
-  kontrole.target.copy(c);kamera.position.copy(c).addScaledVector(dir,distance);
-  kamera.near=.1;kamera.far=5000;postaviProzor();kontrole.update();kontrole.enableDamping=damping;
-  // A sparse site is not centred in its enclosing box when viewed obliquely.
-  // Fit and centre the actual projection, including the asymmetric UI inset.
-  kamera.updateMatrixWorld(true);
-  const bounds=()=>{const p=points.map(v=>v.clone().project(kamera));return {
-    x0:Math.min(...p.map(v=>(v.x+1)/2)),x1:Math.max(...p.map(v=>(v.x+1)/2)),
-    y0:Math.min(...p.map(v=>(1-v.y)/2)),y1:Math.max(...p.map(v=>(1-v.y)/2))};};
-  let projected=bounds();
-  kamera.zoom=.88*Math.min((o.x1-o.x0)/(projected.x1-projected.x0),(o.y1-o.y0)/(projected.y1-projected.y0));
-  kamera.updateProjectionMatrix();projected=bounds();
-  pomakKadra={x:(o.x0+o.x1-projected.x0-projected.x1)/2,y:(o.y0+o.y1-projected.y0-projected.y1)/2};
-  postaviProzor();
-  crtaj();
-}
-function dijagnostika(){
-  kamera.updateMatrixWorld(true);
-  const pts=tackeKadra().map(p=>p.project(kamera));
-  return {camera:kamera.position.toArray(),look:kontrole.target.toArray(),safe:prozor(),bounds:{x0:Math.min(...pts.map(v=>(v.x+1)/2)),x1:Math.max(...pts.map(v=>(v.x+1)/2)),y0:Math.min(...pts.map(v=>(1-v.y)/2)),y1:Math.max(...pts.map(v=>(1-v.y)/2))},objects:grupe.map(g=>g.el.id),view:pogledPlan?'plan':'3d',target:trazeniKadar};
-}
-if(upit.has('dijag'))window.medijanaKadar=dijagnostika;
-let zahtev=0;
-function crtaj(){if(!zahtev)zahtev=requestAnimationFrame(()=>{zahtev=0;kontrole.update();azurirajOznake();renderer.render(scena,kamera);});}
-kontrole.addEventListener('change',crtaj);
-function uskladiVelicinu(){
-  renderer.setSize(innerWidth,innerHeight);
-  if(korisnikPomerio)postaviProzor();else uokviri();crtaj();
-}
-addEventListener('resize',uskladiVelicinu);
-function promeniPogled(plan){pogledPlan=plan;korisnikPomerio=false;document.getElementById('btnPlan').setAttribute('aria-pressed',String(plan));document.getElementById('btnPlan').classList.toggle('on',plan);uokviri();}
-b('btnPlan',()=>promeniPogled(!pogledPlan));
-b('btnKadar',()=>{trazeniKadar=null;korisnikPomerio=false;document.getElementById('info').style.display='none';document.getElementById('objekat').value='';uokviri();});
-document.getElementById('objekat').addEventListener('change',e=>{const el=elementi.find(x=>x.id===e.target.value);if(el)pokazi(el);else document.getElementById('btnKadar').click();});
-addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('info').style.display='none';legendaStanje(false);trazeniKadar=null;korisnikPomerio=false;uokviri();}});
-addEventListener('message',e=>{
-  if(!ugradjeno||e.origin!==location.origin||e.source!==parent)return;
-  if(e.data?.type==='medijana-view')promeniPogled(e.data.view==='plan');
-  if(e.data?.type==='medijana-theme'&&['arhiv','teren'].includes(e.data.theme))document.documentElement.dataset.tema=e.data.theme;
-});
-renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();document.getElementById('rezervni-prikaz').hidden=false;document.getElementById('rezervna-poruka').textContent='3D prikaz je prekinut. Osveži stranicu ili otvori kartone objekata.';if(ugradjeno)parent.postMessage({type:'medijana-failed'},location.origin);});
-
-try{
-  const [g,h]=await Promise.all([jsonl('data/GEOMETRIJA.jsonl'),jsonl('data/HIPOTEZE.jsonl')]);
-  elementi=g.filter(el=>el.prikaz!==false); h.forEach(x=>hipoteze[x.id]=x);
-  sagradi();
-  document.getElementById('objekat').insertAdjacentHTML('beforeend',elementi.filter(e=>e.tip!=='teren').map(e=>`<option value="${esc(e.id)}">${esc(e.naziv)}</option>`).join(''));
-  document.getElementById('rezervni-prikaz').hidden=true;
-  document.body.dataset.scene='ready';
-  uokviri();
-  if(ugradjeno)parent.postMessage({type:'medijana-ready'},location.origin);
-  const trazen = upit.get('element');
-  const izabran = elementi.find(el => el.id === trazen);
-  const izvanTrazen = !izabran && trazen && g.find(el => el.id === trazen);
-  if(izabran)pokazi(izabran);
-  const izvan=g.filter(el=>el.prikaz===false);
-  const st=document.getElementById('status');
-  if(izvanTrazen){
-    st.innerHTML = `<b>${esc(izvanTrazen.id)}</b> (${esc(izvanTrazen.naziv)}) nije u sceni: identitet je sporan, pa je element izvan prostornog prikaza. ` +
-      `<a class="veza" href="pokrivenost.html?q=${encodeURIComponent(izvanTrazen.id)}">Otvori karton →</a>`;
-  } else {
-    st.innerHTML = izvan.length
-      ? `Izvan prikaza zbog spornog identiteta: <b>${izvan.map(el=>esc(el.id)).join(', ')}</b>. <a class="veza" href="pokrivenost.html">Vidi Pokrivenost.</a>` : '';
-  }
-}catch(e){
-  document.getElementById('status').textContent='Ne mogu da učitam data/GEOMETRIJA.jsonl — otvori stranicu preko HTTP servera ili GitHub Pages. ('+e.message+')';
-}
 </script>
 </body>
 </html>

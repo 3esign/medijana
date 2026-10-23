@@ -1,50 +1,12 @@
 /* Naslovna — sve brojke, udeli i osa citaju se uzivo iz data/*.jsonl.
-   Kad citanje ne uspe (otvaranje sa diska), brojevi ostaju "—" i to se kaze. */
+   Kad citanje ne uspe (otvaranje sa diska), brojevi ostaju "—" i to se kaze.
+   3D pregled u prvom ekranu vodi assets/scena.js, nezavisno od ovog fajla. */
 (function () {
   'use strict';
   var E = MED.esc;
   var en = document.documentElement.lang === 'en';
   var REG = ['GEOMETRIJA', 'HIPOTEZE', 'HRONOLOGIJA', 'IZVORI', 'KONTRADIKCIJE',
     'LOKACIJE', 'NIVOI', 'PITANJA', 'RECNIK', 'VEZE_IZVORA'];
-
-  /* Preview keeps its static fallback until the renderer confirms readiness. */
-  var pozadina = document.getElementById('hero-pozadina');
-  var usporeno = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var stednja = navigator.connection && (navigator.connection.saveData ||
-    /2g/.test(navigator.connection.effectiveType || ''));
-  var okvir, pogled='3d', pokreni=document.getElementById('pokreni-prikaz');
-  function posalji(){
-    if(!okvir || pozadina.dataset.ready!=='true')return;
-    okvir.contentWindow.postMessage({type:'medijana-theme',theme:document.documentElement.dataset.tema},location.origin);
-    okvir.contentWindow.postMessage({type:'medijana-view',view:pogled},location.origin);
-  }
-  function ucitaj(){
-    if(!pozadina||okvir)return;
-    okvir = document.createElement('iframe');
-    okvir.src = 'blizanac.html?embed=1&tema='+document.documentElement.dataset.tema;
-    okvir.title = en ? 'Schematic spatial preview of Mediana' : 'Šematski prostorni pregled Medijane';
-    okvir.setAttribute('tabindex', '-1');
-    okvir.setAttribute('aria-hidden', 'true');
-    okvir.style.pointerEvents = 'none';
-    pokreni.hidden=true;
-    pozadina.appendChild(okvir);
-    setTimeout(function(){if(pozadina.dataset.ready!=='true'){
-      document.getElementById('prikaz-stanje').textContent=en?'Static preview · open the twin to retry':'Statični pregled · otvori blizanac za novi pokušaj';
-    }},12000);
-  }
-  addEventListener('message',function(e){
-    if(!okvir||e.source!==okvir.contentWindow||e.origin!==location.origin)return;
-    if(e.data?.type==='medijana-ready'){pozadina.dataset.ready='true';posalji();}
-    if(e.data?.type==='medijana-failed'){pozadina.dataset.ready='false';document.getElementById('prikaz-stanje').textContent=en?'Static preview · 3D unavailable':'Statični pregled · 3D nije dostupan';}
-  });
-  document.querySelectorAll('[data-pogled]').forEach(function(b){b.addEventListener('click',function(){
-    pogled=b.dataset.pogled;
-    document.querySelectorAll('[data-pogled]').forEach(function(t){t.setAttribute('aria-pressed',String(t===b))});
-    ucitaj();posalji();
-  })});
-  new MutationObserver(posalji).observe(document.documentElement,{attributes:true,attributeFilter:['data-tema']});
-  if(pokreni)pokreni.addEventListener('click',ucitaj);
-  if(pozadina){if(!usporeno&&!stednja)ucitaj();else pokreni.hidden=false;}
 
   Promise.all(REG.map(function (r) { return MED.jsonl('data/' + r + '.jsonl'); }))
     .then(function (nizovi) {

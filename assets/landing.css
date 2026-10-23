@@ -1,4 +1,6 @@
-/* Pilot overview and spatial preview. */
+/* Naslovna: prvi ekran je živi 3D suite preko celog ekrana, ispod njega
+   je radna sveska na papiru. Naslov sedi preko scene, a kadriranje modela
+   ga zaobilazi (izuzmi opcija u assets/scena.js). */
 .traka[id]{scroll-margin-top:76px}
 .potpis-pilota{margin-top:20px;font:400 12px/1.65 var(--f-sans);color:var(--ink2);max-width:52ch}
 .potpis-pilota span{display:block;margin-top:4px}
@@ -9,43 +11,36 @@
 #jezik .konvencije,#language .konvencije{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media(max-width:900px){#jezik .konvencije,#language .konvencije{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){#jezik .konvencije,#language .konvencije{grid-template-columns:1fr}}
-.hero{max-width:1600px;margin:auto;padding:clamp(30px,5vw,76px) clamp(20px,5vw,80px) 24px;display:grid;grid-template-columns:minmax(300px,.85fr) minmax(0,1.3fr);gap:36px clamp(30px,5vw,76px);align-items:center}
-.hero-sadrzaj.okvir{padding:0;width:100%;margin:0}
-.hero .nadnaslov{font-size:10px;letter-spacing:.12em;line-height:1.7}
-.hero h1{margin-top:24px;font-size:clamp(64px,7.2vw,106px)}
-.hero .podnaslov{font:400 clamp(23px,2.2vw,32px)/1.23 var(--f-serif);letter-spacing:-.02em;margin-top:22px;color:var(--ink)}
-.hero .uvod{font:400 15px/1.75 var(--f-sans);max-width:43ch;margin-top:22px;color:var(--ink2)}
-.akcije{display:flex;align-items:flex-start;flex-direction:column;gap:16px;margin-top:28px}
-.akcije .dugme:not(.glavno){border:0;padding:0;min-height:24px;font-size:12px;border-radius:0;border-bottom:1px solid var(--l2)}
-.hero-prikaz{min-width:0;align-self:stretch;display:flex;flex-direction:column;justify-content:center}
-.prikaz-zaglavlje,.prikaz-podnozje{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:12px 16px;border:1px solid var(--l2);background:var(--g1)}
-.prikaz-zaglavlje{border-bottom:0;border-radius:4px 4px 0 0}
-.prikaz-naslov{font:500 11px/1.4 var(--f-mono);letter-spacing:.04em;color:var(--ink2);text-transform:uppercase}
-.prikaz-izbor{display:flex;gap:3px}
-.prikaz-izbor button{font:500 12px var(--f-sans);padding:8px 13px;min-height:36px;background:transparent;border:1px solid transparent;color:var(--ink2)}
-.prikaz-izbor button[aria-pressed=true]{background:var(--g2);border-color:var(--l2);color:var(--ink)}
-.hero-pozadina{position:relative;aspect-ratio:1.35;min-height:300px;border:1px solid var(--l2);background:var(--g1);overflow:hidden}
-.hero-pozadina img,.hero-pozadina iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;border:0;display:block}
-.hero-pozadina iframe{opacity:0;transition:opacity .25s}
-.hero-pozadina[data-ready=true] iframe{opacity:1}
-.hero-pozadina[data-ready=true] img{visibility:hidden}
-#pokreni-prikaz{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--g0);color:var(--ink);border:1px solid var(--l2)}
-[hidden]{display:none!important}
-.prikaz-podnozje{border-top:0;font-size:11px;line-height:1.5;color:var(--ink2);border-radius:0 0 4px 4px}
-.prikaz-podnozje a{flex:none;text-decoration:none;color:var(--ink)}
-.prikaz-kljuc{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:14px}
-.prikaz-kljuc .znak{font-size:9px;padding:5px 6px;letter-spacing:.02em}
-.prikaz-kljuc>a{font-size:11px;color:var(--ink2);margin-left:auto;text-decoration:none}
-.hero-dno.okvir{grid-column:1/-1;max-width:none;padding:0;width:100%;margin:8px 0 0}
-.hero-dno .brojke{grid-template-columns:repeat(5,minmax(0,1fr));border-radius:0;border-left:0;border-right:0;background:none}
-.hero-dno .brojka{padding:18px 20px;background:none}
-.hero-dno .brojka:first-child{padding-left:0}
-.hero-dno .brojka:last-child{border-right:0}
-.hero-dno .brojka .v{font-size:30px}
-.hero-dno .brojka .k{font-size:9px;letter-spacing:.08em}
-.hero-dno>#brojke-note{font-size:11px}
-@media(min-width:901px){.hero-pozadina{max-height:480px;aspect-ratio:1.5}.hero{padding-block:44px 24px}.hero-prikaz{align-self:center}}
-@media(min-width:1600px){.hero{padding-block:70px 30px}}
-@media(max-width:900px){.hero{grid-template-columns:1fr;gap:30px;padding:30px 24px 20px}.hero .uvod{max-width:55ch}.hero h1{margin-top:14px;font-size:76px}.hero .podnaslov{margin-top:14px}.hero .podnaslov br{display:none}.hero-pozadina{aspect-ratio:1.65;min-height:260px}.hero-prikaz{grid-row:2}.hero-dno .brojke{grid-template-columns:repeat(3,minmax(0,1fr))}.hero-dno .brojka{padding:14px 10px}.hero-dno .brojka:nth-child(4){padding-left:0}.hero-dno .brojka:nth-child(3){border-right:0}.hero-dno .brojka:nth-child(n+4){border-top:1px solid var(--l1)}}
-@media(max-width:480px){.hero{padding:26px 18px 20px;gap:28px}.hero h1{font-size:64px}.hero .podnaslov{font-size:25px;max-width:22ch}.hero .uvod{font-size:14px;line-height:1.65;margin-top:16px}.akcije{margin-top:22px;gap:12px}.hero-pozadina{min-height:250px;aspect-ratio:1.3}.prikaz-zaglavlje,.prikaz-podnozje{padding:10px}.hero-dno .brojka .k{font-size:8px}.prikaz-kljuc>a{width:100%;margin-top:3px}.hero-dno .brojka .v{font-size:27px}}
-@media(prefers-reduced-motion:reduce){.hero-pozadina iframe{transition:none}}
+
+/* ---------- prvi ekran: 3D suite ---------- */
+.hero-suite{position:relative;height:calc(100dvh - var(--h-hdr));min-height:560px;background:var(--g0)}
+#hero-scena{position:absolute;inset:0}
+.hero-naslov{position:absolute;z-index:8;left:clamp(18px,4vw,56px);top:clamp(18px,4.5vw,60px);
+  width:min(470px,calc(100% - 36px));pointer-events:none}
+.hero-naslov .nadnaslov{font-size:10px;letter-spacing:.12em;line-height:1.7}
+.hero-naslov .display{margin-top:16px;font-size:clamp(52px,6.4vw,92px)}
+.hero-naslov .podnaslov{font:400 clamp(20px,1.9vw,28px)/1.25 var(--f-serif);letter-spacing:-.02em;
+  margin-top:14px;color:var(--ink)}
+.hero-uvod{font:400 14.5px/1.7 var(--f-sans);max-width:40ch;margin-top:16px;color:var(--ink2)}
+.hero-akcije{display:flex;align-items:center;gap:18px;margin-top:24px;flex-wrap:wrap;pointer-events:auto}
+.hero-skok{font:500 12px/1 var(--f-sans);color:var(--ink2);text-decoration:none;
+  border-bottom:1px solid var(--l2);padding-bottom:3px;transition:var(--pokret)}
+.hero-skok:hover{color:var(--ink);border-bottom-color:var(--ink)}
+
+/* status i dosije u heroju: gore desno, naslov ostaje levo */
+.hero-suite .scena-status{left:auto;right:clamp(12px,2vw,18px);top:clamp(12px,2vw,18px);
+  max-width:min(340px,calc(100% - 24px))}
+.hero-suite .scena-info{top:calc(clamp(12px,2vw,18px) + 54px);max-height:calc(100% - 220px)}
+
+@media (max-width:860px){
+  .hero-suite{min-height:560px}
+  .hero-naslov{left:16px;right:16px;top:14px;width:auto}
+  .hero-naslov .display{font-size:clamp(44px,11vw,60px);margin-top:10px}
+  .hero-naslov .podnaslov{font-size:19px;margin-top:10px}
+  .hero-uvod{font-size:13px;line-height:1.6;margin-top:12px;max-width:none}
+  .potpis-pilota{margin-top:12px;font-size:11px}
+  .hero-akcije{margin-top:16px;gap:12px}
+  .hero-suite .scena-status{top:auto;bottom:auto;display:none} /* na uzkom ekranu naslov ima prednost */
+  .hero-suite .scena-info{top:auto;max-height:min(44dvh,420px)}
+}
+@media (prefers-reduced-motion:reduce){.hero-suite{scroll-snap-align:none}}

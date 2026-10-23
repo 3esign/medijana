@@ -4,11 +4,10 @@
 <!--skelet-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<script>try{var u=new URLSearchParams(location.search).get('tema'),t=u||localStorage.getItem('medijana-tema');document.documentElement.dataset.tema=t==='arhiv'||t==='teren'?t:(matchMedia('(prefers-color-scheme: light)').matches?'arhiv':'teren')}catch(e){document.documentElement.dataset.tema='teren'}</script>
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/sourceserif4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#0c0c0b">
+<meta name="theme-color" content="#f3f1ec">
 <link rel="stylesheet" href="assets/medijana.css">
 <script src="assets/suite.js" defer></script>
 <!--/skelet-->
@@ -48,7 +47,7 @@
 </head>
 <body>
 <!--hdr-->
-<a class="skip" href="#sadrzaj">Skip to content</a>
+<a class="skip" href="#projekat">Skip to content</a>
 <header class="hdr">
   <a class="marka" href="index-en.html">
     <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="6.4" y="6.4" width="9.6" height="9.6" fill="var(--d1)"/><rect x="16" y="16" width="9.6" height="9.6" fill="var(--d3)" opacity=".5"/><g fill="none" stroke="currentColor"><rect x="6.4" y="6.4" width="19.2" height="19.2" stroke-width="1.7"/><path d="M16 6.4v19.2M6.4 16h19.2" stroke-width="1" opacity=".45"/></g></svg>
@@ -71,34 +70,26 @@
 <!--/hdr-->
 <main id="sadrzaj">
 
-<div class="hero">
-  <div class="hero-sadrzaj okvir">
+<section class="hero-suite" aria-label="Spatial view — 3D working model">
+  <div id="hero-scena" class="scena">
+    <img class="scena-poster" src="assets/blizanac-render.png" alt="Schematic working model of the Mediana complex" width="1600" height="900">
+  </div>
+  <div class="hero-naslov" id="hero-naslov">
     <div class="nadnaslov">Niš, Serbia · imperial estate · 4th century</div>
     <h1 class="display">Mediana</h1>
     <p class="podnaslov">Digital archaeological twin</p>
-    <p class="uvod">A project pilot within the collaboration with the Institute of Archaeology. This initial phase brings together published sources, a working 3D model and questions for joint review.</p>
+    <p class="hero-uvod">A project pilot within the collaboration with the Institute of Archaeology. This initial phase brings together published sources, a working 3D model and questions for joint review.</p>
     <p class="potpis-pilota"><span>Assist. Prof. Dr Bojan Končarević · Assist. Prof. Dr Semir Poturak</span><span>Union – Nikola Tesla University · Faculty of Construction Management</span></p>
-    <div class="akcije">
-      <a class="dugme glavno veliko" href="blizanac.html">Open 3D model<span class="strelica" aria-hidden="true">→</span></a>
-      <a class="dugme veliko" href="#language">How to read the evidence</a>
+    <div class="hero-akcije">
+      <a class="dugme glavno veliko" href="blizanac.html">Full model view<span class="strelica" aria-hidden="true">→</span></a>
+      <a class="hero-skok" href="#projekat">Project contents ↓</a>
     </div>
   </div>
-  <section class="hero-prikaz" aria-label="Spatial preview">
-    <div class="prikaz-zaglavlje"><span class="prikaz-naslov">01 / The complex</span>
-      <div class="prikaz-izbor" role="group" aria-label="View">
-        <button type="button" data-pogled="3d" aria-pressed="true">3D</button>
-        <button type="button" data-pogled="plan" aria-pressed="false">Plan</button>
-      </div>
-    </div>
-    <div class="hero-pozadina" id="hero-pozadina">
-      <img src="assets/blizanac-render.png" alt="Schematic working model of Mediana" width="1600" height="900">
-      <button type="button" id="pokreni-prikaz" hidden>Load 3D preview</button>
-    </div>
-    <div class="prikaz-podnozje"><span id="prikaz-stanje" role="status">Working model · schematic layout</span><a href="blizanac.html">Explore ↗</a></div>
-    <div class="prikaz-kljuc"><span class="znak d1">Published</span><span class="znak d2">Derived</span><span class="znak d3">Schematic</span><a href="mapa.html">Regional map →</a></div>
-  </section>
-  <div class="hero-dno okvir">
-    <div class="brojke">
+</section>
+
+<section class="traka" id="projekat">
+  <div class="okvir">
+  <div class="brojke">
       <div class="brojka"><span class="v" data-broj="geometrija">—</span><span class="k">spatial elements</span></div>
       <div class="brojka"><span class="v" data-broj="izvori">—</span><span class="k">bibliographic records</span></div>
       <div class="brojka"><span class="v" data-broj="hipoteze">—</span><span class="k">research hypotheses</span></div>
@@ -107,7 +98,7 @@
     </div>
     <p class="sitno" style="margin-top:10px;color:var(--ink3)" id="brojke-note">Phase P1 · An open research model, awaiting survey plans. <a class="veza" href="pokrivenost.html">Evidence and limits →</a></p>
   </div>
-</div>
+</section>
 
 <section class="traka" id="language">
   <div class="okvir">
@@ -224,5 +215,19 @@
   </div>
 </footer>
 <script src="assets/naslovna.js" defer></script>
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import { pokreniScenu } from './assets/scena.js';
+pokreniScenu({
+  koren: document.getElementById('hero-scena'),
+  jezik: 'en',
+  izuzmi: ['#hero-naslov'],
+});
+</script>
 </body>
 </html>

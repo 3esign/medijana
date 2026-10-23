@@ -148,12 +148,6 @@ function prikazi(koji){
 document.getElementById('btnRegion').onclick=()=>prikazi('region');
 document.getElementById('btnLokalitet').onclick=()=>prikazi('lokalitet');
 
-// tema menja i boje na mapi: jedan sistem, ne druga paleta
-new MutationObserver(()=>{ if(!lokacije.length) return;
-  sagradiRegion(); sagradiLokalitet();
-  if(!EMBED) legenda.getContainer().innerHTML=legHTML();
-}).observe(document.documentElement,{attributes:true,attributeFilter:['data-tema']});
-
 (async()=>{
   const st=document.getElementById('status');
   try{

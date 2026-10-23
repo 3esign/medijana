@@ -1,14 +1,12 @@
 /* ============================================================================
    MEDIJANA — vizuelni jezik suite-a
    ----------------------------------------------------------------------------
-   Teza: boja nije ukras i nije "antika". Boja je tvrdnja o dokazu.
-   Sistem preuzima konvenciju arheoloskog crteza:
+   Konvencija arheoloskog crteza:
      puno       = sacuvano / objavljena mera
      tonirano   = izvedeno iz objavljenog podatka
      srafirano  = rekonstruisano / sematsko
      tackasto   = sporno ili iskljuceno
-   Podloga je merna: hairline raster, bez zlatnog pergamenta.
-   Dva stanja: "teren" (tamno, uz 3D) i "arhiv" (svetlo, papir za crtanje).
+   Podloga je papir za crtanje: svetla, topla, merna (hairline raster).
    ========================================================================== */
 
 /* ---------- pisma (self-hosted, OFL; vidi assets/fonts/LICENSE.md) -------- */
@@ -37,34 +35,16 @@
   --r:3px;              /* radijus: crtaci, skoro ostar */
   --korak:clamp(44px,6vw,86px);  /* vertikalni ritam sekcija */
 
-  /* dokazna skala — jedina hroma u sistemu */
-  --d1:#8fba8c;  --d1-tih:rgba(143,186,140,.14);   /* objavljena mera */
-  --d2:#d7a24a;  --d2-tih:rgba(215,162,74,.14);    /* izvedeno */
-  --d3:#cf7049;  --d3-tih:rgba(207,112,73,.13);    /* sematsko */
-  --dx:#8d8a84;  --dx-tih:rgba(141,138,132,.12);   /* sporno / iskljuceno */
-  --fokus:#8fc2da;
-
   --pokret:.18s cubic-bezier(.4,0,.2,1);
 }
 
-/* teren — podrazumevano stanje, slaze se sa 3D scenom */
-:root,
-html[data-tema="teren"]{
-  --g0:#0c0c0b; --g1:#131312; --g2:#1a1a18; --g3:#232320;
-  --ink:#eeebe5; --ink2:#a5a29b; --ink3:#939087;
-  --l1:rgba(238,235,229,.09); --l2:rgba(238,235,229,.17); --l3:rgba(238,235,229,.30);
-  --raster:rgba(238,235,229,.045);
-  --staklo:rgba(12,12,11,.74);
-  --senka:0 1px 0 rgba(255,255,255,.03),0 12px 34px rgba(0,0,0,.45);
-  color-scheme:dark;
-}
-/* arhiv — papir za crtanje */
-html[data-tema="arhiv"]{
+/* papir za crtanje — jedino stanje sistema */
+:root{
   --g0:#f3f1ec; --g1:#fbfaf7; --g2:#eceae3; --g3:#e3e0d8;
   --ink:#171614; --ink2:#55524c; --ink3:#625f58;
   --l1:rgba(23,22,20,.12); --l2:rgba(23,22,20,.22); --l3:rgba(23,22,20,.38);
   --raster:rgba(23,22,20,.055);
-  --staklo:rgba(243,241,236,.80);
+  --staklo:rgba(251,250,247,.92);
   --senka:0 1px 2px rgba(23,22,20,.05),0 10px 30px rgba(23,22,20,.08);
   --d1:#2f6b46; --d1-tih:rgba(47,107,70,.10);
   --d2:#8a6111; --d2-tih:rgba(138,97,17,.10);
@@ -132,11 +112,10 @@ code,.mono,.id{font-family:var(--f-mono);font-size:.86em;letter-spacing:-.01em}
   position:sticky;top:0;z-index:80;height:var(--h-hdr);
   display:flex;align-items:center;gap:clamp(10px,2vw,22px);
   padding-inline:clamp(14px,3vw,28px);
-  background:var(--staklo);
-  -webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%);
-  border-bottom:1px solid var(--l1);
+  background:var(--g0);
+  border-bottom:1px solid var(--l2);
 }
-.hdr.plovi{border-bottom-color:var(--l2);box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.hdr.plovi{border-bottom-color:var(--l3)}
 .marka{display:flex;align-items:center;gap:10px;text-decoration:none;flex:none;color:var(--ink)}
 .marka svg{display:block;width:22px;height:22px;flex:none}
 .marka .ime{font:600 13.5px/1 var(--f-sans);letter-spacing:.17em;text-transform:uppercase}
@@ -303,9 +282,96 @@ button.on,.dugme.glavno{color:var(--g0);background:var(--ink);border-color:var(-
 }
 
 @media print{
-  .hdr,.hdr-alat,.kontrole,.hero-pozadina{display:none!important}
+  .hdr,.hdr-alat,.kontrole,.scena-hud,.scena-oznaka,.scena-linije{display:none!important}
   body{background:#fff;color:#000}
   .kartica{break-inside:avoid;border-color:#bbb}
+}
+
+/* ---------- 3D scena (blizanac + prvi ekran naslovne) -------------------- */
+.scena{position:relative;overflow:hidden;background:var(--g0);touch-action:none}
+.scena>canvas{position:absolute;inset:0;display:block}
+.scena [hidden]{display:none!important}
+.scena-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.scena-hud{position:absolute;inset:0;z-index:6;pointer-events:none}
+.scena-hud>*{pointer-events:auto}
+.scena-rezervna{position:absolute;inset:0;z-index:7;display:grid;place-content:center;gap:14px;
+  padding:24px;background:var(--g0);text-align:center}
+.scena-rezervna img{max-width:min(640px,86vw);max-height:52vh;object-fit:contain;margin:auto;
+  border:1px solid var(--l2);border-radius:var(--r)}
+.scena-rezervna p{margin:auto;max-width:52ch;font-size:13.5px;color:var(--ink2)}
+
+.scena-status{position:absolute;left:clamp(12px,2vw,18px);top:clamp(12px,2vw,18px);
+  max-width:min(400px,calc(100% - 24px));font-size:12px;line-height:1.5;color:var(--ink2);
+  background:var(--staklo);border:1px solid var(--l1);border-left:2px solid var(--dx);
+  border-radius:var(--r);padding:9px 13px}
+.scena-status:empty{display:none}
+.scena-pod-zaglavljem .scena-status{top:calc(var(--h-hdr) + 12px)}
+
+.scena-kontrole{position:absolute;left:clamp(12px,2vw,18px);bottom:clamp(12px,2vw,18px);
+  display:flex;gap:7px;flex-wrap:wrap;max-width:min(580px,calc(100% - 24px))}
+.scena-red{display:flex;gap:6px;flex-wrap:wrap;width:100%}
+.scena-kontrole button,.scena-kontrole .scena-glb{
+  font:500 12.5px/1 var(--f-sans);color:var(--ink2);background:var(--staklo);
+  border:1px solid var(--l2);border-radius:var(--r);padding:9px 13px;min-height:38px;
+  cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;transition:var(--pokret)}
+.scena-kontrole button:hover,.scena-kontrole .scena-glb:hover{color:var(--ink);border-color:var(--l3)}
+.scena-kontrole button.on{background:var(--ink);color:var(--g0);border-color:var(--ink)}
+.scena-kontrole select{max-width:240px;min-width:0;flex:1;font-size:12px;padding:8px;
+  background:var(--staklo);border:1px solid var(--l2);border-radius:var(--r);color:var(--ink);min-height:38px}
+.scena-glb{padding:9px 13px}
+
+.scena-legenda{position:absolute;right:clamp(12px,2vw,18px);bottom:clamp(12px,2vw,18px);
+  width:min(300px,calc(100% - 24px));background:var(--staklo);border:1px solid var(--l2);
+  border-radius:var(--r);padding:15px 17px;box-shadow:var(--senka)}
+.scena-legenda h2{font:600 10.5px/1 var(--f-sans);letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:10px}
+.scena-legenda p{font-size:12.5px;line-height:1.5;color:var(--ink2);max-width:none}
+.scena-stavka{display:flex;gap:10px;align-items:center;margin-top:9px;font-size:12.5px;color:var(--ink2)}
+.scena-uz{width:16px;height:16px;flex:none;border:1px solid var(--l2);border-radius:2px}
+.scena-u1{border-color:var(--d1);border-width:2px}
+.scena-u2{border-color:var(--d2);border-width:2px}
+.scena-u3{border-style:dashed;border-color:var(--d3);border-width:2px}
+.scena-legenda-kraj{margin-top:12px;padding-top:11px;border-top:1px solid var(--l1);
+  font-size:12px;color:var(--ink3)}
+
+.scena-info{position:absolute;right:clamp(12px,2vw,18px);top:clamp(12px,2vw,18px);
+  width:min(360px,calc(100% - 24px));background:var(--staklo);border:1px solid var(--l2);
+  border-radius:var(--r);padding:17px 19px;max-height:calc(100% - 140px);overflow:auto;box-shadow:var(--senka)}
+.scena-pod-zaglavljem .scena-info{top:calc(var(--h-hdr) + 12px);max-height:calc(100% - var(--h-hdr) - 140px)}
+.scena-info h3{font-size:18px;margin:8px 0 10px}
+.scena-info p{font-size:13px;line-height:1.55;color:var(--ink2);margin-bottom:8px;max-width:none}
+.scena-info p b{color:var(--ink);font-weight:600}
+.scena-info .znak{margin:0 5px 6px 0}
+.scena-info a{color:var(--ink);border-bottom:1px solid var(--l2);text-decoration:none}
+.scena-x{float:right;background:none;border:0;color:var(--ink3);font-size:18px;line-height:1;
+  cursor:pointer;padding:2px 4px;min-height:0}
+.scena-x:hover{color:var(--ink);background:none}
+
+/* natpisi objekata: pojavljivanje i nestajanje samo kroz prelaz, nikad skok;
+   više redova umesto jednog dugačkog — lakše ih je smestiti bez sudara */
+.scena-oznaka{position:absolute;left:0;top:0;z-index:5;padding:2px 8px;white-space:normal;
+  max-width:158px;text-align:center;
+  font:500 11px/1.5 var(--f-sans);color:var(--ink);background:var(--g1);
+  border:1px solid var(--l2);border-radius:3px;pointer-events:none;
+  box-shadow:0 1px 3px rgba(23,22,20,.10);
+  opacity:0;transition:opacity .15s ease;will-change:transform}
+.scena-oznaka-van{opacity:0!important}
+.scena:not(.scena-u-pokretu) .scena-oznaka:not(.scena-oznaka-van){opacity:1}
+.scena-u-pokretu .scena-oznaka{opacity:.22}
+.scena-linije{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none}
+.scena-linije line{stroke:var(--ink3);stroke-width:1}
+
+@media (max-width:860px){
+  .scena-oznaka{max-width:118px;font-size:10.5px;line-height:1.4}
+  .scena-kontrole{max-width:calc(100% - 24px);gap:5px}
+  .scena-kontrole button,.scena-kontrole .scena-glb{font-size:11px;padding:8px 9px;min-height:42px}
+  .scena-red{flex-wrap:nowrap;gap:5px}
+  .scena-kontrole select{flex:1;width:90px;min-height:42px;padding:6px;font-size:11px}
+  .scena-kontrole .scena-glb{display:none}
+  .scena-legenda{width:min(320px,calc(100% - 24px));bottom:calc(clamp(12px,2vw,18px) + 92px)}
+  .scena-info{top:auto;bottom:calc(clamp(12px,2vw,18px) + 92px);left:clamp(12px,2vw,18px);
+    right:clamp(12px,2vw,18px);width:auto;max-height:min(44dvh,420px)}
+  .scena-status{font-size:11.5px}
 }
 
 /* ---------- radna sveska: istrazivanje i pokrivenost --------------------- */
